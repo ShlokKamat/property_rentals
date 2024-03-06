@@ -2,6 +2,4 @@
     <string name="app_name">Rental App</string>
     <string name="open_nav_drawer">Open Navigation Drawer</string>
     <string name="close_nav_drawer">Close Navigation Drawer</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
