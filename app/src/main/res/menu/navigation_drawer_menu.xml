@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/sideop1"
+            android:icon="@drawable/baseline_home_24"
+            android:title="side op 1" />
+
+        <item
+            android:id="@+id/sideop2"
+            android:icon="@drawable/baseline_home_24"
+            android:title="side op 2" />
+
+        <item
+            android:id="@+id/sideop3"
+            android:icon="@drawable/baseline_home_24"
+            android:title="side op 3" />
+
+        <item
+            android:id="@+id/sideop4"
+            android:icon="@drawable/baseline_home_24"
+            android:title="side op 4" />
+
+        <item
+            android:id="@+id/sideop5"
+            android:icon="@drawable/baseline_home_24"
+            android:title="side op 5" />
+
+    </group>
+
+</menu>

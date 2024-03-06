@@ -1,0 +1,18 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.RentalApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/c2</item>
+        <item name="colorPrimaryVariant">@color/greena</item>
+        <item name="android:textColorPrimary">@color/dgreena</item>
+        <item name="android:statusBarColor">@color/black</item>
+    </style>
+
+    <style name="Theme.RentalApp" parent="Base.Theme.RentalApp" />
+
+<!--    Left Nav Selection Color-->
+    <style name="ThemeOverlay.AppCompat.navTheme">
+        <item name="colorPrimary">@color/c2</item>
+    </style>
+</resources>
