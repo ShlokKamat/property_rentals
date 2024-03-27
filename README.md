@@ -1,16 +1,16 @@
 Features:
 --------------------------------
 
-Add My Property
-
-See My Property
-
 Browse Properties
+
+Pay Rent (Existing Owner or Owner on App)
 
 Left Nav:
 --------------------------------
 
-Pay Rent (with receipt)
+Post My Property
+
+My Properties
 
 Predict Rent
 
