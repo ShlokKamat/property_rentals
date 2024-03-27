@@ -21,6 +21,6 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:text="Add Property Activity"
-        android:textSize="36dp" />
+        android:textSize="36sp" />
 
 </RelativeLayout>
