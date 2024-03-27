@@ -2,4 +2,13 @@
     <string name="app_name">Rental App</string>
     <string name="open_nav_drawer">Open Navigation Drawer</string>
     <string name="close_nav_drawer">Close Navigation Drawer</string>
+    <string name="properties">Properties</string>
+    <string name="pay_rent">Pay Rent</string>
+    <string name="my_properties">My Properties</string>
+    <string name="post_your_property">Post your Property</string>
+    <string name="predict_rent">Predict Rent</string>
+    <string name="login_signup">Login/Sign Up</string>
+    <string name="logout">Logout</string>
+    <string name="help_and_support">Help &amp; Support</string>
+
 </resources>

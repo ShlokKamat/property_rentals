@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+<!--    <item-->
+<!--        android:id="@+id/home_option"-->
+<!--        android:icon="@drawable/baseline_home_24"-->
+<!--        android:title="Home" />-->
     <item
-        android:id="@+id/home_option"
-        android:icon="@drawable/baseline_home_24"
-        android:title="Home" />
-    <item
-        android:id="@+id/browse_property_option"
-        android:icon="@drawable/baseline_home_24"
-        android:title="Properties" />
+        android:id="@+id/bot_nav_browse_properties"
+        android:icon="@drawable/baseline_properties_24"
+        android:title="@string/properties" />
 
     <item
+        android:id="@+id/bot_nav_dummy_item"
         android:enabled="false"
         android:title="" />
 
-    <item
-        android:id="@+id/add_property_option"
-        android:icon="@drawable/baseline_home_24"
-        android:title="Add Property" />
+<!--    <item-->
+<!--        android:id="@+id/add_property_option"-->
+<!--        android:icon="@drawable/baseline_home_24"-->
+<!--        android:title="Add Property" />-->
 
     <item
-        android:id="@+id/bottom_option4"
-        android:icon="@drawable/baseline_home_24"
-        android:title="Predict" />
+        android:id="@+id/bot_nav_pay_rent"
+        android:icon="@drawable/baseline_currency_rupee_24"
+        android:title="@string/pay_rent" />
 </menu>

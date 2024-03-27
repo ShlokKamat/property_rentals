@@ -6,29 +6,34 @@
     <group android:checkableBehavior="single">
 
         <item
-            android:id="@+id/sideop1"
-            android:icon="@drawable/baseline_home_24"
-            android:title="side op 1" />
+            android:id="@+id/side_nav_my_properties"
+            android:icon="@drawable/baseline_real_estate_agent_24"
+            android:title="@string/my_properties" />
 
         <item
-            android:id="@+id/sideop2"
-            android:icon="@drawable/baseline_home_24"
-            android:title="side op 2" />
+            android:id="@+id/side_nav_post_property"
+            android:icon="@drawable/baseline_domain_add_24"
+            android:title="@string/post_your_property" />
 
         <item
-            android:id="@+id/sideop3"
-            android:icon="@drawable/baseline_home_24"
-            android:title="side op 3" />
+            android:id="@+id/side_nav_predict_rent"
+            android:icon="@drawable/baseline_auto_graph_24"
+            android:title="@string/predict_rent" />
 
         <item
-            android:id="@+id/sideop4"
-            android:icon="@drawable/baseline_home_24"
-            android:title="side op 4" />
+            android:id="@+id/side_nav_help"
+            android:icon="@drawable/baseline_help_24"
+            android:title="@string/help_and_support" />
 
         <item
-            android:id="@+id/sideop5"
-            android:icon="@drawable/baseline_home_24"
-            android:title="side op 5" />
+            android:id="@+id/side_nav_login"
+            android:icon="@drawable/baseline_login_24"
+            android:title="@string/login_signup" />
+
+        <item
+            android:id="@+id/side_nav_logout"
+            android:icon="@drawable/baseline_logout_24"
+            android:title="@string/logout" />
 
     </group>
 
