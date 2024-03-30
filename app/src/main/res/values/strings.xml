@@ -11,4 +11,6 @@
     <string name="logout">Logout</string>
     <string name="help_and_support">Help &amp; Support</string>
 
+    <string name="locality_row">at %1$s</string>
+
 </resources>

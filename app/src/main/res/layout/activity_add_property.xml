@@ -26,7 +26,7 @@
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/postPropertyS1"
+                android:id="@+id/step1_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
@@ -38,7 +38,6 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/s1Header"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="20dp"
@@ -49,18 +48,17 @@
                         android:textSize="18sp" />
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/textField1"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-
                         android:layout_marginEnd="10dp"
                         android:layout_marginBottom="10dp"
                         android:hint="Apartment/Society Name"
                         app:startIconDrawable="@drawable/baseline_properties_24">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/apartment_name_input"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:imeOptions="actionDone"
@@ -78,7 +76,7 @@
                         app:startIconDrawable="@drawable/baseline_properties_24">
 
                         <AutoCompleteTextView
-                            android:id="@+id/bhkType"
+                            android:id="@+id/bhk_type_input"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="none" />
@@ -86,7 +84,6 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/textField3"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -97,6 +94,7 @@
                         app:startIconDrawable="@drawable/baseline_properties_24">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/property_size_input"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:imeOptions="actionDone"
@@ -104,7 +102,6 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/textField4"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -115,6 +112,7 @@
                         app:startIconDrawable="@drawable/baseline_properties_24">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/property_age_input"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:imeOptions="actionDone"
@@ -129,7 +127,6 @@
                         android:weightSum="2">
 
                         <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/textField5"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -140,6 +137,7 @@
                             app:startIconDrawable="@drawable/baseline_properties_24">
 
                             <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/floor_input"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:imeOptions="actionDone"
@@ -147,7 +145,6 @@
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/textField6"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -158,6 +155,7 @@
                             app:startIconDrawable="@drawable/baseline_properties_24">
 
                             <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/total_floors_input"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:imeOptions="actionDone"
@@ -167,7 +165,7 @@
                     </LinearLayout>
 
                     <Button
-                        android:id="@+id/postPropertyS1Next"
+                        android:id="@+id/step1_save"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
@@ -183,7 +181,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/postPropertyS2"
+                android:id="@+id/step2_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
@@ -196,7 +194,6 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/s2Header"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="20dp"
@@ -217,6 +214,7 @@
                         app:startIconDrawable="@drawable/baseline_properties_24">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/locality_input"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:imeOptions="actionDone"
@@ -246,7 +244,7 @@
                         android:weightSum="2">
 
                         <Button
-                            android:id="@+id/postPropertyS2Prev"
+                            android:id="@+id/step2_back"
                             style="?attr/materialButtonOutlinedStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -259,7 +257,7 @@
                             android:textAllCaps="false" />
 
                         <Button
-                            android:id="@+id/postPropertyS2Next"
+                            android:id="@+id/step2_save"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
@@ -277,7 +275,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/postPropertyS3"
+                android:id="@+id/step3_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
@@ -290,7 +288,6 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/s3Header"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="20dp"
@@ -312,6 +309,7 @@
                         app:startIconDrawable="@drawable/baseline_properties_24">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/expected_rent_input"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:imeOptions="actionDone"
@@ -329,6 +327,7 @@
                         app:startIconDrawable="@drawable/baseline_properties_24">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/expected_deposit_input"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:imeOptions="actionDone"
@@ -346,7 +345,7 @@
                         app:startIconDrawable="@drawable/baseline_properties_24">
 
                         <AutoCompleteTextView
-                            android:id="@+id/furnishingType"
+                            android:id="@+id/furnishing_type_input"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="none" />
@@ -362,7 +361,7 @@
                         android:weightSum="2">
 
                         <Button
-                            android:id="@+id/postPropertyS3Prev"
+                            android:id="@+id/step3_back"
                             style="?attr/materialButtonOutlinedStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -375,7 +374,7 @@
                             android:textAllCaps="false" />
 
                         <Button
-                            android:id="@+id/postPropertyS3Next"
+                            android:id="@+id/step3_save"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
@@ -393,7 +392,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/postPropertyS4"
+                android:id="@+id/step4_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
@@ -406,7 +405,6 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/s4Header"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="20dp"
@@ -416,20 +414,12 @@
                         android:textAlignment="center"
                         android:textSize="18sp" />
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        android:layout_width="match_parent"
+                    <ImageView
+                        android:id="@+id/photos_input"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:hint="Photo Upload"
-                        app:startIconDrawable="@drawable/baseline_properties_24">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/baseline_image_24" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -438,7 +428,7 @@
                         android:weightSum="2">
 
                         <Button
-                            android:id="@+id/postPropertyS4Prev"
+                            android:id="@+id/step4_back"
                             style="?attr/materialButtonOutlinedStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -451,7 +441,7 @@
                             android:textAllCaps="false" />
 
                         <Button
-                            android:id="@+id/postPropertyS4Next"
+                            android:id="@+id/step4_save"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
