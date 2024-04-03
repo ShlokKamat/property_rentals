@@ -84,11 +84,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int bottom_nav_id = item.getItemId();
+                if (bottom_nav_id == bottomNavigationView.getSelectedItemId()) {
+                    return false;
+                }
 //                if (bottom_nav_id == R.id.home_option) {
 //                    openFragment(new HomeFragment());
 //                    return true;
 //                } else
-                    if (bottom_nav_id == R.id.bot_nav_browse_properties) {
+                if (bottom_nav_id == R.id.bot_nav_browse_properties) {
                     openFragment(new BrowsePropertyFragment());
                     return true;
                 }
@@ -96,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                    openFragment(new AddPropertyFragment());
 //                    return true;
 //                }
-                    else if (bottom_nav_id == R.id.bot_nav_pay_rent) {
+                else if (bottom_nav_id == R.id.bot_nav_pay_rent) {
                     openFragment(new PaymentFragment());
                     return true;
                 }

@@ -23,19 +23,22 @@ import java.util.ArrayList;
 
 public class PropertyListAdapter extends RecyclerView.Adapter<PropertyListAdapter.PropertyViewHolder> {
 
+    private final PropertyListInterface propertyListInterface;
     Context context;
     ArrayList<PropertyDataClass> propertyDataArrayList;
 
-    public PropertyListAdapter(Context context, ArrayList<PropertyDataClass> propertyDataClassArrayList) {
+    public PropertyListAdapter(Context context, ArrayList<PropertyDataClass> propertyDataClassArrayList, PropertyListInterface propertyListInterface) {
+
         this.context = context;
         this.propertyDataArrayList = propertyDataClassArrayList;
+        this.propertyListInterface = propertyListInterface;
     }
 
     @NonNull
     @Override
     public PropertyListAdapter.PropertyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context).inflate(R.layout.property_list_item, parent, false);
-        return new PropertyViewHolder(v);
+        View view = LayoutInflater.from(context).inflate(R.layout.property_list_item, parent, false);
+        return new PropertyViewHolder(view, propertyListInterface);
     }
 
     @Override
@@ -61,13 +64,25 @@ public class PropertyListAdapter extends RecyclerView.Adapter<PropertyListAdapte
         TextView bhkType, locality, furnishingType, expectedRent;
         ImageView propertyPhoto;
 
-        public PropertyViewHolder(@NonNull View itemView) {
+        public PropertyViewHolder(@NonNull View itemView, PropertyListInterface propertyListInterface) {
             super(itemView);
             bhkType = itemView.findViewById(R.id.bhk_type_row);
             locality = itemView.findViewById(R.id.locality_row);
             furnishingType = itemView.findViewById(R.id.furnishing_type_row);
             expectedRent = itemView.findViewById(R.id.expected_rent_row);
             propertyPhoto = itemView.findViewById(R.id.property_photo_row);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (propertyListInterface != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            propertyListInterface.onPropertyItemClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 }

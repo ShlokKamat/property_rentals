@@ -1,6 +1,7 @@
 package com.example.rentalapp;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
@@ -22,8 +24,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class BrowsePropertyFragment extends Fragment {
+public class BrowsePropertyFragment extends Fragment implements PropertyListInterface {
 
+    public static final String PROPERTY_PARCEL_KEY = "property_parcel_key";
     RecyclerView propertyListRecyclerView;
     ArrayList<PropertyDataClass> propertyDataArrayList;
     PropertyListAdapter propertyListAdapter;
@@ -58,7 +61,7 @@ public class BrowsePropertyFragment extends Fragment {
 
         db = FirebaseFirestore.getInstance();
         propertyDataArrayList = new ArrayList<PropertyDataClass>();
-        propertyListAdapter = new PropertyListAdapter(this.getContext(), propertyDataArrayList);
+        propertyListAdapter = new PropertyListAdapter(this.getContext(), propertyDataArrayList, this);
 
         propertyListRecyclerView.setAdapter(propertyListAdapter);
 
@@ -93,5 +96,13 @@ public class BrowsePropertyFragment extends Fragment {
 
                     }
                 });
+    }
+
+    @Override
+    public void onPropertyItemClick(int position) {
+        Intent viewPropertyIntent = new Intent(this.getContext(), ViewPropertyActivity.class);
+        viewPropertyIntent.putExtra(PROPERTY_PARCEL_KEY, propertyDataArrayList.get(position));
+        startActivity(viewPropertyIntent);
+        //Click on Property Action
     }
 }

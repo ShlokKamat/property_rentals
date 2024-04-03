@@ -1,6 +1,11 @@
 package com.example.rentalapp;
 
-public class PropertyDataClass {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
+public class PropertyDataClass implements Parcelable {
 
     private String documentId;
     private String apartmentName;
@@ -32,6 +37,33 @@ public class PropertyDataClass {
         this.furnishingType = furnishingType;
         this.photos = photos;
     }
+
+    protected PropertyDataClass(Parcel in) {
+        documentId = in.readString();
+        apartmentName = in.readString();
+        bhkType = in.readString();
+        propertySize = in.readString();
+        propertyAge = in.readString();
+        floor = in.readString();
+        totalFloors = in.readString();
+        locality = in.readString();
+        expectedRent = in.readString();
+        expectedDeposit = in.readString();
+        furnishingType = in.readString();
+        photos = in.readString();
+    }
+
+    public static final Creator<PropertyDataClass> CREATOR = new Creator<PropertyDataClass>() {
+        @Override
+        public PropertyDataClass createFromParcel(Parcel in) {
+            return new PropertyDataClass(in);
+        }
+
+        @Override
+        public PropertyDataClass[] newArray(int size) {
+            return new PropertyDataClass[size];
+        }
+    };
 
     //    Getters
     public String getApartmentName() {
@@ -129,5 +161,26 @@ public class PropertyDataClass {
 
     public void setDocumentId(String documentId) {
         this.documentId = documentId;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeString(documentId);
+        dest.writeString(apartmentName);
+        dest.writeString(bhkType);
+        dest.writeString(propertySize);
+        dest.writeString(propertyAge);
+        dest.writeString(floor);
+        dest.writeString(totalFloors);
+        dest.writeString(locality);
+        dest.writeString(expectedRent);
+        dest.writeString(expectedDeposit);
+        dest.writeString(furnishingType);
+        dest.writeString(photos);
     }
 }
