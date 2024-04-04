@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
@@ -49,7 +48,7 @@ public class BrowsePropertyFragment extends Fragment implements PropertyListInte
 
         builder = new AlertDialog.Builder(this.getContext());
         builder.setCancelable(false);
-        builder.setView(R.layout.progress_layout);
+        builder.setView(R.layout.load_progress_layout);
         dialog = builder.create();
         dialog.show();
 

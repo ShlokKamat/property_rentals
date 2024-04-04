@@ -26,21 +26,16 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 
 public class AddPropertyActivity extends AppCompatActivity implements View.OnClickListener {
@@ -196,7 +191,7 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
 
         AlertDialog.Builder builder = new AlertDialog.Builder(AddPropertyActivity.this);
         builder.setCancelable(false);
-        builder.setView(R.layout.progress_layout);
+        builder.setView(R.layout.save_progress_layout);
         AlertDialog dialog = builder.create();
         dialog.show();
 
@@ -240,7 +235,7 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
         documentReference.set(propertyData).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-                Toast.makeText(AddPropertyActivity.this, "LEZZ GO", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddPropertyActivity.this, "Property Posted", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
