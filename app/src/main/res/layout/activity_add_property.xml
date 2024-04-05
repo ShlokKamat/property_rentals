@@ -5,6 +5,7 @@
     android:id="@+id/addPropertyActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/transparent_black"
     tools:context=".AddPropertyActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -73,7 +74,7 @@
                         android:layout_marginEnd="10dp"
                         android:layout_marginBottom="10dp"
                         android:hint="BHK Type"
-                        app:startIconDrawable="@drawable/baseline_properties_24">
+                        app:startIconDrawable="@drawable/baseline_blueprint_24">
 
                         <AutoCompleteTextView
                             android:id="@+id/bhk_type_input"
@@ -91,7 +92,7 @@
                         android:layout_marginEnd="10dp"
                         android:layout_marginBottom="10dp"
                         android:hint="Property Size (sq ft)"
-                        app:startIconDrawable="@drawable/baseline_properties_24">
+                        app:startIconDrawable="@drawable/baseline_square_foot_24">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/property_size_input"
@@ -109,7 +110,7 @@
                         android:layout_marginEnd="10dp"
                         android:layout_marginBottom="10dp"
                         android:hint="Property Age (years)"
-                        app:startIconDrawable="@drawable/baseline_properties_24">
+                        app:startIconDrawable="@drawable/baseline_calendar_month_24">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/property_age_input"
@@ -134,7 +135,7 @@
                             android:layout_marginEnd="5dp"
                             android:layout_weight="1"
                             android:hint="Floor"
-                            app:startIconDrawable="@drawable/baseline_properties_24">
+                            app:startIconDrawable="@drawable/baseline_stairs_24">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/floor_input"
@@ -152,7 +153,7 @@
                             android:layout_marginEnd="10dp"
                             android:layout_weight="1"
                             android:hint="Total Floor"
-                            app:startIconDrawable="@drawable/baseline_properties_24">
+                            app:startIconDrawable="@drawable/baseline_stairs_24">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/total_floors_input"
@@ -211,7 +212,7 @@
                         android:layout_marginEnd="10dp"
                         android:layout_marginBottom="10dp"
                         android:hint="Locality"
-                        app:startIconDrawable="@drawable/baseline_properties_24">
+                        app:startIconDrawable="@drawable/baseline_location_pin_24">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/locality_input"
@@ -220,6 +221,12 @@
                             android:imeOptions="actionDone"
                             android:singleLine="true" />
                     </com.google.android.material.textfield.TextInputLayout>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_margin="8dp"
+                        android:src="@drawable/maps_ss" />
 
                     <!--        <com.google.android.material.textfield.TextInputLayout-->
                     <!--            android:id="@+id/textField9"-->
@@ -293,10 +300,103 @@
                         android:layout_margin="20dp"
                         android:gravity="center_horizontal"
                         android:padding="5dp"
-                        android:text="Money Matter"
+                        android:text="Amenities &amp; Rent"
                         android:textAlignment="center"
                         android:textSize="18sp" />
 
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:hint="Furnishing"
+                        app:startIconDrawable="@drawable/baseline_chair_24">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/furnishing_type_input"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:hint="Parking"
+                        app:startIconDrawable="@drawable/baseline_local_parking_24">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/parking_input"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="Other Amenities:" />
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="10dp">
+
+                        <com.google.android.material.chip.Chip
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Lift" />
+
+                        <com.google.android.material.chip.Chip
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Security" />
+
+                        <com.google.android.material.chip.Chip
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Power Backup" />
+
+
+                        <com.google.android.material.chip.Chip
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Gym" />
+
+                        <com.google.android.material.chip.Chip
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Swimming Pool" />
+
+
+                        <com.google.android.material.chip.Chip
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Playground" />
+
+                        <com.google.android.material.chip.Chip
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Park" />
+
+                    </com.google.android.material.chip.ChipGroup>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="#Rent Prediction Value will be shown here#" />
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -306,7 +406,7 @@
                         android:layout_marginEnd="10dp"
                         android:layout_marginBottom="10dp"
                         android:hint="Expected Rent"
-                        app:startIconDrawable="@drawable/baseline_properties_24">
+                        app:startIconDrawable="@drawable/baseline_currency_rupee_24">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/expected_rent_input"
@@ -324,7 +424,7 @@
                         android:layout_marginEnd="10dp"
                         android:layout_marginBottom="10dp"
                         android:hint="Expected Deposit"
-                        app:startIconDrawable="@drawable/baseline_properties_24">
+                        app:startIconDrawable="@drawable/baseline_currency_rupee_24">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/expected_deposit_input"
@@ -332,24 +432,6 @@
                             android:layout_height="wrap_content"
                             android:imeOptions="actionDone"
                             android:inputType="number" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:hint="Furnishing"
-                        app:startIconDrawable="@drawable/baseline_properties_24">
-
-                        <AutoCompleteTextView
-                            android:id="@+id/furnishing_type_input"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="none" />
-
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <!--        Bathrooms, Balconys, Security, Parking(Car, Bike, None), Amenities(Multi Select)-->
@@ -410,7 +492,7 @@
                         android:layout_margin="20dp"
                         android:gravity="center_horizontal"
                         android:padding="5dp"
-                        android:text="Pics &amp; Stuff"
+                        android:text="Picture Upload"
                         android:textAlignment="center"
                         android:textSize="18sp" />
 

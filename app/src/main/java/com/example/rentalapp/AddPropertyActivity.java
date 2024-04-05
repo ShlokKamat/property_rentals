@@ -46,10 +46,10 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
     ImageView photosInput;
     String photoURL;
     Uri uri;
-    AutoCompleteTextView bhkTypeInput;
-    AutoCompleteTextView furnishingTypeInput;
+    AutoCompleteTextView bhkTypeInput, furnishingTypeInput, parkingInput;
     String[] bhkTypes = {"1RK", "1BHK", "2BHK", "3BHK", "4BHK"};
     String[] furnishingTypes = {"Not Furnished", "Semi Furnished", "Fully Furnished"};
+    String[] parkingTypes = {"None", "Bike", "Car", "Car & Bike"};
     ArrayAdapter<String> stringArrayAdapter;
 
     @Override
@@ -115,11 +115,15 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
         stringArrayAdapter = new ArrayAdapter<String>(this, R.layout.dropdown_item, furnishingTypes);
         furnishingTypeInput.setAdapter(stringArrayAdapter);
 
+        parkingInput = findViewById(R.id.parking_input);
+        stringArrayAdapter = new ArrayAdapter<String>(this, R.layout.dropdown_item, parkingTypes);
+        parkingInput.setAdapter(stringArrayAdapter);
+
         bhkTypeInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
-                Toast.makeText(AddPropertyActivity.this, "BHK: " + item, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(AddPropertyActivity.this, "BHK: " + item, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -127,7 +131,7 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
-                Toast.makeText(AddPropertyActivity.this, "Furnish Type: " + item, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(AddPropertyActivity.this, "Furnish Type: " + item, Toast.LENGTH_SHORT).show();
             }
         });
 
