@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "647258941150",
+    "firebase_url": "https://propertyrentals70015-default-rtdb.firebaseio.com",
     "project_id": "propertyrentals70015",
     "storage_bucket": "propertyrentals70015.appspot.com"
   },
@@ -12,7 +13,20 @@
           "package_name": "com.example.rentalapp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "647258941150-epchrpkad969t9r6h5dee99oqg9q7a92.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.rentalapp",
+            "certificate_hash": "fd9a6248a53faa75dd417aa803d16532930157eb"
+          }
+        },
+        {
+          "client_id": "647258941150-508n85qm594koodu71246rg1l1c779j1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCcMDtLSnLC6_QN41wAuFQSRNGZA2uxNx0"
@@ -20,7 +34,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "647258941150-508n85qm594koodu71246rg1l1c779j1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

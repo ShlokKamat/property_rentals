@@ -1,11 +1,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.RentalApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Base.Theme.RentalApp" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="colorPrimary">@color/c2</item>
         <item name="colorPrimaryVariant">@color/greena</item>
-<!--        <item name="android:textColorPrimary">@color/dgreena</item>-->
+        <item name="android:textColorPrimary">@color/dgreena</item>
         <item name="android:statusBarColor">@color/black</item>
     </style>
 

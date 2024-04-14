@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     BottomNavigationView bottomNavigationView;
     FragmentManager fragmentManager;
     Toolbar toolbar;
-    FloatingActionButton fab;
 
 //    FirebaseFirestore firestore;
 
@@ -68,7 +67,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 //        Objects.requireNonNull(getSupportActionBar()).setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.greena)));
 
-        fab = findViewById(R.id.floatingID);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -95,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                    return true;
 //                } else
                 if (bottom_nav_id == R.id.bot_nav_browse_properties) {
-                    openFragment(new BrowsePropertyFragment());
+                    openFragment(new HomeFragment());
                     return true;
                 }
 //                    else if (bottom_nav_id == R.id.add_property_option) {
@@ -112,15 +110,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 //        Default Fragment
         fragmentManager = getSupportFragmentManager();
-        openFragment(new BrowsePropertyFragment());
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bottomNavigationView.getMenu().findItem(R.id.bot_nav_dummy_item).setChecked(true);
-                openFragment(new HomeFragment());
-            }
-        });
+        openFragment(new HomeFragment());
 
         OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
             @Override

@@ -3,16 +3,19 @@ package com.example.rentalapp;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.activity.EdgeToEdge;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
@@ -23,7 +26,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class BrowsePropertyFragment extends Fragment implements PropertyListInterface {
+public class BrowsePropertyActivity extends AppCompatActivity implements PropertyListInterface {
 
     public static final String PROPERTY_PARCEL_KEY = "property_parcel_key";
     RecyclerView propertyListRecyclerView;
@@ -33,41 +36,35 @@ public class BrowsePropertyFragment extends Fragment implements PropertyListInte
     AlertDialog.Builder builder;
     AlertDialog dialog;
 
-    public BrowsePropertyFragment() {
-        // Required empty public constructor
-    }
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
+        EdgeToEdge.enable(this);
+        setContentView(R.layout.activity_browse_property);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.browsePropertyActivity), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        builder = new AlertDialog.Builder(this.getContext());
+        builder = new AlertDialog.Builder(this);
         builder.setCancelable(false);
         builder.setView(R.layout.load_progress_layout);
         dialog = builder.create();
         dialog.show();
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_browse_property, container, false);
-        propertyListRecyclerView = view.findViewById(R.id.property_list_recycler_view);
+        propertyListRecyclerView = findViewById(R.id.property_list_recycler_view);
         propertyListRecyclerView.setHasFixedSize(true);
-        propertyListRecyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        propertyListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         db = FirebaseFirestore.getInstance();
         propertyDataArrayList = new ArrayList<PropertyDataClass>();
-        propertyListAdapter = new PropertyListAdapter(this.getContext(), propertyDataArrayList, this);
+        propertyListAdapter = new PropertyListAdapter(this, propertyDataArrayList, this);
 
         propertyListRecyclerView.setAdapter(propertyListAdapter);
 
         EventChangeListener();
-
-
-        return view;
     }
 
     private void EventChangeListener() {
@@ -98,8 +95,13 @@ public class BrowsePropertyFragment extends Fragment implements PropertyListInte
     }
 
     @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return null;
+    }
+
+    @Override
     public void onPropertyItemClick(int position) {
-        Intent viewPropertyIntent = new Intent(this.getContext(), ViewPropertyActivity.class);
+        Intent viewPropertyIntent = new Intent(this, ViewPropertyActivity.class);
         viewPropertyIntent.putExtra(PROPERTY_PARCEL_KEY, propertyDataArrayList.get(position));
         startActivity(viewPropertyIntent);
         //Click on Property Action

@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">Bro-Kar Rent</string>
+    <string name="app_name">BroKar Rent</string>
+    <string name="app_name_hindi">Broकर Rent</string>
     <string name="open_nav_drawer">Open Navigation Drawer</string>
     <string name="close_nav_drawer">Close Navigation Drawer</string>
     <string name="properties">Properties</string>
