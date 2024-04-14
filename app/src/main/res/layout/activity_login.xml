@@ -52,6 +52,18 @@
                 app:iconTint="@null"
                 app:rippleColor="@color/c2" />
 
+            <Button
+                android:id="@+id/logout_button"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_margin="15dp"
+                android:fontFamily="sans-serif-black"
+                android:text="Logout"
+                android:textAllCaps="false"
+                app:icon="@drawable/baseline_logout_24"
+                app:iconGravity="textStart"
+                app:rippleColor="@color/c2" />
+
         </LinearLayout>
 
         <TextView

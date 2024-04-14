@@ -35,7 +35,7 @@ import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
 
-    Button googleSignInButton;
+    Button googleSignInButton, logout;
     FirebaseAuth auth;
     FirebaseFirestore database;
     GoogleSignInClient mGoogleSignInClient;
@@ -53,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         googleSignInButton = findViewById(R.id.google_signin_button);
+        logout = findViewById(R.id.logout_button);
         auth = FirebaseAuth.getInstance();
         database = FirebaseFirestore.getInstance();
 
@@ -70,8 +71,19 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                auth.signOut();
+                Toast.makeText(LoginActivity.this, "User Logged Out", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         if (auth.getCurrentUser() != null) {
+            logout.setVisibility(View.VISIBLE);
             Toast.makeText(this, "USER ALREADY LOGGED IN", Toast.LENGTH_SHORT).show();
+        } else {
+            logout.setVisibility(View.GONE);
         }
     }
 
@@ -108,7 +120,7 @@ public class LoginActivity extends AppCompatActivity {
                             HashMap<String, Object> map = new HashMap<>();
                             map.put("id", user.getUid());
                             map.put("name", user.getDisplayName());
-                            map.put("phone", user.getPhoneNumber());
+                            map.put("email", user.getEmail());
                             map.put("profilePic", user.getPhotoUrl());
 
                             database.collection("users").document().set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
