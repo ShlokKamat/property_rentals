@@ -135,6 +135,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent addPropertyIntent = new Intent(this, AddPropertyActivity.class);
             startActivity(addPropertyIntent);
 //            openFragment(new AddPropertyFragment());
+        } else if (sideNavOption == R.id.side_nav_login) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+            if (item.getTitle() == getResources().getString(R.string.login_signup)) {
+                Toast.makeText(this, "Login", Toast.LENGTH_SHORT).show();
+                item.setTitle(getResources().getString(R.string.logout));
+                item.setIcon(R.drawable.baseline_logout_24);
+            } else {
+                Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
+                item.setTitle(getResources().getString(R.string.login_signup));
+                item.setIcon(R.drawable.baseline_login_24);
+            }
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         //Selection highlight disabled

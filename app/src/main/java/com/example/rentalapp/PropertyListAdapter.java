@@ -45,9 +45,14 @@ public class PropertyListAdapter extends RecyclerView.Adapter<PropertyListAdapte
     public void onBindViewHolder(@NonNull PropertyListAdapter.PropertyViewHolder holder, int position) {
         PropertyDataClass property = propertyDataArrayList.get(position);
 
-        holder.bhkType.setText(property.getBhkType());
-        String localityString = "at " + property.getLocality();
+        String bhkTypeString = property.getBhkType() + " Flat in ";
+        holder.bhkType.setText(bhkTypeString);
+        String apartmentNameString = property.getApartmentName() + " for Rent";
+        holder.apartmentName.setText(apartmentNameString);
+        String localityString = property.getLocality();
         holder.locality.setText(localityString);
+        String propertySizeString = property.getPropertySize() + " sq ft";
+        holder.propertySize.setText(propertySizeString);
         holder.furnishingType.setText(property.getFurnishingType());
         String rentString = "₹ " + property.getExpectedRent();
         holder.expectedRent.setText(rentString);
@@ -61,13 +66,15 @@ public class PropertyListAdapter extends RecyclerView.Adapter<PropertyListAdapte
 
     public static class PropertyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView bhkType, locality, furnishingType, expectedRent;
+        TextView bhkType, apartmentName, locality, propertySize, furnishingType, expectedRent;
         ImageView propertyPhoto;
 
         public PropertyViewHolder(@NonNull View itemView, PropertyListInterface propertyListInterface) {
             super(itemView);
             bhkType = itemView.findViewById(R.id.bhk_type_row);
+            apartmentName = itemView.findViewById(R.id.apartment_name_row);
             locality = itemView.findViewById(R.id.locality_row);
+            propertySize = itemView.findViewById(R.id.property_size_row);
             furnishingType = itemView.findViewById(R.id.furnishing_type_row);
             expectedRent = itemView.findViewById(R.id.expected_rent_row);
             propertyPhoto = itemView.findViewById(R.id.property_photo_row);

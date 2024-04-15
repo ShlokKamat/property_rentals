@@ -28,7 +28,7 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        homeLoginBtn = view.findViewById(R.id.home_login_btn);
+        homeLoginBtn = view.findViewById(R.id.goto_login_activity_btn);
         homeSearchButton = view.findViewById(R.id.home_search_btn);
 
         homeLoginBtn.setOnClickListener(new View.OnClickListener() {
@@ -45,6 +45,7 @@ public class HomeFragment extends Fragment {
                 startActivity(browsePropertyIntent);
             }
         });
+
 
         return view;
     }

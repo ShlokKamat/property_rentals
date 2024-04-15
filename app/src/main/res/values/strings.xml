@@ -8,7 +8,9 @@
     <string name="my_properties">My Properties</string>
     <string name="post_your_property">Post your Property</string>
     <string name="predict_rent">Predict Rent</string>
-    <string name="login_signup">Login/Sign Up</string>
+    <string name="login_signup">Login / Signup</string>
+    <string name="profile">Profile</string>
+    <string name="profile_details">Profile Details</string>
     <string name="logout">Logout</string>
     <string name="help_and_support">Help &amp; Support</string>
 

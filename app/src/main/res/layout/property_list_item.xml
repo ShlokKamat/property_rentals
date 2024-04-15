@@ -10,58 +10,72 @@
     app:cardCornerRadius="8dp"
     app:cardElevation="8dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="10dp">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/property_photo_row"
-            android:layout_width="0dp"
-            android:layout_height="100dp"
-            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
             android:adjustViewBounds="true"
+            android:background="@color/off_white"
             android:src="@drawable/apartment_image1" />
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="10dp"
-            android:layout_weight="2"
-            android:gravity="start|center"
-            android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_below="@id/property_photo_row">
 
             <TextView
                 android:id="@+id/bhk_type_row"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1 BHK" />
+                android:text="1 BHK Flat in " />
+
+            <TextView
+                android:id="@+id/apartment_name_row"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@id/bhk_type_row"
+                android:text="Balaji Complex for Rent" />
 
             <TextView
                 android:id="@+id/locality_row"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/bhk_type_row"
                 android:maxLines="2"
-                android:text="at Hoodi Main Road" />
+                android:text="Hoodi" />
+
+            <TextView
+                android:id="@+id/property_size_row"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/locality_row"
+                android:text="500 sq ft" />
 
             <TextView
                 android:id="@+id/furnishing_type_row"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/property_size_row"
                 android:text="Semi Furnished" />
 
             <TextView
                 android:id="@+id/expected_rent_row"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/locality_row"
+                android:layout_alignParentRight="true"
                 android:text="₹ 15000"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
-    </LinearLayout>
+
+    </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

@@ -10,6 +10,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -52,6 +53,19 @@ public class LoginActivity extends AppCompatActivity {
             return insets;
         });
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setTitle("My Profile");
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Intent addPropertyIntent = new Intent(AddPropertyActivity.this, MainActivity.class);
+//                startActivity(addPropertyIntent);
+                finish();
+            }
+        });
+
         googleSignInButton = findViewById(R.id.google_signin_button);
         logout = findViewById(R.id.logout_button);
         auth = FirebaseAuth.getInstance();
@@ -61,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail().build();
 
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        mGoogleSignInClient = GoogleSignIn.getClient(LoginActivity.this, gso);
 
         googleSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,7 +117,7 @@ public class LoginActivity extends AppCompatActivity {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 firebaseAuth(account.getIdToken());
             } catch (Exception e) {
-                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Auth Failed with Exception: "+e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -131,7 +145,7 @@ public class LoginActivity extends AppCompatActivity {
                             }).addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(LoginActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginActivity.this, "User Not Added to DB: "+e.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             });
                             Toast.makeText(LoginActivity.this, "FINISH?", Toast.LENGTH_SHORT).show();
