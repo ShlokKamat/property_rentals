@@ -26,6 +26,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -38,11 +44,12 @@ import com.google.firebase.storage.UploadTask;
 
 import java.util.Objects;
 
-public class AddPropertyActivity extends AppCompatActivity implements View.OnClickListener {
+public class AddPropertyActivity extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback {
 
     CardView s1card, s2card, s3card, s4card;
     Button s1Next, s2Back, s2Next, s3Back, s3Next, s4Back, s4Next;
     TextInputEditText apartmentNameInput, propertySizeInput, propertyAgeInput, floorInput, totalFloorsInput, localityInput, expectedRentInput, expectedDepositInput;
+    GoogleMap googleMap;
     ImageView photosInput;
     String photoURL;
     Uri uri;
@@ -160,7 +167,8 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
             }
         });
 
-
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.id_map);
+        mapFragment.getMapAsync(this);
     }
 
     @Override
@@ -279,5 +287,12 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
 //                        Toast.makeText(AddPropertyActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
 //                    }
 //                });
+    }
+
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+        LatLng defaultLocation = new LatLng(12.9716, 77.5946);
+        googleMap.addMarker(new MarkerOptions().position(defaultLocation).title("Bengaluru"));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation,12));
     }
 }
