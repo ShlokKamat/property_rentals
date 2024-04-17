@@ -3,6 +3,8 @@ package com.example.rentalapp;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -30,6 +33,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -42,6 +46,10 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import org.checkerframework.checker.index.qual.Positive;
+
+import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 public class AddPropertyActivity extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback {
@@ -49,7 +57,8 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
     CardView s1card, s2card, s3card, s4card;
     Button s1Next, s2Back, s2Next, s3Back, s3Next, s4Back, s4Next;
     TextInputEditText apartmentNameInput, propertySizeInput, propertyAgeInput, floorInput, totalFloorsInput, localityInput, expectedRentInput, expectedDepositInput;
-    GoogleMap googleMap;
+    GoogleMap gMap;
+    SearchView mapSearchView;
     ImageView photosInput;
     String photoURL;
     Uri uri;
@@ -168,6 +177,39 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
         });
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.id_map);
+
+        mapSearchView = findViewById(R.id.mapSearch);
+        mapSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                String location = mapSearchView.getQuery().toString();
+                List<Address> addressList = null;
+
+                if (location != null) {
+                    Geocoder geocoder = new Geocoder(AddPropertyActivity.this);
+
+                    try {
+                        addressList = geocoder.getFromLocationName(location, 1);
+                    } catch (IOException e) {
+                        Toast.makeText(AddPropertyActivity.this, "Search error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+
+                    Address address = addressList.get(0);
+                    LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+                    gMap.addMarker(new MarkerOptions()
+                            .position(latLng)
+                            .title(location));
+                    gMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                }
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
         mapFragment.getMapAsync(this);
     }
 
@@ -291,8 +333,20 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
+        gMap = googleMap;
+//        North Latitude Positive
+//        South Latitude Negative
+//        East Longitude Positive
+//        West Longitude Negative
         LatLng defaultLocation = new LatLng(12.9716, 77.5946);
-        googleMap.addMarker(new MarkerOptions().position(defaultLocation).title("Bengaluru"));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation,12));
+
+
+        MarkerOptions markerOptions = new MarkerOptions()
+                .position(defaultLocation)
+                .title("Bengaluru");
+        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+        gMap.addMarker(markerOptions);
+
+        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 13));
     }
 }

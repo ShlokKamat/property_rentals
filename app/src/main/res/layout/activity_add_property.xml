@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/addPropertyActivity"
     android:layout_width="match_parent"
@@ -201,6 +202,7 @@
                     android:textAlignment="center"
                     android:textSize="18sp" />
 
+                <!--                REMOVE THIS VIEW SHLOK-->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/locality_input_ipfield"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -211,6 +213,7 @@
                     android:layout_marginEnd="10dp"
                     android:layout_marginBottom="10dp"
                     android:hint="Locality"
+                    android:visibility="gone"
                     app:startIconDrawable="@drawable/baseline_location_pin_24">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -218,7 +221,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:imeOptions="actionDone"
-                        android:singleLine="true" />
+                        android:singleLine="true"
+                        android:text="Huudi" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <RelativeLayout
@@ -231,7 +235,19 @@
                         android:id="@+id/id_map"
                         android:name="com.google.android.gms.maps.SupportMapFragment"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                        android:layout_height="match_parent"
+                        map:uiZoomControls="true" />
+
+                    <SearchView
+                        android:id="@+id/mapSearch"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/search_view_style"
+                        android:iconifiedByDefault="false"
+                        android:queryHint="Search Location" />
+
 
                     <ImageView
                         android:layout_width="40dp"
