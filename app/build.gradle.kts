@@ -1,7 +1,7 @@
 plugins {
     id("com.android.application")
     id("com.google.gms.google-services")
-    id("com.google.secrets_gradle_plugin") version "0.6.1"
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -29,6 +29,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     buildFeatures {
+        buildConfig = true
         viewBinding = true
     }
 }

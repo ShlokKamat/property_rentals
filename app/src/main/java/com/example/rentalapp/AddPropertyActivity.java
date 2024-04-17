@@ -39,6 +39,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -210,6 +212,13 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
                 return false;
             }
         });
+
+        if (!Places.isInitialized()) {
+            Places.initialize(getApplicationContext(), BuildConfig.GOOGLE_MAPS_PLACES_API_KEY);
+        }
+
+// Create a new Places client instance.
+        PlacesClient placesClient = Places.createClient(this);
         mapFragment.getMapAsync(this);
     }
 
