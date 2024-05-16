@@ -238,23 +238,27 @@
                         android:layout_height="match_parent"
                         map:uiZoomControls="true" />
 
-                    <SearchView
-                        android:id="@+id/mapSearch"
+                    <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:layout_margin="10dp"
-                        android:background="@drawable/search_view_style"
-                        android:iconifiedByDefault="false"
-                        android:queryHint="Search Location" />
+                        android:background="@color/off_white">
+
+                        <fragment
+                            android:id="@+id/autocomplete_fragment"
+                            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </androidx.cardview.widget.CardView>
 
 
                     <ImageView
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_width="84dp"
+                        android:layout_height="84dp"
                         android:layout_centerInParent="true"
-                        android:paddingBottom="15dp"
-                        android:src="@drawable/baseline_location_pin_24" />
+                        android:paddingBottom="42dp"
+                        android:src="@drawable/location_picker_pin" />
 
                 </RelativeLayout>
 

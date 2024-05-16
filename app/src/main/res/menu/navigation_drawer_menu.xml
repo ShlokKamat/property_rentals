@@ -26,14 +26,14 @@
             android:title="@string/help_and_support" />
 
         <item
-            android:id="@+id/side_nav_login"
+            android:id="@+id/side_nav_login_logout"
             android:icon="@drawable/baseline_login_24"
-            android:title="@string/login_signup" />
+            android:title="@string/login" />
 
-        <item
-            android:id="@+id/side_nav_logout"
-            android:icon="@drawable/baseline_logout_24"
-            android:title="@string/logout" />
+<!--        <item-->
+<!--            android:id="@+id/side_nav_logout"-->
+<!--            android:icon="@drawable/baseline_logout_24"-->
+<!--            android:title="@string/logout" />-->
 
     </group>
 

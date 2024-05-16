@@ -12,7 +12,7 @@ import android.widget.Button;
 
 public class HomeFragment extends Fragment {
 
-    Button homeSearchButton, homeLoginBtn;
+    Button homeSearchButton;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -28,16 +28,8 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        homeLoginBtn = view.findViewById(R.id.goto_login_activity_btn);
         homeSearchButton = view.findViewById(R.id.home_search_btn);
 
-        homeLoginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent loginIntent = new Intent(getContext(), LoginActivity.class);
-                startActivity(loginIntent);
-            }
-        });
         homeSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

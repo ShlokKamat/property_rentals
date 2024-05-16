@@ -1,5 +1,8 @@
 package com.example.rentalapp;
 
+import static android.content.ContentValues.TAG;
+import static androidx.core.util.ObjectsCompat.requireNonNull;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -7,6 +10,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -29,8 +33,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnCameraIdleListener;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -40,8 +46,13 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -51,10 +62,11 @@ import com.google.firebase.storage.UploadTask;
 import org.checkerframework.checker.index.qual.Positive;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-public class AddPropertyActivity extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback {
+public class AddPropertyActivity extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback, OnCameraIdleListener {
 
     CardView s1card, s2card, s3card, s4card;
     Button s1Next, s2Back, s2Next, s3Back, s3Next, s4Back, s4Next;
@@ -69,6 +81,7 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
     String[] furnishingTypes = {"Not Furnished", "Semi Furnished", "Fully Furnished"};
     String[] parkingTypes = {"None", "Bike", "Car", "Car & Bike"};
     ArrayAdapter<String> stringArrayAdapter;
+    FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,45 +193,39 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.id_map);
 
-        mapSearchView = findViewById(R.id.mapSearch);
-        mapSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                String location = mapSearchView.getQuery().toString();
-                List<Address> addressList = null;
-
-                if (location != null) {
-                    Geocoder geocoder = new Geocoder(AddPropertyActivity.this);
-
-                    try {
-                        addressList = geocoder.getFromLocationName(location, 1);
-                    } catch (IOException e) {
-                        Toast.makeText(AddPropertyActivity.this, "Search error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-
-                    Address address = addressList.get(0);
-                    LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-                    gMap.addMarker(new MarkerOptions()
-                            .position(latLng)
-                            .title(location));
-                    gMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-                }
-
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-
         if (!Places.isInitialized()) {
             Places.initialize(getApplicationContext(), BuildConfig.GOOGLE_MAPS_PLACES_API_KEY);
         }
 
 // Create a new Places client instance.
         PlacesClient placesClient = Places.createClient(this);
+        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
+                getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+
+        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID,
+                Place.Field.NAME,
+//                Place.Field.ADDRESS,
+                Place.Field.LAT_LNG
+//                Place.Field.ADDRESS_COMPONENTS
+        ));
+
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+                Log.i(TAG, "Place: " + place);
+                LatLng latLng = new LatLng(place.getLatLng().latitude, place.getLatLng().longitude);
+//                gMap.addMarker(new MarkerOptions()
+//                        .position(latLng)
+//                        .title(place.getName()));
+                gMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
+            }
+
+            @Override
+            public void onError(Status status) {
+                // TODO: Handle the error.
+                Log.i(TAG, "An error occurred: " + status);
+            }
+        });
         mapFragment.getMapAsync(this);
     }
 
@@ -280,18 +287,30 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
     public void uploadData() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference documentReference = db.collection("properties").document();
+        auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
 
+        assert user != null;
         PropertyDataClass propertyData = new PropertyDataClass(
                 documentReference.getId(),
+                "possessionDate", //Get Value from User HERE
+                user.getEmail(),
                 Objects.requireNonNull(apartmentNameInput.getText()).toString(),
                 bhkTypeInput.getText().toString(),
-                Objects.requireNonNull(propertySizeInput.getText()).toString(),
-                Objects.requireNonNull(propertyAgeInput.getText()).toString(),
-                Objects.requireNonNull(floorInput.getText()).toString(),
-                Objects.requireNonNull(totalFloorsInput.getText()).toString(),
+                Double.parseDouble(requireNonNull(propertySizeInput.getText()).toString()),
+                Integer.parseInt(requireNonNull(propertyAgeInput.getText()).toString()),
+                Integer.parseInt(requireNonNull(floorInput.getText()).toString()),
+                Integer.parseInt(requireNonNull(totalFloorsInput.getText()).toString()),
+                Integer.parseInt(requireNonNull("1")),//numberOfBathrooms
+                "BMTC",//waterSupplier.getText().toString(),
+                "Car",//String parking,
+                "Yes",//String security,
+                "Family",//String tenantPreference
                 Objects.requireNonNull(localityInput.getText()).toString(),
-                Objects.requireNonNull(expectedRentInput.getText()).toString(),
-                Objects.requireNonNull(expectedDepositInput.getText()).toString(),
+                12.1234,//Double.parseDouble(requireNonNull(latitude.getText()).toString()),
+                77.1234,//Double.parseDouble(requireNonNull(longitude.getText()).toString()),
+                Double.parseDouble(requireNonNull(expectedRentInput.getText()).toString()),
+                Double.parseDouble(requireNonNull(expectedDepositInput.getText()).toString()),
                 furnishingTypeInput.getText().toString(),
                 photoURL);
 
@@ -343,6 +362,7 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         gMap = googleMap;
+        gMap.setOnCameraIdleListener(this);
 //        North Latitude Positive
 //        South Latitude Negative
 //        East Longitude Positive
@@ -356,6 +376,12 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
         gMap.addMarker(markerOptions);
 
-        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 13));
+        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 11));
+    }
+
+    @Override
+    public void onCameraIdle() {
+        Toast.makeText(this, gMap.getCameraPosition().toString(), Toast.LENGTH_SHORT).show();
+        //You will get LAT LONG here, upon click, get the location info
     }
 }

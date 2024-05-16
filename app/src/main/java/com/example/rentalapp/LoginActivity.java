@@ -29,14 +29,16 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
 import java.util.Objects;
 
 public class LoginActivity extends AppCompatActivity {
 
-    Button googleSignInButton, logout;
+    Button googleSignInButton;
     FirebaseAuth auth;
     FirebaseFirestore database;
     GoogleSignInClient mGoogleSignInClient;
@@ -67,7 +69,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         googleSignInButton = findViewById(R.id.google_signin_button);
-        logout = findViewById(R.id.logout_button);
         auth = FirebaseAuth.getInstance();
         database = FirebaseFirestore.getInstance();
 
@@ -84,21 +85,6 @@ public class LoginActivity extends AppCompatActivity {
                 googleSignIn();
             }
         });
-
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                auth.signOut();
-                Toast.makeText(LoginActivity.this, "User Logged Out", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        if (auth.getCurrentUser() != null) {
-            logout.setVisibility(View.VISIBLE);
-            Toast.makeText(this, "USER ALREADY LOGGED IN", Toast.LENGTH_SHORT).show();
-        } else {
-            logout.setVisibility(View.GONE);
-        }
     }
 
     private void googleSignIn() {
@@ -130,25 +116,46 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             FirebaseUser user = auth.getCurrentUser();
-
-                            HashMap<String, Object> map = new HashMap<>();
-                            map.put("id", user.getUid());
-                            map.put("name", user.getDisplayName());
-                            map.put("email", user.getEmail());
-                            map.put("profilePic", user.getPhotoUrl());
-
-                            database.collection("users").document().set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    Toast.makeText(LoginActivity.this, "User Added to DB", Toast.LENGTH_SHORT).show();
-                                }
-                            }).addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(LoginActivity.this, "User Not Added to DB: "+e.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                            Toast.makeText(LoginActivity.this, "FINISH?", Toast.LENGTH_SHORT).show();
+                            database.collection("users")
+                                    .whereEqualTo("email",user.getEmail())
+                                    .get()
+                                    .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onSuccess(QuerySnapshot querySnapshot) {
+                                            if (!querySnapshot.isEmpty()) {
+                                                // User with the given email already exists
+                                                Toast.makeText(LoginActivity.this, "User already exists in the database", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                DocumentReference documentReference = database.collection("users").document();
+                                                HashMap<String, Object> userData = new HashMap<>();
+                                                userData.put("documentId", documentReference.getId());
+                                                userData.put("name", user.getDisplayName());
+                                                userData.put("email", user.getEmail());
+                                                userData.put("profilePic", user.getPhotoUrl());
+                                                documentReference.set(userData).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void unused) {
+                                                        Toast.makeText(LoginActivity.this, "User Added to DB", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }).addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Toast.makeText(LoginActivity.this, "User Not Added to DB: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(LoginActivity.this, "Failed to check if user exists: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                            Intent returnIntent = new Intent();
+//                            returnIntent.putExtra("LOGIN_SUCCESS", true);
+                            setResult(RESULT_OK, returnIntent);
+                            Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                            finish();
                         } else {
                             Toast.makeText(LoginActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                         }

@@ -1,6 +1,10 @@
 package com.example.rentalapp;
 
 import androidx.activity.OnBackPressedCallback;
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +19,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -25,6 +30,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -35,11 +41,28 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     DrawerLayout drawerLayout;
+    NavigationView sideNavigationView;
     BottomNavigationView bottomNavigationView;
     FragmentManager fragmentManager;
     Toolbar toolbar;
+    FirebaseAuth auth;
+    //    FirebaseFirestore firestore;
+    ActivityResultLauncher<Intent> activityResultLauncher =
+            registerForActivityResult(
+                    new ActivityResultContracts.StartActivityForResult(),
+                    new ActivityResultCallback<ActivityResult>() {
+                        @Override
+                        public void onActivityResult(ActivityResult o) {
+                            int result = o.getResultCode();
+                            Intent data = o.getData();
 
-//    FirebaseFirestore firestore;
+                            if (result == RESULT_OK) {
+                                Toast.makeText(MainActivity.this, "BACK FROM LOGIN ACT", Toast.LENGTH_SHORT).show();
+                                setLoginLogoutMenuOption();
+                            }
+                        }
+                    }
+            );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +98,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView sideNavigationView = findViewById(R.id.navigation_drawer);
+        sideNavigationView = findViewById(R.id.navigation_drawer);
         sideNavigationView.setNavigationItemSelectedListener(this);
+        setLoginLogoutMenuOption();
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setBackground(null);
@@ -126,30 +150,83 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+//    private void setLoginMenuOption() {
+//        Menu menu = sideNavigationView.getMenu();
+//        MenuItem loginMenuItem = menu.findItem(R.id.side_nav_login_logout);
+////        MenuItem logoutMenuItem = menu.findItem(R.id.side_nav_logout);
+//        auth = FirebaseAuth.getInstance();
+//        if (auth.getCurrentUser() != null) {
+////            logoutMenuItem.setVisible(true);
+//            loginMenuItem.setVisible(false);
+//        } else {
+//            loginMenuItem.setVisible(true);
+////            logoutMenuItem.setVisible(false);
+//        }
+//    }
+
+    private void setLoginLogoutMenuOption() {
+        Menu menu = sideNavigationView.getMenu();
+        MenuItem loginLogoutMenuItem = menu.findItem(R.id.side_nav_login_logout);
+        if (isUserLoggedIn()) {
+            Toast.makeText(this, "Logout Option Set", Toast.LENGTH_SHORT).show();
+            loginLogoutMenuItem.setTitle(getResources().getString(R.string.logout));
+            loginLogoutMenuItem.setIcon(R.drawable.baseline_logout_24);
+        } else {
+            Toast.makeText(this, "Login Option Set", Toast.LENGTH_SHORT).show();
+            loginLogoutMenuItem.setTitle(getResources().getString(R.string.login));
+            loginLogoutMenuItem.setIcon(R.drawable.baseline_login_24);
+        }
+    }
+
+
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        Toast.makeText(this, "RESUMEDDDDDDDDD", Toast.LENGTH_SHORT).show();
+//        setLoginMenuOption();
+//    }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int sideNavOption = item.getItemId();
+
+        Menu menu = sideNavigationView.getMenu();
+        MenuItem loginMenuItem = menu.findItem(R.id.side_nav_login_logout);
+//        MenuItem logoutMenuItem = menu.findItem(R.id.side_nav_logout);
+
         if (sideNavOption == R.id.side_nav_my_properties) {
             Toast.makeText(MainActivity.this, "No Property Posted Yet", Toast.LENGTH_SHORT).show();
         } else if (sideNavOption == R.id.side_nav_post_property) {
-            Intent addPropertyIntent = new Intent(this, AddPropertyActivity.class);
-            startActivity(addPropertyIntent);
-//            openFragment(new AddPropertyFragment());
-        } else if (sideNavOption == R.id.side_nav_login) {
-            drawerLayout.closeDrawer(GravityCompat.START);
-            if (item.getTitle() == getResources().getString(R.string.login_signup)) {
-                Toast.makeText(this, "Login", Toast.LENGTH_SHORT).show();
-                item.setTitle(getResources().getString(R.string.logout));
-                item.setIcon(R.drawable.baseline_logout_24);
+            if (isUserLoggedIn()) {
+                Intent addPropertyIntent = new Intent(this, AddPropertyActivity.class);
+                startActivity(addPropertyIntent);
             } else {
-                Toast.makeText(this, "Logout", Toast.LENGTH_SHORT).show();
-                item.setTitle(getResources().getString(R.string.login_signup));
-                item.setIcon(R.drawable.baseline_login_24);
+                Toast.makeText(this, "Please Login to Post your Property", Toast.LENGTH_SHORT).show();
+            }
+//            openFragment(new AddPropertyFragment());
+        } else if (sideNavOption == R.id.side_nav_login_logout) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+            if (item.getTitle() == getResources().getString(R.string.login)) {
+                Intent loginIntent = new Intent(this, LoginActivity.class);
+                activityResultLauncher.launch(loginIntent);
+            } else {
+                logoutCurrentUser();
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         //Selection highlight disabled
         return false;
+    }
+
+    private boolean isUserLoggedIn() {
+        auth = FirebaseAuth.getInstance();
+        return auth.getCurrentUser() != null;
+    }
+
+    private void logoutCurrentUser() {
+        auth = FirebaseAuth.getInstance();
+        auth.signOut();
+        setLoginLogoutMenuOption();
     }
 
     private void openFragment(Fragment fragment) {

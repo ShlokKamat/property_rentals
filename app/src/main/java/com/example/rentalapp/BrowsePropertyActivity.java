@@ -68,7 +68,7 @@ public class BrowsePropertyActivity extends AppCompatActivity implements Propert
     }
 
     private void EventChangeListener() {
-        db.collection("properties")//Add orderBy is needed
+        db.collection("properties")//.orderBy("apartmentName")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -98,7 +98,6 @@ public class BrowsePropertyActivity extends AppCompatActivity implements Propert
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return null;
     }
-
     @Override
     public void onPropertyItemClick(int position) {
         Intent viewPropertyIntent = new Intent(this, ViewPropertyActivity.class);
