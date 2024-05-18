@@ -68,18 +68,21 @@ import java.util.Objects;
 
 public class AddPropertyActivity extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback, OnCameraIdleListener {
 
-    CardView s1card, s2card, s3card, s4card;
-    Button s1Next, s2Back, s2Next, s3Back, s3Next, s4Back, s4Next;
-    TextInputEditText apartmentNameInput, propertySizeInput, propertyAgeInput, floorInput, totalFloorsInput, localityInput, expectedRentInput, expectedDepositInput;
+    CardView s1card, s2card, s3card, s4card, s5card;
+    Button s1Next, s2Back, s2Next, s3Back, s3Next, s4Back, s4Next, s5Back, s5Next;
+    TextInputEditText apartmentNameInput, propertySizeInput, propertyAgeInput, bathroomInput, floorInput, totalFloorsInput, localityInput, expectedRentInput, expectedDepositInput;
     GoogleMap gMap;
-    SearchView mapSearchView;
     ImageView photosInput;
     String photoURL;
     Uri uri;
-    AutoCompleteTextView bhkTypeInput, furnishingTypeInput, parkingInput;
+    AutoCompleteTextView bhkTypeInput, furnishingTypeInput, parkingInput, waterSupplierInput, tenantPreferenceInput, securityInput;
     String[] bhkTypes = {"1RK", "1BHK", "2BHK", "3BHK", "4BHK"};
     String[] furnishingTypes = {"Not Furnished", "Semi Furnished", "Fully Furnished"};
-    String[] parkingTypes = {"None", "Bike", "Car", "Car & Bike"};
+    String[] parkingTypes = {"None", "Bike", "Car", "Both"};
+    String[] waterSupplierTypes = {"Borewell", "Corporation", "Both"};
+    String[] tenantPreferenceTypes = {"Bachelor", "Family", "Company", "All"};
+    String[] securityTypes = {"No", "Yes"};
+
     ArrayAdapter<String> stringArrayAdapter;
     FirebaseAuth auth;
 
@@ -112,6 +115,7 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
         s2card = findViewById(R.id.step2_card);
         s3card = findViewById(R.id.step3_card);
         s4card = findViewById(R.id.step4_card);
+        s5card = findViewById(R.id.step5_card);
         s1Next = findViewById(R.id.step1_save);
         s1Next.setOnClickListener(this);
         s2Back = findViewById(R.id.step2_back);
@@ -126,6 +130,10 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
         s4Back.setOnClickListener(this);
         s4Next = findViewById(R.id.step4_save);
         s4Next.setOnClickListener(this);
+        s5Back = findViewById(R.id.step5_back);
+        s5Back.setOnClickListener(this);
+        s5Next = findViewById(R.id.step5_save);
+        s5Next.setOnClickListener(this);
 
 //        For all EditTexts and Dropdowns
         apartmentNameInput = findViewById(R.id.apartment_name_input);
@@ -149,6 +157,18 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
         parkingInput = findViewById(R.id.parking_input);
         stringArrayAdapter = new ArrayAdapter<String>(this, R.layout.dropdown_item, parkingTypes);
         parkingInput.setAdapter(stringArrayAdapter);
+
+        waterSupplierInput = findViewById(R.id.water_supplier_input);
+        stringArrayAdapter = new ArrayAdapter<String>(this, R.layout.dropdown_item, waterSupplierTypes);
+        waterSupplierInput.setAdapter(stringArrayAdapter);
+
+        tenantPreferenceInput = findViewById(R.id.tenant_preference_input);
+        stringArrayAdapter = new ArrayAdapter<String>(this, R.layout.dropdown_item, tenantPreferenceTypes);
+        tenantPreferenceInput.setAdapter(stringArrayAdapter);
+
+        securityInput = findViewById(R.id.security_input);
+        stringArrayAdapter = new ArrayAdapter<String>(this, R.layout.dropdown_item, securityTypes);
+        securityInput.setAdapter(stringArrayAdapter);
 
         bhkTypeInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -251,6 +271,12 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
             s4card.setVisibility(View.GONE);
             s3card.setVisibility(View.VISIBLE);
         } else if (viewId == R.id.step4_save) {
+            s4card.setVisibility(View.GONE);
+            s5card.setVisibility(View.VISIBLE);
+        } else if (viewId == R.id.step5_back) {
+            s5card.setVisibility(View.GONE);
+            s4card.setVisibility(View.VISIBLE);
+        } else if (viewId == R.id.step5_save) {
             saveData();
         }
     }
@@ -370,11 +396,11 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
         LatLng defaultLocation = new LatLng(12.9716, 77.5946);
 
 
-        MarkerOptions markerOptions = new MarkerOptions()
-                .position(defaultLocation)
-                .title("Bengaluru");
-        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
-        gMap.addMarker(markerOptions);
+//        MarkerOptions markerOptions = new MarkerOptions()
+//                .position(defaultLocation)
+//                .title("Bengaluru");
+//        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+//        gMap.addMarker(markerOptions);
 
         gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 11));
     }
