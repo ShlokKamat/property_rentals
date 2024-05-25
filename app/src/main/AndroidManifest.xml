@@ -19,10 +19,13 @@
         android:theme="@style/Theme.RentalApp"
         tools:targetApi="31">
         <activity
+            android:name=".BrowseMyProperty"
+            android:exported="false" />
+        <activity
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".BrowsePropertyActivity"
+            android:name=".BrowseAllPropertyActivity"
             android:exported="false" />
         <activity
             android:name=".ViewPropertyActivity"

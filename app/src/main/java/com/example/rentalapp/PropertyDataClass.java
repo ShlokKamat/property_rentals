@@ -15,7 +15,7 @@ public class PropertyDataClass implements Parcelable {
     private String apartmentName;
     private String bhkType;
     private double propertySize;
-    private int propertyAge;
+    private String propertyAge;
     private int floor;
     private int totalFloors;
     private int numberOfBathrooms;
@@ -31,7 +31,7 @@ public class PropertyDataClass implements Parcelable {
     private String furnishingType;
     private String photos;
 
-    public PropertyDataClass(String documentId, String possession, String postedBy, String apartmentName, String bhkType, double propertySize, int propertyAge, int floor, int totalFloors, int numberOfBathrooms, String waterSupplier, String parking, String security, String tenantPreference, String locality, double latitude, double longitude, double expectedRent, double expectedDeposit, String furnishingType, String photos) {
+    public PropertyDataClass(String documentId, String possession, String postedBy, String apartmentName, String bhkType, double propertySize, String propertyAge, int floor, int totalFloors, int numberOfBathrooms, String waterSupplier, String parking, String security, String tenantPreference, String locality, double latitude, double longitude, double expectedRent, double expectedDeposit, String furnishingType, String photos) {
         this.documentId = documentId;
         this.possession = possession;
         this.postedBy = postedBy;
@@ -65,7 +65,7 @@ public class PropertyDataClass implements Parcelable {
         apartmentName = in.readString();
         bhkType = in.readString();
         propertySize = in.readDouble();
-        propertyAge = in.readInt();
+        propertyAge = in.readString();
         floor = in.readInt();
         totalFloors = in.readInt();
         numberOfBathrooms = in.readInt();
@@ -107,7 +107,7 @@ public class PropertyDataClass implements Parcelable {
         dest.writeString(apartmentName);
         dest.writeString(bhkType);
         dest.writeDouble(propertySize);
-        dest.writeInt(propertyAge);
+        dest.writeString(propertyAge);
         dest.writeInt(floor);
         dest.writeInt(totalFloors);
         dest.writeInt(numberOfBathrooms);
@@ -150,7 +150,7 @@ public class PropertyDataClass implements Parcelable {
         return propertySize;
     }
 
-    public int getPropertyAge() {
+    public String getPropertyAge() {
         return propertyAge;
     }
 
@@ -236,7 +236,7 @@ public class PropertyDataClass implements Parcelable {
         this.propertySize = propertySize;
     }
 
-    public void setPropertyAge(int propertyAge) {
+    public void setPropertyAge(String propertyAge) {
         this.propertyAge = propertyAge;
     }
 

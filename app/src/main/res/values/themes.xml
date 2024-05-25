@@ -9,10 +9,18 @@
         <item name="android:statusBarColor">@color/black</item>
     </style>
 
+    <style name="Widget.MyApp.Chip.Choice" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.MyApp.Chip.Choice</item>
+    </style>
+
     <style name="Theme.RentalApp" parent="Base.Theme.RentalApp" />
 
 <!--    Left Nav Selection Color-->
     <style name="ThemeOverlay.AppCompat.navTheme">
         <item name="colorPrimary">@color/c2</item>
+    </style>
+
+    <style name="ThemeOverlay.MyApp.Chip.Choice" parent="">
+        <item name="elevationOverlayEnabled">false</item>
     </style>
 </resources>

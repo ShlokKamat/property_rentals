@@ -54,6 +54,8 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -83,6 +85,8 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
     String photoURL;
     Double latitude, longitude;
     Uri uri;
+
+    ChipGroup bhkTypeInputChip;
     AutoCompleteTextView bhkTypeInput, furnishingTypeInput, parkingInput, waterSupplierInput, tenantPreferenceInput, securityInput;
     String[] bhkTypes = {"1RK", "1BHK", "2BHK", "3BHK", "4BHK"};
     String[] furnishingTypes = {"Not Furnished", "Semi Furnished", "Fully Furnished"};
@@ -156,6 +160,8 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
         expectedRentInput = findViewById(R.id.expected_rent_input);
         expectedDepositInput = findViewById(R.id.expected_deposit_input);
         photosInput = findViewById(R.id.photos_input);
+
+        bhkTypeInputChip = findViewById(R.id.bhk_type_input_chip);
 
         bhkTypeInput = findViewById(R.id.bhk_type_input);
         stringArrayAdapter = new ArrayAdapter<String>(this, R.layout.dropdown_item, bhkTypes);
@@ -264,6 +270,14 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View v) {
         int viewId = v.getId();
         if (viewId == R.id.step1_save) {
+            int selectedChipId = bhkTypeInputChip.getCheckedChipId();
+            if (selectedChipId != View.NO_ID) {
+                Chip selectedChip = findViewById(selectedChipId);
+                String selectedChipText = selectedChip.getText().toString();
+                Toast.makeText(this, "Selected: " + selectedChipText, Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "No Chip Selected", Toast.LENGTH_SHORT).show();
+            }
             s1card.setVisibility(View.GONE);
             s2card.setVisibility(View.VISIBLE);
         } else if (viewId == R.id.step2_back) {
@@ -376,9 +390,12 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
                 "possessionDate", //Get Value from User HERE
                 user.getEmail(),
                 Objects.requireNonNull(apartmentNameInput.getText()).toString(),
-                bhkTypeInput.getText().toString(),
+"1 BHK",
+//                bhkTypeInput.getText().toString(),
                 Double.parseDouble(requireNonNull(propertySizeInput.getText()).toString()),
-                Integer.parseInt(requireNonNull(propertyAgeInput.getText()).toString()),
+                "1 - 3 years",
+
+//                Integer.parseInt(requireNonNull(propertyAgeInput.getText()).toString()),
                 Integer.parseInt(requireNonNull(floorInput.getText()).toString()),
                 Integer.parseInt(requireNonNull(totalFloorsInput.getText()).toString()),
                 Integer.parseInt(requireNonNull("1")),//numberOfBathrooms
