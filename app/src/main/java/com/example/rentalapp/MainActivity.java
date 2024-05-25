@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView sideNavigationView;
     BottomNavigationView bottomNavigationView;
     FragmentManager fragmentManager;
+    HomeFragment homeFragment;
     Toolbar toolbar;
     FirebaseAuth auth;
     ActivityResultLauncher<Intent> activityResultLauncher =
@@ -77,6 +78,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 //        Objects.requireNonNull(getSupportActionBar()).setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.greena)));
 
+        homeFragment = new HomeFragment();
+
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -104,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                    return true;
 //                } else
                 if (bottom_nav_id == R.id.bot_nav_browse_properties) {
-                    openFragment(new HomeFragment());
+                    openFragment(homeFragment);
                     return true;
                 }
 //                    else if (bottom_nav_id == R.id.add_property_option) {
@@ -154,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void setLoginLogoutMenuOption() {
         Menu menu = sideNavigationView.getMenu();
         MenuItem loginLogoutMenuItem = menu.findItem(R.id.side_nav_login_logout);
-        if (isUserLoggedIn()) {
+        if (Utils.isUserLoggedIn()) {
             Toast.makeText(this, "Logout Option Set", Toast.LENGTH_SHORT).show();
             loginLogoutMenuItem.setTitle(getResources().getString(R.string.logout));
             loginLogoutMenuItem.setIcon(R.drawable.baseline_logout_24);
@@ -162,6 +165,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Toast.makeText(this, "Login Option Set", Toast.LENGTH_SHORT).show();
             loginLogoutMenuItem.setTitle(getResources().getString(R.string.login));
             loginLogoutMenuItem.setIcon(R.drawable.baseline_login_24);
+            // Refresh Home Fragment Here
         }
     }
 
@@ -182,9 +186,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        MenuItem logoutMenuItem = menu.findItem(R.id.side_nav_logout);
 
         if (sideNavOption == R.id.side_nav_my_properties) {
-            Toast.makeText(MainActivity.this, "No Property Posted Yet", Toast.LENGTH_SHORT).show();
+            if (Utils.isUserLoggedIn()) {
+                Intent browseMyPropertyIntent = new Intent(this, BrowseMyProperty.class);
+                startActivity(browseMyPropertyIntent);
+            } else {
+                Toast.makeText(this, "Please Login to View your Property", Toast.LENGTH_SHORT).show();
+            }
         } else if (sideNavOption == R.id.side_nav_post_property) {
-            if (isUserLoggedIn()) {
+            if (Utils.isUserLoggedIn()) {
                 Intent addPropertyIntent = new Intent(this, AddPropertyActivity.class);
                 startActivity(addPropertyIntent);
             } else {
@@ -197,23 +206,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Intent loginIntent = new Intent(this, LoginActivity.class);
                 activityResultLauncher.launch(loginIntent);
             } else {
-                logoutCurrentUser();
+                Utils.logoutCurrentUser();
+                setLoginLogoutMenuOption();
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         //Selection highlight disabled
         return false;
-    }
-
-    private boolean isUserLoggedIn() {
-        auth = FirebaseAuth.getInstance();
-        return auth.getCurrentUser() != null;
-    }
-
-    private void logoutCurrentUser() {
-        auth = FirebaseAuth.getInstance();
-        auth.signOut();
-        setLoginLogoutMenuOption();
     }
 
     private void openFragment(Fragment fragment) {

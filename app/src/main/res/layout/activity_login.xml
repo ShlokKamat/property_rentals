@@ -72,7 +72,7 @@
                         android:src="@drawable/waving_hand" />
 
                     <TextView
-                        android:id="@+id/user_greeting_text"
+                        android:id="@+id/login_greeting_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toEndOf="@id/waving_hand_img"
@@ -83,7 +83,7 @@
                         android:id="@+id/login_hint"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/user_greeting_text"
+                        android:layout_below="@id/login_greeting_text"
                         android:layout_toEndOf="@id/waving_hand_img"
                         android:text="Login with your Google Account to access all the features like:\n- Post your Property\n- Predict Rent using Machine Learning"
                         android:textSize="16sp" />
