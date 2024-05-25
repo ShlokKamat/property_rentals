@@ -26,7 +26,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class BrowsePropertyActivity extends AppCompatActivity implements PropertyListInterface {
+public class BrowseMyProperty extends AppCompatActivity implements PropertyListInterface {
 
     public static final String PROPERTY_PARCEL_KEY = "property_parcel_key";
     RecyclerView propertyListRecyclerView;
@@ -40,8 +40,8 @@ public class BrowsePropertyActivity extends AppCompatActivity implements Propert
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_browse_property);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.browsePropertyActivity), (v, insets) -> {
+        setContentView(R.layout.activity_browse_my_property);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.BrowseMyPropertyActivity), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
@@ -68,7 +68,8 @@ public class BrowsePropertyActivity extends AppCompatActivity implements Propert
     }
 
     private void EventChangeListener() {
-        db.collection("properties")//.orderBy("apartmentName")
+        db.collection("properties")
+                .whereEqualTo("postedBy", Utils.getUserEmail())
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {

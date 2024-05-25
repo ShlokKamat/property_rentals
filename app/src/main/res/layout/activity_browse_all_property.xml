@@ -2,13 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/browsePropertyActivity"
+    android:id="@+id/BrowseAllPropertyActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/transparent_black"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".BrowsePropertyActivity">
+    tools:context=".BrowseAllPropertyActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
