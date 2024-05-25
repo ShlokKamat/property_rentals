@@ -10,6 +10,9 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
+
+import com.example.rentalapp.ml.RentPredictionModel;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -18,6 +21,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -60,6 +64,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import org.checkerframework.checker.index.qual.Positive;
+import org.tensorflow.lite.DataType;
+import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -70,10 +76,12 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
 
     CardView s1card, s2card, s3card, s4card, s5card;
     Button s1Next, s2Back, s2Next, s3Back, s3Next, s4Back, s4Next, s5Back, s5Next;
-    TextInputEditText apartmentNameInput, propertySizeInput, propertyAgeInput, bathroomInput, floorInput, totalFloorsInput, localityInput, expectedRentInput, expectedDepositInput;
+    TextInputEditText apartmentNameInput, propertySizeInput, propertyAgeInput, bathroomCountInput, floorInput, totalFloorsInput, localityInput, expectedRentInput, expectedDepositInput;
+    TextView rentPredictionValue;
     GoogleMap gMap;
     ImageView photosInput;
     String photoURL;
+    Double latitude, longitude;
     Uri uri;
     AutoCompleteTextView bhkTypeInput, furnishingTypeInput, parkingInput, waterSupplierInput, tenantPreferenceInput, securityInput;
     String[] bhkTypes = {"1RK", "1BHK", "2BHK", "3BHK", "4BHK"};
@@ -85,6 +93,7 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
 
     ArrayAdapter<String> stringArrayAdapter;
     FirebaseAuth auth;
+    float[] means, stds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +118,9 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
                 finish();
             }
         });
+
+        means = new float[]{970.90830822f,2.19974171f,4.11493758f,1.7572105f};
+        stds = new float[]{689.26193329f,3.68153938f,4.34937374f,0.89890801f};
 
 //        For all steps and buttons
         s1card = findViewById(R.id.step1_card);
@@ -139,9 +151,11 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
         apartmentNameInput = findViewById(R.id.apartment_name_input);
         propertySizeInput = findViewById(R.id.property_size_input);
         propertyAgeInput = findViewById(R.id.property_age_input);
+        bathroomCountInput = findViewById(R.id.bathroom_count_input);
         floorInput = findViewById(R.id.floor_input);
         totalFloorsInput = findViewById(R.id.total_floors_input);
         localityInput = findViewById(R.id.locality_input);
+        rentPredictionValue = findViewById(R.id.rent_prediction_value);
         expectedRentInput = findViewById(R.id.expected_rent_input);
         expectedDepositInput = findViewById(R.id.expected_deposit_input);
         photosInput = findViewById(R.id.photos_input);
@@ -265,6 +279,7 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
             s3card.setVisibility(View.GONE);
             s2card.setVisibility(View.VISIBLE);
         } else if (viewId == R.id.step3_save) {
+            predictRentForProperty();
             s3card.setVisibility(View.GONE);
             s4card.setVisibility(View.VISIBLE);
         } else if (viewId == R.id.step4_back) {
@@ -279,6 +294,60 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
         } else if (viewId == R.id.step5_save) {
             saveData();
         }
+    }
+
+    private void predictRentForProperty() {
+        try {
+            RentPredictionModel model = RentPredictionModel.newInstance(this);
+
+            // Creates inputs for reference.
+            TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 9}, DataType.FLOAT32);
+            float[] inputArray = new float[]{
+
+                    (float) 250, //Size
+                    (float) 4, //Floor
+                    (float) 4, //Total Floor
+                    (float) 1, //Bathrooms
+
+                    (float) 1, //BHK
+                    (float) 2, //Age
+                    (float) 1, //Furnishing
+                    (float) 1, //Parking
+                    (float) 0  //Security
+            };
+            inputArray = scaleInputForModel(inputArray);
+            inputFeature0.loadArray(inputArray);
+//            inputFeature0.loadBuffer(inputArray);
+
+            // Runs model inference and gets result.
+            RentPredictionModel.Outputs outputs = model.process(inputFeature0);
+            TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
+
+            float predictedRent = outputFeature0.getFloatValue(0);
+
+
+            rentPredictionValue.setText("Rs."+predictedRent);
+
+            // Releases model resources if no longer used.
+            model.close();
+            Toast.makeText(this, "Prediction Success", Toast.LENGTH_SHORT).show();
+
+        } catch (IOException e) {
+            Toast.makeText(this, "Prediction Error", Toast.LENGTH_SHORT).show();
+            // TODO Handle the exception
+        }
+    }
+
+    private float[] scaleInputForModel(float[] inputArray) {
+        float[] scaledInput = new float[inputArray.length];
+        for (int i = 0; i < inputArray.length; i++) {
+            if(i<4){
+                scaledInput[i] = (inputArray[i] - means[i]) / stds[i];
+            } else {
+                scaledInput[i] = inputArray[i];
+            }
+        }
+        return scaledInput;
     }
 
     public void saveData() {
@@ -328,13 +397,13 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
                 Integer.parseInt(requireNonNull(floorInput.getText()).toString()),
                 Integer.parseInt(requireNonNull(totalFloorsInput.getText()).toString()),
                 Integer.parseInt(requireNonNull("1")),//numberOfBathrooms
-                "BMTC",//waterSupplier.getText().toString(),
-                "Car",//String parking,
-                "Yes",//String security,
-                "Family",//String tenantPreference
+                waterSupplierInput.getText().toString(),
+                parkingInput.getText().toString(),
+                securityInput.getText().toString(),
+                tenantPreferenceInput.getText().toString(),
                 Objects.requireNonNull(localityInput.getText()).toString(),
-                12.1234,//Double.parseDouble(requireNonNull(latitude.getText()).toString()),
-                77.1234,//Double.parseDouble(requireNonNull(longitude.getText()).toString()),
+                latitude,
+                longitude,
                 Double.parseDouble(requireNonNull(expectedRentInput.getText()).toString()),
                 Double.parseDouble(requireNonNull(expectedDepositInput.getText()).toString()),
                 furnishingTypeInput.getText().toString(),
@@ -408,6 +477,8 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onCameraIdle() {
         Toast.makeText(this, gMap.getCameraPosition().toString(), Toast.LENGTH_SHORT).show();
+        latitude = gMap.getCameraPosition().target.latitude;
+        longitude = gMap.getCameraPosition().target.longitude;
         //You will get LAT LONG here, upon click, get the location info
     }
 }

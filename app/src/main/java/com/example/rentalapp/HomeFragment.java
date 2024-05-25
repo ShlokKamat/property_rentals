@@ -1,6 +1,7 @@
 package com.example.rentalapp;
 
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,6 +10,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
+
+import org.tensorflow.lite.Interpreter;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.MappedByteBuffer;
+import java.util.HashMap;
 
 public class HomeFragment extends Fragment {
 
@@ -37,7 +48,6 @@ public class HomeFragment extends Fragment {
                 startActivity(browsePropertyIntent);
             }
         });
-
 
         return view;
     }
