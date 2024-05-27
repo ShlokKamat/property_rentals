@@ -67,23 +67,23 @@
                             android:singleLine="true" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:hint="BHK Type"
-                        app:startIconDrawable="@drawable/baseline_blueprint_24">
+                    <!--                    <com.google.android.material.textfield.TextInputLayout-->
+                    <!--                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginStart="10dp"-->
+                    <!--                        android:layout_marginEnd="10dp"-->
+                    <!--                        android:layout_marginBottom="10dp"-->
+                    <!--                        android:hint="BHK Type"-->
+                    <!--                        app:startIconDrawable="@drawable/baseline_blueprint_24">-->
 
-                        <AutoCompleteTextView
-                            android:id="@+id/bhk_type_input"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="none" />
+                    <!--                        <AutoCompleteTextView-->
+                    <!--                            android:id="@+id/bhk_type_input"-->
+                    <!--                            android:layout_width="match_parent"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:inputType="none" />-->
 
-                    </com.google.android.material.textfield.TextInputLayout>
+                    <!--                    </com.google.android.material.textfield.TextInputLayout>-->
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -92,7 +92,7 @@
                         android:text="Select BHK Type:" />
 
                     <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/bhk_type_input_chip"
+                        android:id="@+id/bhk_type_input"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
@@ -157,7 +157,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:imeOptions="actionDone"
-                            android:inputType="numberDecimal" />
+                            android:inputType="number"
+                            android:maxLength="4" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <LinearLayout
@@ -182,7 +183,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:imeOptions="actionDone"
-                                android:inputType="number" />
+                                android:inputType="number"
+                                android:maxLength="2" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -200,37 +202,38 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:imeOptions="actionDone"
-                                android:inputType="number" />
+                                android:inputType="number"
+                                android:maxLength="2" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                     </LinearLayout>
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:hint="Property Age (years)"
-                        app:startIconDrawable="@drawable/baseline_calendar_month_24">
+                    <!--                    <com.google.android.material.textfield.TextInputLayout-->
+                    <!--                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginStart="10dp"-->
+                    <!--                        android:layout_marginEnd="10dp"-->
+                    <!--                        android:layout_marginBottom="10dp"-->
+                    <!--                        android:hint="Property Age (years)"-->
+                    <!--                        app:startIconDrawable="@drawable/baseline_calendar_month_24">-->
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/property_age_input"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:imeOptions="actionDone"
-                            android:inputType="number" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                    <!--                        <com.google.android.material.textfield.TextInputEditText-->
+                    <!--                            android:id="@+id/property_age_input"-->
+                    <!--                            android:layout_width="match_parent"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:imeOptions="actionDone"-->
+                    <!--                            android:inputType="number" />-->
+                    <!--                    </com.google.android.material.textfield.TextInputLayout>-->
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        android:text="Select Property Age:" />
+                        android:text="Select Property Age (in years):" />
 
                     <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/property_age_input_chip"
+                        android:id="@+id/property_age_input"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
@@ -244,7 +247,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:checkable="true"
-                            android:text="0 - 1 year" />
+                            android:text="0 – 1" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chip_1to3"
@@ -252,7 +255,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:checkable="true"
-                            android:text="1 - 3 years" />
+                            android:text="1 – 3" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chip_3to5"
@@ -260,7 +263,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:checkable="true"
-                            android:text="3 - 5 years" />
+                            android:text="3 – 5" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chip_5to10"
@@ -268,7 +271,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:checkable="true"
-                            android:text="5 - 10 years" />
+                            android:text="5 – 10" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chip_gt10"
@@ -276,7 +279,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:checkable="true"
-                            android:text="> 10 years" />
+                            android:text="> 10" />
 
                     </com.google.android.material.chip.ChipGroup>
 
@@ -318,34 +321,11 @@
                         android:textAlignment="center"
                         android:textSize="18sp" />
 
-                    <!--                REMOVE THIS VIEW SHLOK-->
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/locality_input_ipfield"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@id/step2_card_header"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:hint="Locality"
-                        android:visibility="gone"
-                        app:startIconDrawable="@drawable/baseline_location_pin_24">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/locality_input"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:imeOptions="actionDone"
-                            android:singleLine="true"
-                            android:text="Huudi" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_above="@id/step2_bottom_buttons"
-                        android:layout_below="@id/locality_input_ipfield">
+                        android:layout_below="@id/step2_card_header">
 
                         <fragment
                             android:id="@+id/id_map"
@@ -471,26 +451,27 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:imeOptions="actionDone"
-                            android:inputType="numberDecimal" />
+                            android:inputType="number"
+                            android:maxLength="1" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:hint="Water Supplier"
-                        app:startIconDrawable="@drawable/baseline_water_drop_24">
+                    <!--                    <com.google.android.material.textfield.TextInputLayout-->
+                    <!--                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginStart="10dp"-->
+                    <!--                        android:layout_marginEnd="10dp"-->
+                    <!--                        android:layout_marginBottom="10dp"-->
+                    <!--                        android:hint="Water Supplier"-->
+                    <!--                        app:startIconDrawable="@drawable/baseline_water_drop_24">-->
 
-                        <AutoCompleteTextView
-                            android:id="@+id/water_supplier_input"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="none" />
+                    <!--                        <AutoCompleteTextView-->
+                    <!--                            android:id="@+id/water_supplier_input"-->
+                    <!--                            android:layout_width="match_parent"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:inputType="none" />-->
 
-                    </com.google.android.material.textfield.TextInputLayout>
+                    <!--                    </com.google.android.material.textfield.TextInputLayout>-->
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -499,7 +480,7 @@
                         android:text="Select Water Supplier:" />
 
                     <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/water_supplier_input_chip"
+                        android:id="@+id/water_supplier_input"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
@@ -529,27 +510,27 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:checkable="true"
-                            android:text="Borewell &amp; Corporation" />
+                            android:text="Both" />
 
                     </com.google.android.material.chip.ChipGroup>
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:hint="Furnishing"
-                        app:startIconDrawable="@drawable/baseline_chair_24">
+                    <!--                    <com.google.android.material.textfield.TextInputLayout-->
+                    <!--                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginStart="10dp"-->
+                    <!--                        android:layout_marginEnd="10dp"-->
+                    <!--                        android:layout_marginBottom="10dp"-->
+                    <!--                        android:hint="Furnishing"-->
+                    <!--                        app:startIconDrawable="@drawable/baseline_chair_24">-->
 
-                        <AutoCompleteTextView
-                            android:id="@+id/furnishing_type_input"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="none" />
+                    <!--                        <AutoCompleteTextView-->
+                    <!--                            android:id="@+id/furnishing_type_input"-->
+                    <!--                            android:layout_width="match_parent"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:inputType="none" />-->
 
-                    </com.google.android.material.textfield.TextInputLayout>
+                    <!--                    </com.google.android.material.textfield.TextInputLayout>-->
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -558,7 +539,7 @@
                         android:text="Select Furnishing:" />
 
                     <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/furnishing_type_input_chip"
+                        android:id="@+id/furnishing_type_input"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
@@ -572,7 +553,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:checkable="true"
-                            android:text="Not Furnished" />
+                            android:text="None" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chip_semi_furnished"
@@ -592,23 +573,23 @@
 
                     </com.google.android.material.chip.ChipGroup>
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:hint="Tenant Preference"
-                        app:startIconDrawable="@drawable/baseline_tenant_24">
+                    <!--                    <com.google.android.material.textfield.TextInputLayout-->
+                    <!--                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginStart="10dp"-->
+                    <!--                        android:layout_marginEnd="10dp"-->
+                    <!--                        android:layout_marginBottom="10dp"-->
+                    <!--                        android:hint="Tenant Preference"-->
+                    <!--                        app:startIconDrawable="@drawable/baseline_tenant_24">-->
 
-                        <AutoCompleteTextView
-                            android:id="@+id/tenant_preference_input"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="none" />
+                    <!--                        <AutoCompleteTextView-->
+                    <!--                            android:id="@+id/tenant_preference_input"-->
+                    <!--                            android:layout_width="match_parent"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:inputType="none" />-->
 
-                    </com.google.android.material.textfield.TextInputLayout>
+                    <!--                    </com.google.android.material.textfield.TextInputLayout>-->
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -617,7 +598,7 @@
                         android:text="Select Tenant Preference:" />
 
                     <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/tenant_preference_input_chip"
+                        android:id="@+id/tenant_preference_input"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
@@ -659,50 +640,50 @@
 
                     </com.google.android.material.chip.ChipGroup>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:orientation="horizontal"
-                        android:weightSum="2">
+                    <!--                    <LinearLayout-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginBottom="10dp"-->
+                    <!--                        android:orientation="horizontal"-->
+                    <!--                        android:weightSum="2">-->
 
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginEnd="5dp"
-                            android:layout_weight="1"
-                            android:hint="Parking"
-                            app:startIconDrawable="@drawable/baseline_local_parking_24">
+                    <!--                        <com.google.android.material.textfield.TextInputLayout-->
+                    <!--                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"-->
+                    <!--                            android:layout_width="match_parent"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:layout_marginStart="10dp"-->
+                    <!--                            android:layout_marginEnd="5dp"-->
+                    <!--                            android:layout_weight="1"-->
+                    <!--                            android:hint="Parking"-->
+                    <!--                            app:startIconDrawable="@drawable/baseline_local_parking_24">-->
 
-                            <AutoCompleteTextView
-                                android:id="@+id/parking_input"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="none" />
+                    <!--                            <AutoCompleteTextView-->
+                    <!--                                android:id="@+id/parking_input"-->
+                    <!--                                android:layout_width="match_parent"-->
+                    <!--                                android:layout_height="wrap_content"-->
+                    <!--                                android:inputType="none" />-->
 
-                        </com.google.android.material.textfield.TextInputLayout>
+                    <!--                        </com.google.android.material.textfield.TextInputLayout>-->
 
-                        <com.google.android.material.textfield.TextInputLayout
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginEnd="10dp"
-                            android:layout_weight="1"
-                            android:hint="Security"
-                            app:startIconDrawable="@drawable/baseline_security_24">
+                    <!--                        <com.google.android.material.textfield.TextInputLayout-->
+                    <!--                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"-->
+                    <!--                            android:layout_width="match_parent"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:layout_marginStart="5dp"-->
+                    <!--                            android:layout_marginEnd="10dp"-->
+                    <!--                            android:layout_weight="1"-->
+                    <!--                            android:hint="Security"-->
+                    <!--                            app:startIconDrawable="@drawable/baseline_security_24">-->
 
-                            <AutoCompleteTextView
-                                android:id="@+id/security_input"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:inputType="none" />
+                    <!--                            <AutoCompleteTextView-->
+                    <!--                                android:id="@+id/security_input"-->
+                    <!--                                android:layout_width="match_parent"-->
+                    <!--                                android:layout_height="wrap_content"-->
+                    <!--                                android:inputType="none" />-->
 
-                        </com.google.android.material.textfield.TextInputLayout>
+                    <!--                        </com.google.android.material.textfield.TextInputLayout>-->
 
-                    </LinearLayout>
+                    <!--                    </LinearLayout>-->
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -711,7 +692,7 @@
                         android:text="Select Parking Availability:" />
 
                     <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/parking_input_chip"
+                        android:id="@+id/parking_input"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
@@ -725,7 +706,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:checkable="true"
-                            android:text="None" />
+                            android:text="No" />
 
                         <com.google.android.material.chip.Chip
                             android:id="@+id/chip_bike"
@@ -752,6 +733,56 @@
                             android:text="Bike &amp; Car" />
 
                     </com.google.android.material.chip.ChipGroup>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="Does your property have security?" />
+
+                    <RadioGroup
+                        android:id="@+id/security_input"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/security_no"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="50dp"
+                            android:buttonTint="@color/c2"
+                            android:text="No" />
+
+                        <RadioButton
+                            android:id="@+id/security_yes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:buttonTint="@color/c2"
+                            android:text="Yes" />
+
+                    </RadioGroup>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:hint="Possession Date"
+                        app:startIconDrawable="@drawable/baseline_calendar_month_24">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/possession_input"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:imeOptions="actionDone"
+                            android:inputType="none" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -814,11 +845,39 @@
                         android:textSize="18sp" />
 
                     <TextView
-                        android:id="@+id/rent_prediction_value"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        android:text="#Rent Prediction Value will be shown here#" />
+                        android:layout_marginEnd="10dp"
+                        android:gravity="center_horizontal"
+                        android:text="Predicted Rent:"
+                        android:textAlignment="center"
+                        android:textSize="16sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/rent_prediction_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="5dp"
+                            android:text="Rent Prediction Value"
+                            android:textAlignment="center"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:id="@+id/rent_prediction_info"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/outline_help_24" />
+                    </LinearLayout>
+
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -835,7 +894,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:imeOptions="actionDone"
-                            android:inputType="number" />
+                            android:inputType="number"
+                            android:maxLength="7" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -853,7 +913,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:imeOptions="actionDone"
-                            android:inputType="number" />
+                            android:inputType="number"
+                            android:maxLength="8" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <LinearLayout

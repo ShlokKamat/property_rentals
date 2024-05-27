@@ -14,7 +14,7 @@ public class PropertyDataClass implements Parcelable {
     private String postedBy;
     private String apartmentName;
     private String bhkType;
-    private double propertySize;
+    private int propertySize;
     private String propertyAge;
     private int floor;
     private int totalFloors;
@@ -31,7 +31,7 @@ public class PropertyDataClass implements Parcelable {
     private String furnishingType;
     private String photos;
 
-    public PropertyDataClass(String documentId, String possession, String postedBy, String apartmentName, String bhkType, double propertySize, String propertyAge, int floor, int totalFloors, int numberOfBathrooms, String waterSupplier, String parking, String security, String tenantPreference, String locality, double latitude, double longitude, double expectedRent, double expectedDeposit, String furnishingType, String photos) {
+    public PropertyDataClass(String documentId, String possession, String postedBy, String apartmentName, String bhkType, int propertySize, String propertyAge, int floor, int totalFloors, int numberOfBathrooms, String waterSupplier, String parking, String security, String tenantPreference, String locality, double latitude, double longitude, double expectedRent, double expectedDeposit, String furnishingType, String photos) {
         this.documentId = documentId;
         this.possession = possession;
         this.postedBy = postedBy;
@@ -64,7 +64,7 @@ public class PropertyDataClass implements Parcelable {
         postedBy = in.readString();
         apartmentName = in.readString();
         bhkType = in.readString();
-        propertySize = in.readDouble();
+        propertySize = in.readInt();
         propertyAge = in.readString();
         floor = in.readInt();
         totalFloors = in.readInt();
@@ -146,7 +146,7 @@ public class PropertyDataClass implements Parcelable {
         return bhkType;
     }
 
-    public double getPropertySize() {
+    public int getPropertySize() {
         return propertySize;
     }
 
@@ -232,7 +232,7 @@ public class PropertyDataClass implements Parcelable {
         this.bhkType = bhkType;
     }
 
-    public void setPropertySize(double propertySize) {
+    public void setPropertySize(int propertySize) {
         this.propertySize = propertySize;
     }
 
