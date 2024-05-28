@@ -82,7 +82,6 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
     TextView rentPredictionValue;
     GoogleMap gMap;
     ImageView rentPredictionInfo, photosInput;
-    String photoURL;
     String locality;
     Double latitude, longitude;
     Uri uri;
@@ -602,7 +601,7 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
 
 
     public void saveData() {
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Android Images")
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Property Images")
                 .child(Objects.requireNonNull(uri.getLastPathSegment()));
 
         AlertDialog.Builder builder = new AlertDialog.Builder(AddPropertyActivity.this);
@@ -617,7 +616,7 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
                 Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
                 while (!uriTask.isComplete()) ;
                 Uri urlImage = uriTask.getResult();
-                photoURL = urlImage.toString();
+                propertyData.setPhotos(urlImage.toString());
                 uploadData();
                 dialog.dismiss();
 
@@ -639,33 +638,6 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
         assert user != null;
         propertyData.setDocumentId(documentReference.getId());
         propertyData.setPostedBy(user.getEmail());
-        PropertyDataClass propertyData = new PropertyDataClass(
-                documentReference.getId(),
-                "possessionDate", //Get Value from User HERE
-                user.getEmail(),
-                Objects.requireNonNull(apartmentNameInput.getText()).toString(),
-                "1 BHK",
-                Integer.parseInt(requireNonNull(propertySizeInput.getText()).toString()),
-                "1 - 3 years",
-                Integer.parseInt(requireNonNull(floorInput.getText()).toString()),
-                Integer.parseInt(requireNonNull(totalFloorsInput.getText()).toString()),
-                Integer.parseInt(requireNonNull("1")),//numberOfBathrooms
-                "Corporation",
-//                waterSupplierInput.getText().toString(),
-                "Bike & Car",
-//                parkingInput.getText().toString(),
-                "Yes",
-//                securityInput.getText().toString(),
-                "All Tenants",
-//                tenantPreferenceInput.getText().toString(),
-                locality,
-                latitude,
-                longitude,
-                Double.parseDouble(requireNonNull(expectedRentInput.getText()).toString()),
-                Double.parseDouble(requireNonNull(expectedDepositInput.getText()).toString()),
-                "Fully Furnished",
-//                furnishingTypeInput.getText().toString(),
-                photoURL);
 
         documentReference.set(propertyData).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
