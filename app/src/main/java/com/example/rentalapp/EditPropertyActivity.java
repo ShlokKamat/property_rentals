@@ -3,6 +3,7 @@ package com.example.rentalapp;
 import static android.content.ContentValues.TAG;
 
 import static com.example.rentalapp.Utils.MAX_IMAGE_SIZE;
+import static com.example.rentalapp.Utils.PROPERTY_PARCEL_KEY;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -14,12 +15,12 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
+import com.bumptech.glide.Glide;
 import com.example.rentalapp.ml.RentPredictionModel;
 
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
@@ -48,6 +49,7 @@ import com.google.android.gms.maps.GoogleMap.OnCameraIdleListener;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -61,9 +63,9 @@ import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -83,8 +85,9 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.Objects;
 
-public class AddPropertyActivity extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback, OnCameraIdleListener {
+public class EditPropertyActivity extends AppCompatActivity implements View.OnClickListener, OnMapReadyCallback, OnCameraIdleListener {
 
+    PropertyDataClass oldPropertyInfo, newPropertyInfo;
     CardView s1card, s2card, s3card, s4card, s5card;
     Button s1Next, s2Back, s2Next, s3Back, s3Next, s4Back, s4Next, s5Back, s5Next;
     TextInputEditText apartmentNameInput, propertySizeInput, bathroomCountInput, floorInput, totalFloorsInput, possessionInput, expectedRentInput, expectedDepositInput;
@@ -94,21 +97,24 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
     String locality;
     Double latitude, longitude;
     Uri imageUri;
-    PropertyDataClass propertyData;
     ChipGroup bhkTypeInput, propertyAgeInput, waterSupplierInput, furnishingTypeInput, tenantPreferenceInput, parkingInput;
-    //    AutoCompleteTextView furnishingTypeInput, parkingInput, waterSupplierInput, tenantPreferenceInput, securityInput;
+    Chip chip1rk, chip1bhk, chip2bhk, chip3bhk, chip4bhk;
+    Chip chip0to1, chip1to3, chip3to5, chip5to10, chipGt10;
+    Chip chipBorewell, chipCorporation, chipWaterBoth;
+    Chip chipUnfurnished, chipSemifurninshed, chipFullyfurnished;
+    Chip chipBachelor, chipFamily, chipCompany, chipAllTenants;
+    Chip chipNoParking, chipBike, chipCar, chipBikeAndCar;
     RadioGroup securityInput;
+    RadioButton securityYes, securityNo;
     SimpleDateFormat possessionDateFormat;
-
-    ArrayAdapter<String> stringArrayAdapter;
     FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_add_property);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.addPropertyActivity), (v, insets) -> {
+        setContentView(R.layout.activity_edit_property);
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.editPropertyActivity), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
@@ -116,7 +122,7 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("Post your Property");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Edit your Property");
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,6 +131,9 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
             }
         });
 
+        oldPropertyInfo = getIntent().getParcelableExtra(PROPERTY_PARCEL_KEY);
+        assert oldPropertyInfo != null;
+        newPropertyInfo = new PropertyDataClass(oldPropertyInfo);
 
 //        For all steps and buttons
         s1card = findViewById(R.id.step1_card);
@@ -153,28 +162,64 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
 
 //        For all EditTexts and Dropdowns
         apartmentNameInput = findViewById(R.id.apartment_name_input);
+
         bhkTypeInput = findViewById(R.id.bhk_type_input);
+        chip1rk = findViewById(R.id.chip_1rk);
+        chip1bhk = findViewById(R.id.chip_1bhk);
+        chip2bhk = findViewById(R.id.chip_2bhk);
+        chip3bhk = findViewById(R.id.chip_3bhk);
+        chip4bhk = findViewById(R.id.chip_4bhk);
+
         propertySizeInput = findViewById(R.id.property_size_input);
         floorInput = findViewById(R.id.floor_input);
         totalFloorsInput = findViewById(R.id.total_floors_input);
+
         propertyAgeInput = findViewById(R.id.property_age_input);
+        chip0to1 = findViewById(R.id.chip_0to1);
+        chip1to3 = findViewById(R.id.chip_1to3);
+        chip3to5 = findViewById(R.id.chip_3to5);
+        chip5to10 = findViewById(R.id.chip_5to10);
+        chipGt10 = findViewById(R.id.chip_gt10);
+
         locality = "Bengaluru";
         bathroomCountInput = findViewById(R.id.bathroom_count_input);
+
         waterSupplierInput = findViewById(R.id.water_supplier_input);
+        chipBorewell = findViewById(R.id.chip_borewell);
+        chipCorporation = findViewById(R.id.chip_corporation);
+        chipWaterBoth = findViewById(R.id.chip_both_water_suppliers);
+
         furnishingTypeInput = findViewById(R.id.furnishing_type_input);
+        chipUnfurnished = findViewById(R.id.chip_not_furnished);
+        chipSemifurninshed = findViewById(R.id.chip_semi_furnished);
+        chipFullyfurnished = findViewById(R.id.chip_fully_furnished);
+
         tenantPreferenceInput = findViewById(R.id.tenant_preference_input);
+        chipBachelor = findViewById(R.id.chip_bachelor);
+        chipFamily = findViewById(R.id.chip_family);
+        chipCompany = findViewById(R.id.chip_company);
+        chipAllTenants = findViewById(R.id.chip_all_tenants);
+
         parkingInput = findViewById(R.id.parking_input);
+        chipNoParking = findViewById(R.id.chip_no_parking);
+        chipBike = findViewById(R.id.chip_bike);
+        chipCar = findViewById(R.id.chip_car);
+        chipBikeAndCar = findViewById(R.id.chip_both_parking);
+
         securityInput = findViewById(R.id.security_input);
+        securityNo = findViewById(R.id.security_no);
+        securityYes = findViewById(R.id.security_yes);
+
         possessionInput = findViewById(R.id.possession_input);
         possessionDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
-
         rentPredictionValue = findViewById(R.id.rent_prediction_value);
         rentPredictionInfo = findViewById(R.id.rent_prediction_info);
         expectedRentInput = findViewById(R.id.expected_rent_input);
         expectedDepositInput = findViewById(R.id.expected_deposit_input);
         photosInput = findViewById(R.id.photos_input);
 
-        propertyData = new PropertyDataClass();
+        //Set the Property Values, in the different fields
+        setValuesForFields();
 
         possessionInput.setOnClickListener(v -> {
             possessionInput.setError(null);
@@ -263,15 +308,16 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
                                 Uri compressedImageUri = insertImageIntoMediaStore(selectedImage);
                                 if (compressedImageUri != null) {
                                     // Set the compressed image to the ImageView
+                                    newPropertyInfo.setPhotos("");
                                     imageUri = compressedImageUri;
                                     photosInput.setImageURI(compressedImageUri);
                                 }
                             } catch (FileNotFoundException e) {
-                                Toast.makeText(AddPropertyActivity.this, "File not found: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(EditPropertyActivity.this, "File not found: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                                 e.printStackTrace();
                             }
                         } else {
-                            Toast.makeText(AddPropertyActivity.this, "No Image Selected", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditPropertyActivity.this, "No Image Selected", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
@@ -323,6 +369,127 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
         mapFragment.getMapAsync(this);
     }
 
+    private void setValuesForFields() {
+        Glide.with(this)
+                .load(newPropertyInfo.getPhotos())
+                .placeholder(R.drawable.animated_loading_spinner)
+//                .listener(new RequestListener<Drawable>() {
+//                    @Override
+//                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+//                        // Handle the error
+//                        Toast.makeText(EditPropertyActivity.this, "Image load failed", Toast.LENGTH_SHORT).show();
+//                        return false; // Allow Glide to handle the error
+//                    }
+//                    @Override
+//                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, com.bumptech.glide.load.DataSource dataSource, boolean isFirstResource) {
+//                        // Handle the success
+//                        Toast.makeText(EditPropertyActivity.this, "Image loaded successfully", Toast.LENGTH_SHORT).show();
+//                        return false; // Allow Glide to handle the resource
+//                    }
+//                })
+                .into(photosInput);
+        apartmentNameInput.setText(newPropertyInfo.getApartmentName());
+        switch (newPropertyInfo.getBhkType()) {
+            case "1 RK":
+                chip1rk.setChecked(true);
+                break;
+            case "1 BHK":
+                chip1bhk.setChecked(true);
+                break;
+            case "2 BHK":
+                chip2bhk.setChecked(true);
+                break;
+            case "3 BHK":
+                chip3bhk.setChecked(true);
+                break;
+            case "4 BHK":
+                chip4bhk.setChecked(true);
+                break;
+        }
+        propertySizeInput.setText(String.valueOf(newPropertyInfo.getPropertySize()));
+        floorInput.setText(String.valueOf(newPropertyInfo.getFloor()));
+        totalFloorsInput.setText(String.valueOf(newPropertyInfo.getTotalFloors()));
+        switch (newPropertyInfo.getPropertyAge()) {
+            case "0 – 1 years":
+                chip0to1.setChecked(true);
+                break;
+            case "1 – 3 years":
+                chip1to3.setChecked(true);
+                break;
+            case "3 – 5 years":
+                chip3to5.setChecked(true);
+                break;
+            case "5 – 10 years":
+                chip5to10.setChecked(true);
+                break;
+            case "> 10 years":
+                chipGt10.setChecked(true);
+                break;
+        }
+        bathroomCountInput.setText(String.valueOf(newPropertyInfo.getNumberOfBathrooms()));
+        switch (newPropertyInfo.getWaterSupplier()) {
+            case "Borewell":
+                chipBorewell.setChecked(true);
+                break;
+            case "Corporation":
+                chipCorporation.setChecked(true);
+                break;
+            case "Both":
+                chipWaterBoth.setChecked(true);
+                break;
+        }
+        switch (newPropertyInfo.getFurnishingType()) {
+            case "Unfurnished":
+                chipUnfurnished.setChecked(true);
+                break;
+            case "Semi Furnished":
+                chipSemifurninshed.setChecked(true);
+                break;
+            case "Fully Furnished":
+                chipFullyfurnished.setChecked(true);
+                break;
+        }
+        switch (newPropertyInfo.getTenantPreference()) {
+            case "Bachelor":
+                chipBachelor.setChecked(true);
+                break;
+            case "Family":
+                chipFamily.setChecked(true);
+                break;
+            case "Company":
+                chipCompany.setChecked(true);
+                break;
+            case "All Tenants":
+                chipAllTenants.setChecked(true);
+                break;
+        }
+        switch (newPropertyInfo.getParking()) {
+            case "No":
+                chipNoParking.setChecked(true);
+                break;
+            case "Bike":
+                chipBike.setChecked(true);
+                break;
+            case "Car":
+                chipCar.setChecked(true);
+                break;
+            case "Bike & Car":
+                chipBikeAndCar.setChecked(true);
+                break;
+        }
+        switch (newPropertyInfo.getSecurity()) {
+            case "No":
+                securityNo.setChecked(true);
+                break;
+            case "Yes":
+                securityYes.setChecked(true);
+                break;
+        }
+        possessionInput.setText(newPropertyInfo.getPossession());
+        expectedRentInput.setText(String.valueOf(newPropertyInfo.getExpectedRent()));
+        expectedDepositInput.setText(String.valueOf(newPropertyInfo.getExpectedDeposit()));
+    }
+
     private Uri insertImageIntoMediaStore(Bitmap bitmap) {
         ContentValues values = new ContentValues();
         values.put(MediaStore.Images.Media.DISPLAY_NAME, "compressed_image.jpg");
@@ -353,9 +520,9 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
             s2card.setVisibility(View.GONE);
             s1card.setVisibility(View.VISIBLE);
         } else if (viewId == R.id.step2_save) {
-            propertyData.setLatitude(latitude);
-            propertyData.setLongitude(longitude);
-            propertyData.setLocality(locality);
+            newPropertyInfo.setLatitude(latitude);
+            newPropertyInfo.setLongitude(longitude);
+            newPropertyInfo.setLocality(locality);
             s2card.setVisibility(View.GONE);
             s3card.setVisibility(View.VISIBLE);
         } else if (viewId == R.id.step3_back) {
@@ -441,12 +608,12 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
                 return false;
             }
 
-            propertyData.setApartmentName(apartmentName);
-            propertyData.setBhkType(bhkType);
-            propertyData.setPropertySize(propertySize);
-            propertyData.setFloor(floor);
-            propertyData.setTotalFloors(totalFloors);
-            propertyData.setPropertyAge(propertyAge);
+            newPropertyInfo.setApartmentName(apartmentName);
+            newPropertyInfo.setBhkType(bhkType);
+            newPropertyInfo.setPropertySize(propertySize);
+            newPropertyInfo.setFloor(floor);
+            newPropertyInfo.setTotalFloors(totalFloors);
+            newPropertyInfo.setPropertyAge(propertyAge);
 
         } catch (NullPointerException | NumberFormatException e) {
             return false;
@@ -503,9 +670,6 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
             if (selectedChipId != View.NO_ID) {
                 Chip selectedChip = findViewById(selectedChipId);
                 tenantPreference = selectedChip.getText().toString();
-//                if (tenantPreference.equals("All Tenants")) {
-//                    tenantPreference = "All";
-//                }
             } else {
                 Toast.makeText(this, "Please select Tenant Preference", Toast.LENGTH_SHORT).show();
                 return false;
@@ -540,13 +704,13 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
                 return false;
             }
 
-            propertyData.setNumberOfBathrooms(numberOfBathrooms);
-            propertyData.setWaterSupplier(waterSupplier);
-            propertyData.setFurnishingType(furnishing);
-            propertyData.setTenantPreference(tenantPreference);
-            propertyData.setParking(parking);
-            propertyData.setSecurity(security);
-            propertyData.setPossession(possessionDate);
+            newPropertyInfo.setNumberOfBathrooms(numberOfBathrooms);
+            newPropertyInfo.setWaterSupplier(waterSupplier);
+            newPropertyInfo.setFurnishingType(furnishing);
+            newPropertyInfo.setTenantPreference(tenantPreference);
+            newPropertyInfo.setParking(parking);
+            newPropertyInfo.setSecurity(security);
+            newPropertyInfo.setPossession(possessionDate);
 
         } catch (NullPointerException | NumberFormatException e) {
             return false;
@@ -572,8 +736,8 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
             expectedRent = Double.parseDouble(Objects.requireNonNull(expectedRentInput.getText()).toString());
             expectedDeposit = Double.parseDouble(Objects.requireNonNull(expectedDepositInput.getText()).toString());
 
-            propertyData.setExpectedRent(expectedRent);
-            propertyData.setExpectedDeposit(expectedDeposit);
+            newPropertyInfo.setExpectedRent(expectedRent);
+            newPropertyInfo.setExpectedDeposit(expectedDeposit);
 
         } catch (NullPointerException | NumberFormatException e) {
             return false;
@@ -587,18 +751,7 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
 
             // Creates inputs for reference.
             TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 9}, DataType.FLOAT32);
-            float[] mlInput = Utils.setInputArrayFromProperty(propertyData);
-//            float[] inputArray = new float[]{
-//                    (float) 250, //Size
-//                    (float) 4, //Floor
-//                    (float) 4, //Total Floor
-//                    (float) 1, //Bathrooms
-//                    (float) 1, //BHK
-//                    (float) 2, //Age
-//                    (float) 1, //Furnishing
-//                    (float) 1, //Parking
-//                    (float) 0  //Security
-//            };
+            float[] mlInput = Utils.setInputArrayFromProperty(newPropertyInfo);
             mlInput = Utils.scaleInputForModel(mlInput);
             inputFeature0.loadArray(mlInput);
 
@@ -621,78 +774,82 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
 
 
     public void saveData() {
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Property Images")
-                .child(Objects.requireNonNull(imageUri.getLastPathSegment()));
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(AddPropertyActivity.this);
+        if (oldPropertyInfo.equals(newPropertyInfo)) {
+            Toast.makeText(this, "No changes made to property", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        } else {
+            Calendar selectedDate = Calendar.getInstance();
+            String formattedDate = possessionDateFormat.format(selectedDate.getTime());
+            newPropertyInfo.setLastUpdated(formattedDate);
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(EditPropertyActivity.this);
         builder.setCancelable(false);
         builder.setView(R.layout.save_progress_layout);
         AlertDialog dialog = builder.create();
         dialog.show();
 
-        storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                while (!uriTask.isComplete()) ;
-                Uri urlImage = uriTask.getResult();
-                propertyData.setPhotos(urlImage.toString());
-                uploadData();
-                dialog.dismiss();
-
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                dialog.dismiss();
-            }
-        });
+        //Check if Image is Changed, else just call updateData
+        if (!oldPropertyInfo.getPhotos().equals(newPropertyInfo.getPhotos())) {
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Property Images")
+                    .child(Objects.requireNonNull(imageUri.getLastPathSegment()));
+            storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                    while (!uriTask.isComplete()) ;
+                    Uri urlImage = uriTask.getResult();
+                    newPropertyInfo.setPhotos(urlImage.toString());
+                    updateData(dialog);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    dialog.dismiss();
+                    finish();
+                }
+            });
+        } else {
+            updateData(dialog);
+        }
     }
 
-    public void uploadData() {
+    private void updateData(AlertDialog dialog) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = db.collection("properties").document();
-        auth = FirebaseAuth.getInstance();
-        FirebaseUser user = auth.getCurrentUser();
-
-        assert user != null;
-        propertyData.setDocumentId(documentReference.getId());
-        propertyData.setPostedBy(user.getEmail());
-        Calendar todaysDate = Calendar.getInstance();
-        String formattedDate = possessionDateFormat.format(todaysDate.getTime());
-        propertyData.setLastUpdated(formattedDate);
-
-        documentReference.set(propertyData).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-                Toast.makeText(AddPropertyActivity.this, "Property Posted", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(AddPropertyActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        DocumentReference documentReference = db.collection("properties").document(newPropertyInfo.getDocumentId());
+        documentReference.set(newPropertyInfo, SetOptions.merge())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(EditPropertyActivity.this, "Property Updated", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                        finish();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(EditPropertyActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                        finish();
+                    }
+                });
     }
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         gMap = googleMap;
         gMap.setOnCameraIdleListener(this);
-//        North Latitude Positive
-//        South Latitude Negative
-//        East Longitude Positive
-//        West Longitude Negative
-        LatLng defaultLocation = new LatLng(12.9716, 77.5946);
+        LatLng defaultLocation = new LatLng(newPropertyInfo.getLatitude(), newPropertyInfo.getLongitude());
 
-
-//        MarkerOptions markerOptions = new MarkerOptions()
-//                .position(defaultLocation)
-//                .title("Bengaluru");
+        MarkerOptions markerOptions = new MarkerOptions()
+                .position(defaultLocation)
+                .title(newPropertyInfo.getApartmentName());
 //        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
-//        gMap.addMarker(markerOptions);
+        gMap.addMarker(markerOptions);
 
-        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 11));
+        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 16));
     }
 
     @Override
@@ -700,7 +857,5 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
         Toast.makeText(this, gMap.getCameraPosition().toString(), Toast.LENGTH_SHORT).show();
         latitude = gMap.getCameraPosition().target.latitude;
         longitude = gMap.getCameraPosition().target.longitude;
-
-        //You will get LAT LONG here, upon click, get the location info
     }
 }

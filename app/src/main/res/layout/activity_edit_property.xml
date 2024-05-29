@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/addPropertyActivity"
+    android:id="@+id/editPropertyActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/transparent_black"
-    tools:context=".AddPropertyActivity">
+    tools:context=".EditPropertyActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -66,24 +66,6 @@
                             android:imeOptions="actionDone"
                             android:singleLine="true" />
                     </com.google.android.material.textfield.TextInputLayout>
-
-                    <!--                    <com.google.android.material.textfield.TextInputLayout-->
-                    <!--                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"-->
-                    <!--                        android:layout_width="match_parent"-->
-                    <!--                        android:layout_height="wrap_content"-->
-                    <!--                        android:layout_marginStart="10dp"-->
-                    <!--                        android:layout_marginEnd="10dp"-->
-                    <!--                        android:layout_marginBottom="10dp"-->
-                    <!--                        android:hint="BHK Type"-->
-                    <!--                        app:startIconDrawable="@drawable/baseline_blueprint_24">-->
-
-                    <!--                        <AutoCompleteTextView-->
-                    <!--                            android:id="@+id/bhk_type_input"-->
-                    <!--                            android:layout_width="match_parent"-->
-                    <!--                            android:layout_height="wrap_content"-->
-                    <!--                            android:inputType="none" />-->
-
-                    <!--                    </com.google.android.material.textfield.TextInputLayout>-->
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -207,24 +189,6 @@
                         </com.google.android.material.textfield.TextInputLayout>
 
                     </LinearLayout>
-
-                    <!--                    <com.google.android.material.textfield.TextInputLayout-->
-                    <!--                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
-                    <!--                        android:layout_width="match_parent"-->
-                    <!--                        android:layout_height="wrap_content"-->
-                    <!--                        android:layout_marginStart="10dp"-->
-                    <!--                        android:layout_marginEnd="10dp"-->
-                    <!--                        android:layout_marginBottom="10dp"-->
-                    <!--                        android:hint="Property Age (years)"-->
-                    <!--                        app:startIconDrawable="@drawable/baseline_calendar_month_24">-->
-
-                    <!--                        <com.google.android.material.textfield.TextInputEditText-->
-                    <!--                            android:id="@+id/property_age_input"-->
-                    <!--                            android:layout_width="match_parent"-->
-                    <!--                            android:layout_height="wrap_content"-->
-                    <!--                            android:imeOptions="actionDone"-->
-                    <!--                            android:inputType="number" />-->
-                    <!--                    </com.google.android.material.textfield.TextInputLayout>-->
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -358,23 +322,6 @@
 
                     </RelativeLayout>
 
-
-                    <!--        <com.google.android.material.textfield.TextInputLayout-->
-                    <!--            android:id="@+id/textField9"-->
-                    <!--            android:layout_width="match_parent"-->
-                    <!--            android:layout_height="wrap_content"-->
-                    <!--            android:layout_marginStart="10dp"-->
-                    <!--            android:layout_marginBottom="10dp"-->
-                    <!--            android:layout_marginEnd="10dp"-->
-                    <!--            app:startIconDrawable="@drawable/baseline_properties_24"-->
-                    <!--            android:hint="Maps Integration"-->
-                    <!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">-->
-                    <!--            <com.google.android.material.textfield.TextInputEditText-->
-                    <!--                android:layout_width="match_parent"-->
-                    <!--                android:layout_height="wrap_content"-->
-                    <!--                />-->
-                    <!--        </com.google.android.material.textfield.TextInputLayout>-->
-
                     <LinearLayout
                         android:id="@+id/step2_bottom_buttons"
                         android:layout_width="match_parent"
@@ -455,24 +402,6 @@
                             android:maxLength="1" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!--                    <com.google.android.material.textfield.TextInputLayout-->
-                    <!--                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"-->
-                    <!--                        android:layout_width="match_parent"-->
-                    <!--                        android:layout_height="wrap_content"-->
-                    <!--                        android:layout_marginStart="10dp"-->
-                    <!--                        android:layout_marginEnd="10dp"-->
-                    <!--                        android:layout_marginBottom="10dp"-->
-                    <!--                        android:hint="Water Supplier"-->
-                    <!--                        app:startIconDrawable="@drawable/baseline_water_drop_24">-->
-
-                    <!--                        <AutoCompleteTextView-->
-                    <!--                            android:id="@+id/water_supplier_input"-->
-                    <!--                            android:layout_width="match_parent"-->
-                    <!--                            android:layout_height="wrap_content"-->
-                    <!--                            android:inputType="none" />-->
-
-                    <!--                    </com.google.android.material.textfield.TextInputLayout>-->
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -514,24 +443,6 @@
 
                     </com.google.android.material.chip.ChipGroup>
 
-                    <!--                    <com.google.android.material.textfield.TextInputLayout-->
-                    <!--                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"-->
-                    <!--                        android:layout_width="match_parent"-->
-                    <!--                        android:layout_height="wrap_content"-->
-                    <!--                        android:layout_marginStart="10dp"-->
-                    <!--                        android:layout_marginEnd="10dp"-->
-                    <!--                        android:layout_marginBottom="10dp"-->
-                    <!--                        android:hint="Furnishing"-->
-                    <!--                        app:startIconDrawable="@drawable/baseline_chair_24">-->
-
-                    <!--                        <AutoCompleteTextView-->
-                    <!--                            android:id="@+id/furnishing_type_input"-->
-                    <!--                            android:layout_width="match_parent"-->
-                    <!--                            android:layout_height="wrap_content"-->
-                    <!--                            android:inputType="none" />-->
-
-                    <!--                    </com.google.android.material.textfield.TextInputLayout>-->
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -572,24 +483,6 @@
                             android:text="Fully Furnished" />
 
                     </com.google.android.material.chip.ChipGroup>
-
-                    <!--                    <com.google.android.material.textfield.TextInputLayout-->
-                    <!--                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"-->
-                    <!--                        android:layout_width="match_parent"-->
-                    <!--                        android:layout_height="wrap_content"-->
-                    <!--                        android:layout_marginStart="10dp"-->
-                    <!--                        android:layout_marginEnd="10dp"-->
-                    <!--                        android:layout_marginBottom="10dp"-->
-                    <!--                        android:hint="Tenant Preference"-->
-                    <!--                        app:startIconDrawable="@drawable/baseline_tenant_24">-->
-
-                    <!--                        <AutoCompleteTextView-->
-                    <!--                            android:id="@+id/tenant_preference_input"-->
-                    <!--                            android:layout_width="match_parent"-->
-                    <!--                            android:layout_height="wrap_content"-->
-                    <!--                            android:inputType="none" />-->
-
-                    <!--                    </com.google.android.material.textfield.TextInputLayout>-->
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -639,51 +532,6 @@
                             android:text="All Tenants" />
 
                     </com.google.android.material.chip.ChipGroup>
-
-                    <!--                    <LinearLayout-->
-                    <!--                        android:layout_width="match_parent"-->
-                    <!--                        android:layout_height="wrap_content"-->
-                    <!--                        android:layout_marginBottom="10dp"-->
-                    <!--                        android:orientation="horizontal"-->
-                    <!--                        android:weightSum="2">-->
-
-                    <!--                        <com.google.android.material.textfield.TextInputLayout-->
-                    <!--                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"-->
-                    <!--                            android:layout_width="match_parent"-->
-                    <!--                            android:layout_height="wrap_content"-->
-                    <!--                            android:layout_marginStart="10dp"-->
-                    <!--                            android:layout_marginEnd="5dp"-->
-                    <!--                            android:layout_weight="1"-->
-                    <!--                            android:hint="Parking"-->
-                    <!--                            app:startIconDrawable="@drawable/baseline_local_parking_24">-->
-
-                    <!--                            <AutoCompleteTextView-->
-                    <!--                                android:id="@+id/parking_input"-->
-                    <!--                                android:layout_width="match_parent"-->
-                    <!--                                android:layout_height="wrap_content"-->
-                    <!--                                android:inputType="none" />-->
-
-                    <!--                        </com.google.android.material.textfield.TextInputLayout>-->
-
-                    <!--                        <com.google.android.material.textfield.TextInputLayout-->
-                    <!--                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"-->
-                    <!--                            android:layout_width="match_parent"-->
-                    <!--                            android:layout_height="wrap_content"-->
-                    <!--                            android:layout_marginStart="5dp"-->
-                    <!--                            android:layout_marginEnd="10dp"-->
-                    <!--                            android:layout_weight="1"-->
-                    <!--                            android:hint="Security"-->
-                    <!--                            app:startIconDrawable="@drawable/baseline_security_24">-->
-
-                    <!--                            <AutoCompleteTextView-->
-                    <!--                                android:id="@+id/security_input"-->
-                    <!--                                android:layout_width="match_parent"-->
-                    <!--                                android:layout_height="wrap_content"-->
-                    <!--                                android:inputType="none" />-->
-
-                    <!--                        </com.google.android.material.textfield.TextInputLayout>-->
-
-                    <!--                    </LinearLayout>-->
 
                     <TextView
                         android:layout_width="wrap_content"
