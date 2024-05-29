@@ -23,12 +23,6 @@
             android:background="@color/off_white"
             android:scaleType="centerCrop"
             android:src="@drawable/baseline_image_24" />
-        <!--        <ImageView-->
-        <!--            android:id="@+id/property_photo_row"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="200dp"-->
-        <!--            android:adjustViewBounds="true"-->
-        <!--            android:src="@drawable/apartment_image1" />-->
 
         <RelativeLayout
             android:layout_width="match_parent"
