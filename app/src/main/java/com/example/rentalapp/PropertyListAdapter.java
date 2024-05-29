@@ -1,24 +1,17 @@
 package com.example.rentalapp;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import java.util.ArrayList;
 
 public class PropertyListAdapter extends RecyclerView.Adapter<PropertyListAdapter.PropertyViewHolder> {
@@ -45,9 +38,9 @@ public class PropertyListAdapter extends RecyclerView.Adapter<PropertyListAdapte
     public void onBindViewHolder(@NonNull PropertyListAdapter.PropertyViewHolder holder, int position) {
         PropertyDataClass property = propertyDataArrayList.get(position);
 
-        String bhkTypeString = property.getBhkType() + " Flat in ";
+        String bhkTypeString = property.getBhkType();
         holder.bhkType.setText(bhkTypeString);
-        String apartmentNameString = property.getApartmentName() + " for Rent";
+        String apartmentNameString = property.getApartmentName();
         holder.apartmentName.setText(apartmentNameString);
         String localityString = property.getLocality();
         holder.locality.setText(localityString);
@@ -56,7 +49,12 @@ public class PropertyListAdapter extends RecyclerView.Adapter<PropertyListAdapte
         holder.furnishingType.setText(property.getFurnishingType());
         String rentString = "₹ " + property.getExpectedRent();
         holder.expectedRent.setText(rentString);
-//        holder.propertyPhoto.setImageBitmap();
+        Glide.with(context)
+                .load(property.getPhotos())
+                .placeholder(R.drawable.animated_loading_spinner)
+                .thumbnail(0.05f)
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .into(holder.propertyPhoto);
     }
 
     @Override

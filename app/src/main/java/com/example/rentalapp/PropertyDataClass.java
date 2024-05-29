@@ -5,13 +5,12 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
-import java.util.Date;
-
 public class PropertyDataClass implements Parcelable {
 
     private String documentId;
     private String possession;
     private String postedBy;
+    private String lastUpdated;
     private String apartmentName;
     private String bhkType;
     private int propertySize;
@@ -31,10 +30,11 @@ public class PropertyDataClass implements Parcelable {
     private String furnishingType;
     private String photos;
 
-    public PropertyDataClass(String documentId, String possession, String postedBy, String apartmentName, String bhkType, int propertySize, String propertyAge, int floor, int totalFloors, int numberOfBathrooms, String waterSupplier, String parking, String security, String tenantPreference, String locality, double latitude, double longitude, double expectedRent, double expectedDeposit, String furnishingType, String photos) {
+    public PropertyDataClass(String documentId, String possession, String postedBy, String lastUpdated, String apartmentName, String bhkType, int propertySize, String propertyAge, int floor, int totalFloors, int numberOfBathrooms, String waterSupplier, String parking, String security, String tenantPreference, String locality, double latitude, double longitude, double expectedRent, double expectedDeposit, String furnishingType, String photos) {
         this.documentId = documentId;
         this.possession = possession;
         this.postedBy = postedBy;
+        this.lastUpdated = lastUpdated;
         this.apartmentName = apartmentName;
         this.bhkType = bhkType;
         this.propertySize = propertySize;
@@ -55,6 +55,31 @@ public class PropertyDataClass implements Parcelable {
         this.photos = photos;
     }
 
+    public PropertyDataClass(PropertyDataClass propertyData) {
+        this.documentId = propertyData.getDocumentId();
+        this.possession = propertyData.getPossession();
+        this.postedBy = propertyData.getPostedBy();
+        this.lastUpdated = propertyData.getLastUpdated();
+        this.apartmentName = propertyData.getApartmentName();
+        this.bhkType = propertyData.getBhkType();
+        this.propertySize = propertyData.getPropertySize();
+        this.propertyAge = propertyData.getPropertyAge();
+        this.floor = propertyData.getFloor();
+        this.totalFloors = propertyData.getTotalFloors();
+        this.numberOfBathrooms = propertyData.getNumberOfBathrooms();
+        this.waterSupplier = propertyData.getWaterSupplier();
+        this.parking = propertyData.getParking();
+        this.security = propertyData.getSecurity();
+        this.tenantPreference = propertyData.getTenantPreference();
+        this.locality = propertyData.getLocality();
+        this.latitude = propertyData.getLatitude();
+        this.longitude = propertyData.getLongitude();
+        this.expectedRent = propertyData.getExpectedRent();
+        this.expectedDeposit = propertyData.getExpectedDeposit();
+        this.furnishingType = propertyData.getFurnishingType();
+        this.photos = propertyData.getPhotos();
+    }
+
     public PropertyDataClass() {
     }
 
@@ -62,6 +87,7 @@ public class PropertyDataClass implements Parcelable {
         documentId = in.readString();
         possession = in.readString();
         postedBy = in.readString();
+        lastUpdated = in.readString();
         apartmentName = in.readString();
         bhkType = in.readString();
         propertySize = in.readInt();
@@ -80,6 +106,39 @@ public class PropertyDataClass implements Parcelable {
         expectedDeposit = in.readDouble();
         furnishingType = in.readString();
         photos = in.readString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true; // Check if they are the same object
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false; // Check if the other object is null or of a different class
+        }
+        PropertyDataClass custom = (PropertyDataClass) obj; // Cast to the Custom class
+        return documentId.equals(custom.getDocumentId()) &&
+                possession.equals(custom.getPossession()) &&
+                postedBy.equals(custom.getPostedBy()) &&
+                lastUpdated.equals(custom.getLastUpdated()) &&
+                apartmentName.equals(custom.getApartmentName()) &&
+                bhkType.equals(custom.getBhkType()) &&
+                propertySize == custom.getPropertySize() &&
+                propertyAge.equals(custom.getPropertyAge()) &&
+                floor == custom.getFloor() &&
+                totalFloors == custom.getTotalFloors() &&
+                numberOfBathrooms == custom.getNumberOfBathrooms() &&
+                waterSupplier.equals(custom.getWaterSupplier()) &&
+                parking.equals(custom.getParking()) &&
+                security.equals(custom.getSecurity()) &&
+                tenantPreference.equals(custom.getTenantPreference()) &&
+                locality.equals(custom.getLocality()) &&
+                Double.compare(latitude, custom.getLatitude()) == 0 &&
+                Double.compare(longitude, custom.getLongitude()) == 0 &&
+                Double.compare(expectedRent, custom.getExpectedRent()) == 0 &&
+                Double.compare(expectedDeposit, custom.getExpectedDeposit()) == 0 &&
+                furnishingType.equals(custom.getFurnishingType()) &&
+                photos.equals(custom.getPhotos());
     }
 
     public static final Creator<PropertyDataClass> CREATOR = new Creator<PropertyDataClass>() {
@@ -104,9 +163,10 @@ public class PropertyDataClass implements Parcelable {
         dest.writeString(documentId);
         dest.writeString(possession);
         dest.writeString(postedBy);
+        dest.writeString(lastUpdated);
         dest.writeString(apartmentName);
         dest.writeString(bhkType);
-        dest.writeDouble(propertySize);
+        dest.writeInt(propertySize);
         dest.writeString(propertyAge);
         dest.writeInt(floor);
         dest.writeInt(totalFloors);
@@ -136,6 +196,10 @@ public class PropertyDataClass implements Parcelable {
 
     public String getPostedBy() {
         return postedBy;
+    }
+
+    public String getLastUpdated() {
+        return lastUpdated;
     }
 
     public String getApartmentName() {
@@ -222,6 +286,10 @@ public class PropertyDataClass implements Parcelable {
 
     public void setPostedBy(String postedBy) {
         this.postedBy = postedBy;
+    }
+
+    public void setLastUpdated(String lastUpdated) {
+        this.lastUpdated = lastUpdated;
     }
 
     public void setApartmentName(String apartmentName) {
