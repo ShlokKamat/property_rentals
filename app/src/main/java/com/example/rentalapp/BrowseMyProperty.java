@@ -85,6 +85,8 @@ public class BrowseMyProperty extends AppCompatActivity implements PropertyListI
                                 propertyDataArrayList.add(dc.getDocument().toObject(PropertyDataClass.class));
                             } else if (dc.getType() == DocumentChange.Type.MODIFIED) {
                                 propertyDataArrayList.set(dc.getNewIndex(), dc.getDocument().toObject(PropertyDataClass.class));
+                            } else if (dc.getType() == DocumentChange.Type.REMOVED) {
+                                propertyDataArrayList.remove(dc.getOldIndex());
                             }
 
                             propertyListAdapter.notifyDataSetChanged();
