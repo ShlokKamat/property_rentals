@@ -28,10 +28,14 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/photos_view"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="220dp"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="8dp"
-                android:src="@drawable/apartment_image1" />
+                android:background="#ccc"
+                android:scaleType="centerCrop"
+                android:src="@drawable/baseline_image_24" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -51,7 +55,7 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="3"
+                        android:layout_weight="2.75"
                         android:orientation="vertical"
                         android:paddingStart="0dp"
                         android:paddingEnd="10dp">
@@ -87,13 +91,13 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="1.25"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Rent:" />
+                            android:text="Expected Rent:" />
 
                         <TextView
                             android:id="@+id/expected_rent_view"
@@ -110,7 +114,9 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="8dp"
                 app:cardCornerRadius="8dp">
 
                 <LinearLayout
@@ -128,6 +134,7 @@
                         android:weightSum="2">
 
                         <TextView
+                            android:id="@+id/bedroom_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -138,6 +145,7 @@
                             app:drawableStartCompat="@drawable/baseline_bed_24" />
 
                         <TextView
+                            android:id="@+id/bathroom_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -146,7 +154,6 @@
                             android:padding="10dp"
                             android:text="2\nBathroom"
                             app:drawableStartCompat="@drawable/baseline_bathtub_24" />
-
 
                     </LinearLayout>
 
@@ -157,6 +164,7 @@
                         android:weightSum="2">
 
                         <TextView
+                            android:id="@+id/floor_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -167,15 +175,15 @@
                             app:drawableStartCompat="@drawable/baseline_stairs_24" />
 
                         <TextView
+                            android:id="@+id/furnishing_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/border"
                             android:drawablePadding="10dp"
                             android:padding="10dp"
-                            android:text="Yes\nElevator"
-                            app:drawableStartCompat="@drawable/baseline_elevator_24" />
-
+                            android:text="Semi Furnished\nFurnishing"
+                            app:drawableStartCompat="@drawable/baseline_chair_24" />
 
                     </LinearLayout>
 
@@ -186,6 +194,7 @@
                         android:weightSum="2">
 
                         <TextView
+                            android:id="@+id/parking_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -196,14 +205,75 @@
                             app:drawableStartCompat="@drawable/baseline_local_parking_24" />
 
                         <TextView
+                            android:id="@+id/security_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/border"
                             android:drawablePadding="10dp"
                             android:padding="10dp"
-                            android:text="Semi-Furnished\nFurnishing"
-                            app:drawableStartCompat="@drawable/baseline_chair_24" />
+                            android:text="Security\nNo"
+                            app:drawableStartCompat="@drawable/baseline_security_24" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:id="@+id/water_supplier_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/border"
+                            android:drawablePadding="10dp"
+                            android:padding="10dp"
+                            android:text="Borewell &amp; Corporation Water"
+                            app:drawableStartCompat="@drawable/baseline_water_drop_24" />
+
+                        <TextView
+                            android:id="@+id/tenant_preference_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/border"
+                            android:drawablePadding="10dp"
+                            android:padding="10dp"
+                            android:text="Tenant Preference\nAll Tenants"
+                            app:drawableStartCompat="@drawable/baseline_tenant_24" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:id="@+id/property_age_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/border"
+                            android:drawablePadding="10dp"
+                            android:padding="10dp"
+                            android:text="Property Age\n3 – 5 years"
+                            app:drawableStartCompat="@drawable/baseline_age_24" />
+
+                        <TextView
+                            android:id="@+id/expected_deposit_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/border"
+                            android:drawablePadding="10dp"
+                            android:padding="10dp"
+                            android:text="Expected Deposit\nRs. 1234567890"
+                            app:drawableStartCompat="@drawable/baseline_currency_rupee_24" />
 
 
                     </LinearLayout>
@@ -215,23 +285,25 @@
                         android:weightSum="2">
 
                         <TextView
+                            android:id="@+id/possession_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/border"
                             android:drawablePadding="10dp"
                             android:padding="10dp"
-                            android:text="Immediate\nPossession"
+                            android:text="Possession Date\n01/06/2024"
                             app:drawableStartCompat="@drawable/baseline_key_24" />
 
                         <TextView
+                            android:id="@+id/last_updated_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:background="@drawable/border"
                             android:drawablePadding="10dp"
                             android:padding="10dp"
-                            android:text="01/04/2024\nPosted On"
+                            android:text="Last Updated\n01/04/2024"
                             app:drawableStartCompat="@drawable/baseline_calendar_month_24" />
 
 
@@ -241,6 +313,98 @@
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="8dp"
+                app:cardCornerRadius="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    android:weightSum="4">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Location Data Here" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="8dp"
+                app:cardCornerRadius="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="10dp"
+                    android:weightSum="4">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Prediction Data Here" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:id="@+id/tenant_actions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="8dp">
+
+                <Button
+                    android:id="@+id/contact_property_owner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Contact Property Owner" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/owner_actions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="8dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <Button
+                    android:id="@+id/edit_property"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:text="Edit Property" />
+
+                <Button
+                    android:id="@+id/delete_property"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="1"
+                    android:text="Delete Property" />
+
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
