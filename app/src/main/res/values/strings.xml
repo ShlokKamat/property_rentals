@@ -1,11 +1,13 @@
 <resources>
     <string name="app_name">BroKar Rent</string>
     <string name="app_name_hindi">Broकर Rent</string>
+    <string name="welcome_text">Welcome to Broकर Rent</string>
     <string name="open_nav_drawer">Open Navigation Drawer</string>
     <string name="close_nav_drawer">Close Navigation Drawer</string>
     <string name="properties">Properties</string>
     <string name="pay_rent">Pay Rent</string>
     <string name="my_properties">My Properties</string>
+    <string name="browse_properties">Browse Properties</string>
     <string name="post_your_property">Post your Property</string>
     <string name="predict_rent">Predict Rent</string>
     <string name="login">Login</string>

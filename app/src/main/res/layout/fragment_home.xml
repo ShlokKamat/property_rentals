@@ -29,28 +29,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Home Fragment"
-                android:textSize="36dp" />
+                android:text="@string/welcome_text"
+                android:textSize="22dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Search Property bar" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Chips" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Search Button" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="*Search Params will pass to BrowseAllPropertyActivity*" />
+                android:justificationMode="inter_word"
+                android:text="Post your Property, Browse new Properties and find the appropriate Rent for your current or potential apartment." />
         </LinearLayout>
 
 
@@ -79,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="Search Placeholder" />
+                android:text="@string/browse_properties" />
         </LinearLayout>
 
 
