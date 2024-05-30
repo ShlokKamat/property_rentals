@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -17,7 +18,11 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -29,6 +34,9 @@ import java.util.Objects;
 public class BrowseMyProperty extends AppCompatActivity implements PropertyListInterface {
 
     public static final String PROPERTY_PARCEL_KEY = "property_parcel_key";
+    private DocumentSnapshot lastVisible;
+    private boolean isLoading = false;
+    private boolean noMoreData = false;
     RecyclerView propertyListRecyclerView;
     ArrayList<PropertyDataClass> propertyDataArrayList;
     PropertyListAdapter propertyListAdapter;
@@ -64,37 +72,108 @@ public class BrowseMyProperty extends AppCompatActivity implements PropertyListI
 
         propertyListRecyclerView.setAdapter(propertyListAdapter);
 
-        EventChangeListener();
+        loadInitialRowData();
+
+        propertyListRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                if (!isLoading && !noMoreData && layoutManager != null && layoutManager.findLastVisibleItemPosition() == propertyDataArrayList.size() - 1) {
+                    // Load more data when end of the list is reached
+                    loadMoreData();
+                    isLoading = true;
+                }
+            }
+        });
     }
 
-    private void EventChangeListener() {
-        db.collection("properties")
+    private void loadInitialRowData() {
+        db.collection("properties")//.orderBy("apartmentName")
                 .whereEqualTo("postedBy", Utils.getUserEmail())
+                .limit(Utils.MAX_PROPERTIES_PER_LOAD)
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
-                    public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                    public void onEvent(@Nullable QuerySnapshot querySnapshot, @Nullable FirebaseFirestoreException error) {
 
                         if (error != null) {
                             dialog.dismiss();
                             Log.e("FireStore Error", Objects.requireNonNull(error.getMessage()));
                             return;
                         }
+                        if (!querySnapshot.isEmpty()) {
 
-                        for (DocumentChange dc : value.getDocumentChanges()) {
-                            if (dc.getType() == DocumentChange.Type.ADDED) {
-                                propertyDataArrayList.add(dc.getDocument().toObject(PropertyDataClass.class));
-                            } else if (dc.getType() == DocumentChange.Type.MODIFIED) {
-                                propertyDataArrayList.set(dc.getNewIndex(), dc.getDocument().toObject(PropertyDataClass.class));
-                            } else if (dc.getType() == DocumentChange.Type.REMOVED) {
-                                propertyDataArrayList.remove(dc.getOldIndex());
+                            for (DocumentChange dc : querySnapshot.getDocumentChanges()) {
+                                if (dc.getType() == DocumentChange.Type.ADDED) {
+                                    propertyDataArrayList.add(dc.getDocument().toObject(PropertyDataClass.class));
+                                } else if (dc.getType() == DocumentChange.Type.MODIFIED) {
+                                    propertyDataArrayList.set(dc.getNewIndex(), dc.getDocument().toObject(PropertyDataClass.class));
+                                } else if (dc.getType() == DocumentChange.Type.REMOVED) {
+                                    propertyDataArrayList.remove(dc.getOldIndex());
+                                }
+
+                                propertyListAdapter.notifyDataSetChanged();
+                                dialog.dismiss();
                             }
 
-                            propertyListAdapter.notifyDataSetChanged();
-                            dialog.dismiss();
+                            lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);
+                        } else {
+                            noMoreData = true; // No more data to load
                         }
 
                     }
                 });
+    }
+
+    private void loadMoreData() {
+        if (lastVisible != null) {
+            isLoading = true;
+            dialog.show();
+            db.collection("properties")
+                    .whereEqualTo("postedBy", Utils.getUserEmail())
+                    .startAfter(lastVisible)
+                    .limit(Utils.MAX_PROPERTIES_PER_LOAD)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful() && task.getResult() != null) {
+                                QuerySnapshot querySnapshot = task.getResult();
+                                if (!querySnapshot.isEmpty()) {
+                                    int initialSize = propertyDataArrayList.size();
+                                    for (DocumentSnapshot document : querySnapshot.getDocuments()) {
+                                        PropertyDataClass property = document.toObject(PropertyDataClass.class);
+                                        if (property != null) {
+                                            property.setDocumentId(document.getId());
+                                            propertyDataArrayList.add(property);
+                                        }
+                                    }
+                                    propertyListAdapter.notifyItemRangeInserted(initialSize, querySnapshot.size());
+                                    lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);
+//                                    Toast.makeText(BrowseAllPropertyActivity.this, "Loaded More " + querySnapshot.size(), Toast.LENGTH_SHORT).show();
+                                } else {
+//                                    Toast.makeText(BrowseAllPropertyActivity.this, "No more data", Toast.LENGTH_SHORT).show();
+                                    noMoreData = true;
+                                }
+                            } else {
+                                Log.w("Firestore", "Error getting documents.", task.getException());
+                            }
+                            isLoading = false;
+                            dialog.dismiss();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.e("Firestore Error", e.getMessage());
+                            isLoading = false;  // Reset loading state
+                            dialog.dismiss();  // Dismiss the dialog on error
+                        }
+                    });
+        } else {
+            Log.d("Firestore", "Last visible document is null");
+            dialog.dismiss();  // Dismiss the dialog if there's no last visible document
+        }
     }
 
     @Override
