@@ -3,13 +3,18 @@
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="off_white">#F5F5F5</color>
-    <color name="grey">#3c4043</color>
+<!--    <color name="grey">#3c4043</color>-->
+    <color name="grey">#333333</color>
     <color name="transparent_black">#20000000</color>
-    <color name="greena">#00ff00</color>
-    <color name="dgreena">#004A00</color>
     <color name="google_blue">#4285F4</color>
-    <color name="dredda">#A00000</color>
-    <color name="c1">#FFA611</color>
-    <color name="c2">#F5820D</color>
-    <color name="c3">#FFCB2B</color>
+<!--    <color name="c1">#FFA611</color>-->
+<!--    <color name="c2">#F5820D</color>-->
+<!--    <color name="c3">#FFCB2B</color>-->
+
+<!--    Primary and Secondary Colors-->
+    <color name="c2">#003366</color>
+    <color name="c1">#008080</color>
+
+<!--    For Alerts-->
+    <color name="coral">#FF7F50</color>
 </resources>

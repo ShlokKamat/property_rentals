@@ -14,6 +14,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         android:elevation="4dp"
+        android:theme="@style/ToolbarTheme"
         app:navigationIcon="?attr/homeAsUpIndicator" />
 
     <ScrollView
@@ -329,10 +330,15 @@
                     android:padding="10dp"
                     android:weightSum="4">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Location Data Here" />
+                    <ImageView
+                        android:id="@+id/location_map_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="220dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="8dp"
+                        android:background="#ccc"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/baseline_location_pin_24" />
 
                 </LinearLayout>
 

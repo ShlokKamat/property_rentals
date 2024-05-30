@@ -4,10 +4,11 @@
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="colorPrimary">@color/c2</item>
+        <item name="colorPrimaryDark">@color/google_blue</item>
 <!--        <item name="colorPrimaryVariant">@color/greena</item>-->
 <!--        <item name="android:textColorPrimary">@color/dgreena</item>-->
         <item name="android:statusBarColor">@color/black</item>
-        <item name="colorAccent">@color/c2</item>
+        <item name="colorAccent">@color/c1</item>
     </style>
 
     <style name="Widget.MyApp.Chip.Choice" parent="Widget.MaterialComponents.Chip.Choice">
@@ -16,12 +17,17 @@
 
     <style name="Theme.RentalApp" parent="Base.Theme.RentalApp" />
 
-<!--    Left Nav Selection Color-->
+<!--    Left Nav Icon Color-->
     <style name="ThemeOverlay.AppCompat.navTheme">
         <item name="colorPrimary">@color/c2</item>
     </style>
 
     <style name="ThemeOverlay.MyApp.Chip.Choice" parent="">
         <item name="elevationOverlayEnabled">false</item>
+    </style>
+
+<!--    Toolbar Icon Color Change-->
+    <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="colorControlNormal">@color/white</item>
     </style>
 </resources>
