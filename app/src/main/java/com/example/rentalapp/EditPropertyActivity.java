@@ -373,20 +373,6 @@ public class EditPropertyActivity extends AppCompatActivity implements View.OnCl
         Glide.with(this)
                 .load(newPropertyInfo.getPhotos())
                 .placeholder(R.drawable.animated_loading_spinner)
-//                .listener(new RequestListener<Drawable>() {
-//                    @Override
-//                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-//                        // Handle the error
-//                        Toast.makeText(EditPropertyActivity.this, "Image load failed", Toast.LENGTH_SHORT).show();
-//                        return false; // Allow Glide to handle the error
-//                    }
-//                    @Override
-//                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, com.bumptech.glide.load.DataSource dataSource, boolean isFirstResource) {
-//                        // Handle the success
-//                        Toast.makeText(EditPropertyActivity.this, "Image loaded successfully", Toast.LENGTH_SHORT).show();
-//                        return false; // Allow Glide to handle the resource
-//                    }
-//                })
                 .into(photosInput);
         apartmentNameInput.setText(newPropertyInfo.getApartmentName());
         switch (newPropertyInfo.getBhkType()) {
@@ -761,7 +747,9 @@ public class EditPropertyActivity extends AppCompatActivity implements View.OnCl
 
             float predictedRent = outputFeature0.getFloatValue(0);
 
-            rentPredictionValue.setText("Rs." + predictedRent);
+            int rentLimits[] = Utils.getRentLowerAndUpperLimit(predictedRent);
+
+            rentPredictionValue.setText("Rs." + Utils.roundToNearestThousand(rentLimits[0]) + " – Rs." + Utils.roundToNearestThousand(rentLimits[1]));
 
             // Releases model resources if no longer used.
             model.close();

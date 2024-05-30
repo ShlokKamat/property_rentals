@@ -608,7 +608,9 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
 
             float predictedRent = outputFeature0.getFloatValue(0);
 
-            rentPredictionValue.setText("Rs." + predictedRent);
+            int rentLimits[] = Utils.getRentLowerAndUpperLimit(predictedRent);
+
+            rentPredictionValue.setText("Rs." + Utils.roundToNearestThousand(rentLimits[0]) + " – Rs." + Utils.roundToNearestThousand(rentLimits[1]));
 
             // Releases model resources if no longer used.
             model.close();

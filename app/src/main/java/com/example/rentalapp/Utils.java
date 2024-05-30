@@ -13,14 +13,15 @@ public class Utils {
     static float[] means = new float[]{970.90830822f, 2.19974171f, 4.11493758f, 1.7572105f};
     static float[] stds = new float[]{689.26193329f, 3.68153938f, 4.34937374f, 0.89890801f};
     static final int MAX_IMAGE_SIZE = 500 * 1024; //500 KB
+    static final int MAX_PROPERTIES_PER_LOAD = 5;
     static String chooseEmailTitle = "Select app to send e-mail";
     static String emailSubject = "BroKar Rent: Property Enquiry";
 
-    public static String getEmailBody(String propertyName,String propertyBhk, String propertyLocality, String myName) {
-        if(myName.equals("")){
-            return "Hey,\nI am interested in your "+propertyBhk+" property "+propertyName+" in "+propertyLocality+".\nRegards,\n<Enter Your Name>";
+    public static String getEmailBody(String propertyName, String propertyBhk, String propertyLocality, String myName) {
+        if (myName.equals("")) {
+            return "Hey,\nI am interested in your " + propertyBhk + " property " + propertyName + " in " + propertyLocality + ".\nRegards,\n<Enter Your Name>";
         } else {
-            return "Hey,\nI am interested in your "+propertyBhk+" property "+propertyName+" in "+propertyLocality+".\nRegards,\n"+myName;
+            return "Hey,\nI am interested in your " + propertyBhk + " property " + propertyName + " in " + propertyLocality + ".\nRegards,\n" + myName;
         }
     }
 
@@ -113,5 +114,18 @@ public class Utils {
         };
 
         return inputArray;
+    }
+
+    public static int[] getRentLowerAndUpperLimit(float predictedRent) {
+        int lowerLimit, upperLimit;
+        float percentChange = 0.05f; //5%
+        lowerLimit = (int) (predictedRent - (predictedRent * percentChange));
+        upperLimit = (int) (predictedRent + (predictedRent * percentChange));
+        return new int[]{lowerLimit, upperLimit};
+    }
+
+
+    public static int roundToNearestThousand(int value) {
+        return ((value + 500) / 1000) * 1000;
     }
 }
