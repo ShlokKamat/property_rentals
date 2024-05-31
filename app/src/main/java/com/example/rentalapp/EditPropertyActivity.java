@@ -472,8 +472,8 @@ public class EditPropertyActivity extends AppCompatActivity implements View.OnCl
                 break;
         }
         possessionInput.setText(newPropertyInfo.getPossession());
-        expectedRentInput.setText(String.valueOf(newPropertyInfo.getExpectedRent()));
-        expectedDepositInput.setText(String.valueOf(newPropertyInfo.getExpectedDeposit()));
+        expectedRentInput.setText(String.valueOf((int)newPropertyInfo.getExpectedRent()));
+        expectedDepositInput.setText(String.valueOf((int)newPropertyInfo.getExpectedDeposit()));
     }
 
     private Uri insertImageIntoMediaStore(Bitmap bitmap) {
@@ -749,7 +749,7 @@ public class EditPropertyActivity extends AppCompatActivity implements View.OnCl
 
             int rentLimits[] = Utils.getRentLowerAndUpperLimit(predictedRent);
 
-            rentPredictionValue.setText("Rs." + Utils.roundToNearestThousand(rentLimits[0]) + " – Rs." + Utils.roundToNearestThousand(rentLimits[1]));
+            rentPredictionValue.setText("₹" + Utils.formatToIndianCurrency(Utils.roundToNearestThousand(rentLimits[0])) + " – ₹" + Utils.formatToIndianCurrency(Utils.roundToNearestThousand(rentLimits[1])));
 
             // Releases model resources if no longer used.
             model.close();

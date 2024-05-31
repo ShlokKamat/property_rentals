@@ -114,7 +114,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/locality_row"
                 android:layout_alignParentEnd="true"
-                android:text="₹ 15000"
+                android:text="₹15,000"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 

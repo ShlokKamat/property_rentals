@@ -47,7 +47,7 @@ public class PropertyListAdapter extends RecyclerView.Adapter<PropertyListAdapte
         String propertySizeString = property.getPropertySize() + " sq ft";
         holder.propertySize.setText(propertySizeString);
         holder.furnishingType.setText(property.getFurnishingType());
-        String rentString = "₹ " + property.getExpectedRent();
+        String rentString = "₹" + Utils.formatToIndianCurrency(property.getExpectedRent());
         holder.expectedRent.setText(rentString);
         Glide.with(context)
                 .load(property.getPhotos())

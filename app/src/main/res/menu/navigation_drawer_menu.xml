@@ -16,14 +16,9 @@
             android:title="@string/post_your_property" />
 
         <item
-            android:id="@+id/side_nav_predict_rent"
+            android:id="@+id/side_nav_rent_estimate"
             android:icon="@drawable/baseline_auto_graph_24"
-            android:title="@string/predict_rent" />
-
-        <item
-            android:id="@+id/side_nav_help"
-            android:icon="@drawable/baseline_help_24"
-            android:title="@string/help_and_support" />
+            android:title="@string/rent_estimate" />
 
         <item
             android:id="@+id/side_nav_login_logout"

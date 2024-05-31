@@ -24,12 +24,18 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.example.rentalapp.ml.RentPredictionModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.marcinmoskala.arcseekbar.ArcSeekBar;
 
+import org.tensorflow.lite.DataType;
+import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
+
+import java.io.IOException;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -44,9 +50,10 @@ public class ViewPropertyActivity extends AppCompatActivity {
             floorView, furnishingView, parkingView, securityView, waterSupplierView, tenantPreferenceView,
             propertyAgeView, expectedDepositView, possessionView, lastUpdatedView;
     ImageView photosView;
+    TextView rentLowerLimit, rentUpperLimit, rentEstimationInfo;
+    ArcSeekBar arcSeekBar;
     LinearLayout ownerActions, tenantActions;
     Button editProperty, deleteProperty, contactOwner;
-
     ImageView locationMapView;
 
     @Override
@@ -96,6 +103,13 @@ public class ViewPropertyActivity extends AppCompatActivity {
         lastUpdatedView = findViewById(R.id.last_updated_view);
 
         locationMapView = findViewById(R.id.location_map_view);
+
+        arcSeekBar = findViewById(R.id.seekArc);
+        int[] intArray = getResources().getIntArray(R.array.progressGradientColors);
+        arcSeekBar.setProgressBackgroundGradient(intArray);
+        rentLowerLimit = findViewById(R.id.rent_lower_limit);
+        rentUpperLimit = findViewById(R.id.rent_upper_limit);
+        rentEstimationInfo = findViewById(R.id.rent_estimation_info);
 
         editProperty = findViewById(R.id.edit_property);
         deleteProperty = findViewById(R.id.delete_property);
@@ -220,7 +234,7 @@ public class ViewPropertyActivity extends AppCompatActivity {
         propertyViewHeader.setText(propertyInfo.getBhkType() + " in " + propertyInfo.getApartmentName());
         localityView.setText(propertyInfo.getLocality());
         propertySizeView.setText(propertyInfo.getPropertySize() + " sq ft");
-        expectedRentView.setText("₹" + propertyInfo.getExpectedRent() + "\nper month");
+        expectedRentView.setText("₹" + Utils.formatToIndianCurrency(propertyInfo.getExpectedRent()) + "\nper month");
         bedroomView.setText(propertyInfo.getBhkType().split(" ")[0] + "\nBedroom");
         bathroomView.setText(propertyInfo.getNumberOfBathrooms() + "\nBathroom");
         floorView.setText(propertyInfo.getFloor() + " out of " + propertyInfo.getTotalFloors() + "\nFloor");
@@ -234,9 +248,62 @@ public class ViewPropertyActivity extends AppCompatActivity {
         }
         tenantPreferenceView.setText("Tenant Preference\n" + propertyInfo.getTenantPreference());
         propertyAgeView.setText("Property Age\n" + propertyInfo.getPropertyAge());
-        expectedDepositView.setText("Expected Deposit\n₹ " + propertyInfo.getExpectedDeposit());
+        expectedDepositView.setText("Expected Deposit\n₹" + Utils.formatToIndianCurrency(propertyInfo.getExpectedDeposit()));
         possessionView.setText("Possession Date\n" + propertyInfo.getPossession());
         lastUpdatedView.setText("Last Updated\n" + propertyInfo.getLastUpdated());
+        predictRent();
+    }
+
+    private void predictRent() {
+        try {
+            RentPredictionModel model = RentPredictionModel.newInstance(this);
+
+            // Creates inputs for reference.
+            TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 9}, DataType.FLOAT32);
+            float[] mlInput = Utils.setInputArrayFromProperty(propertyInfo);
+            mlInput = Utils.scaleInputForModel(mlInput);
+            inputFeature0.loadArray(mlInput);
+
+            // Runs model inference and gets result.
+            RentPredictionModel.Outputs outputs = model.process(inputFeature0);
+            TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
+
+            float predictedRent = outputFeature0.getFloatValue(0);
+
+            int rentLimits[] = Utils.getRentLowerAndUpperLimit(predictedRent);
+
+            int currentRentPercentage = (int) Utils.calculatePercentage(Utils.roundToNearestThousand(rentLimits[0]),Utils.roundToNearestThousand(rentLimits[1]),propertyInfo.getExpectedRent());
+            arcSeekBar.setProgress(currentRentPercentage);
+
+            rentLowerLimit.setText("₹"+ Utils.formatToIndianCurrency(Utils.roundToNearestThousand(rentLimits[0])));
+            rentUpperLimit.setText("₹"+ Utils.formatToIndianCurrency(Utils.roundToNearestThousand(rentLimits[1])));
+
+            rentEstimationInfo.setText("The rent is ₹" + Utils.formatToIndianCurrency((int) propertyInfo.getExpectedRent()) + ". ");
+
+            switch (currentRentPercentage / 10) {
+                case 0: case 1: case 2:
+                    rentEstimationInfo.setText(rentEstimationInfo.getText().toString() + getResources().getString(R.string.owner_rent_low_analysis));
+                    break;
+                case 3: case 4: case 5:
+                    rentEstimationInfo.setText(rentEstimationInfo.getText().toString() + getResources().getString(R.string.owner_rent_medium_analysis));
+                    break;
+                case 6: case 7: case 8:
+                    rentEstimationInfo.setText(rentEstimationInfo.getText().toString() + getResources().getString(R.string.owner_rent_high_analysis));
+                    break;
+                case 9: case 10:
+                    rentEstimationInfo.setText(rentEstimationInfo.getText().toString() + getResources().getString(R.string.owner_rent_abysmal_analysis));
+                    break;
+                default:
+                    rentEstimationInfo.setText("Issue with Rent Estimation Analysis");
+            }
+
+            // Releases model resources if no longer used.
+            model.close();
+            Toast.makeText(this, "Estimation Success", Toast.LENGTH_SHORT).show();
+
+        } catch (IOException e) {
+            Toast.makeText(this, "Estimation Error", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

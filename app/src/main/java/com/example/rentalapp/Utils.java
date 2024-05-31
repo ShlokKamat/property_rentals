@@ -3,6 +3,7 @@ package com.example.rentalapp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -124,8 +125,24 @@ public class Utils {
         return new int[]{lowerLimit, upperLimit};
     }
 
-
     public static int roundToNearestThousand(int value) {
         return ((value + 500) / 1000) * 1000;
+    }
+
+    public static String formatToIndianCurrency(double value) {
+        DecimalFormat formatter = new DecimalFormat("#,##,##,##,##,###");
+        return formatter.format(value);
+    }
+
+    public static double calculatePercentage(double lower, double upper, double value) {
+        if (value < lower) {
+            return 0;
+        }
+        if (value > upper) {
+            return 100;
+        }
+        double range = upper - lower;
+        double position = value - lower;
+        return (position / range) * 100;
     }
 }

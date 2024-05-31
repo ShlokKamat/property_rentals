@@ -104,7 +104,7 @@
                             android:id="@+id/expected_rent_view"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Rs. 15000\nper month" />
+                            android:text="₹15,000\nper month" />
 
                     </LinearLayout>
 
@@ -273,7 +273,7 @@
                             android:background="@drawable/border"
                             android:drawablePadding="10dp"
                             android:padding="10dp"
-                            android:text="Expected Deposit\nRs. 1234567890"
+                            android:text="Expected Deposit\n₹12,34,56,789"
                             app:drawableStartCompat="@drawable/baseline_currency_rupee_24" />
 
 
@@ -346,23 +346,72 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginRight="8dp"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
                 app:cardCornerRadius="8dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="10dp"
-                    android:weightSum="4">
+                    android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Prediction Data Here" />
+                        android:layout_margin="10dp"
+                        android:gravity="center_horizontal"
+                        android:padding="5dp"
+                        android:text="Rent Estimation"
+                        android:textAlignment="center"
+                        android:textSize="18sp" />
+
+                    <!--                    app:progress="100"-->
+                    <com.marcinmoskala.arcseekbar.ArcSeekBar
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:id="@+id/seekArc"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        app:thumb="@drawable/baseline_currency_rupee_50"
+                        app:progressBackgroundColor="@color/off_white"
+                        app:progressColor="@color/transparent"
+                        app:progressBackgroundWidth="20dp"
+                        app:progressWidth="20dp"
+                        app:roundEdges="true" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp">
+                        <TextView
+                            android:id="@+id/rent_lower_limit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:text="₹10,000"/>
+
+                        <TextView
+                            android:id="@+id/rent_upper_limit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:text="₹12,000"/>
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:id="@+id/rent_estimation_info"
+                        android:gravity="center_horizontal"
+                        android:padding="5dp"
+                        android:text="You are paying ₹10,000. Fantastic! You are paying much less rent than estimated rent range. You\'ve found an excellent deal!"
+                        android:textAlignment="center"
+                        android:textSize="16sp" />
 
                 </LinearLayout>
 

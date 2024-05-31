@@ -200,6 +200,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(this, "Please Login to Post your Property", Toast.LENGTH_SHORT).show();
             }
 //            openFragment(new AddPropertyFragment());
+        } else if (sideNavOption == R.id.side_nav_rent_estimate) {
+            if (Utils.isUserLoggedIn()) {
+                Intent rentEstimateIntent = new Intent(this, RentEstimationActivity.class);
+                startActivity(rentEstimateIntent);
+            } else {
+                Toast.makeText(this, "Please Login for Rent Estimation", Toast.LENGTH_SHORT).show();
+            }
+//            openFragment(new AddPropertyFragment());
         } else if (sideNavOption == R.id.side_nav_login_logout) {
             drawerLayout.closeDrawer(GravityCompat.START);
             if (item.getTitle() == getResources().getString(R.string.login)) {

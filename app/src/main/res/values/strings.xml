@@ -9,13 +9,22 @@
     <string name="my_properties">My Properties</string>
     <string name="browse_properties">Browse Properties</string>
     <string name="post_your_property">Post your Property</string>
-    <string name="predict_rent">Predict Rent</string>
+    <string name="rent_estimate">Rent Estimate</string>
     <string name="login">Login</string>
     <string name="profile">Profile</string>
     <string name="profile_details">Profile Details</string>
     <string name="logout">Logout</string>
-    <string name="help_and_support">Help &amp; Support</string>
 
     <string name="property_parcelable_key">PropertyParcel</string>
+
+    <string name="tenant_rent_low_analysis">Fantastic! You are paying much less rent than estimated rent range. You\'ve found an excellent deal!</string>
+    <string name="tenant_rent_medium_analysis">Great! Your rent is on the lower end of the estimated rent range. It\'s a good rate, but there might still be room for negotiation to get an even better deal.</string>
+    <string name="tenant_rent_high_analysis">Hmm… Your rent is within the average rent range for similar properties. It’s on the higher side so make sure to check other options to ensure you\'re getting the best deal.</string>
+    <string name="tenant_rent_abysmal_analysis">On no! You are paying on the higher end of the estimated rent range. It might be worth negotiating with your landlord or looking at other properties to find a better deal.</string>
+
+    <string name="owner_rent_low_analysis">The rent is significantly lower than expected, indicating a favorable deal.</string>
+    <string name="owner_rent_medium_analysis">The rent falls on the lower end of the spectrum, reflecting a standard market rate.</string>
+    <string name="owner_rent_high_analysis">The rent is within the average range for similar properties, suggesting potential room for negotiation.</string>
+    <string name="owner_rent_abysmal_analysis">The rent is on the higher end of the estimated rent range, consider negotiating or exploring other property options.</string>
 
 </resources>
