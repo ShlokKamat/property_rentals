@@ -5,14 +5,14 @@
     android:layout_height="176dp"
     android:gravity="top"
     android:padding="16dp"
-    android:background="@color/white"
+    android:background="@drawable/gradient_background"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
         android:layout_width="200dp"
         android:layout_height="150dp"
         android:layout_gravity="center"
-        android:src="@drawable/temp_nav"/>
+        android:src="@drawable/brokar_rent_image"/>
 
 
 
