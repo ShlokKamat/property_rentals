@@ -5,6 +5,7 @@ import static com.example.rentalapp.Utils.PROPERTY_PARCEL_KEY;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -29,6 +30,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Locale;
 import java.util.Objects;
 
 public class ViewPropertyActivity extends AppCompatActivity {
@@ -44,6 +46,8 @@ public class ViewPropertyActivity extends AppCompatActivity {
     ImageView photosView;
     LinearLayout ownerActions, tenantActions;
     Button editProperty, deleteProperty, contactOwner;
+
+    ImageView locationMapView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +94,8 @@ public class ViewPropertyActivity extends AppCompatActivity {
         expectedDepositView = findViewById(R.id.expected_deposit_view);
         possessionView = findViewById(R.id.possession_view);
         lastUpdatedView = findViewById(R.id.last_updated_view);
+
+        locationMapView = findViewById(R.id.location_map_view);
 
         editProperty = findViewById(R.id.edit_property);
         deleteProperty = findViewById(R.id.delete_property);
@@ -176,6 +182,32 @@ public class ViewPropertyActivity extends AppCompatActivity {
 
             }
         });
+
+        locationMapView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Define the latitude and longitude
+                double latitude = propertyInfo.getLatitude();
+                double longitude = propertyInfo.getLongitude();
+
+                String label = propertyInfo.getApartmentName();
+
+// Create a Uri from an intent string. Use the result to create an Intent.
+                String uri = String.format(Locale.ENGLISH, "geo:%f,%f?q=%f,%f(%s)", latitude, longitude, latitude, longitude, label);
+                Uri gmmIntentUri = Uri.parse(uri);
+
+// Create an Intent from gmmIntentUri. Set the action to ACTION_VIEW
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+
+// Make the Intent explicit by setting the Google Maps package
+                mapIntent.setPackage("com.google.android.apps.maps");
+
+// Attempt to start an activity that can handle the Intent
+                if (mapIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(mapIntent);
+                }
+            }
+        });
     }
 
     private void setValueInFields() {
@@ -184,21 +216,6 @@ public class ViewPropertyActivity extends AppCompatActivity {
                 .placeholder(R.drawable.animated_loading_spinner)
                 .thumbnail(0.05f)
                 .transition(DrawableTransitionOptions.withCrossFade())
-//                .listener(new RequestListener<Drawable>() {
-//                    @Override
-//                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-//                        // Handle the error
-//                        Toast.makeText(ViewPropertyActivity.this, "Image load failed", Toast.LENGTH_SHORT).show();
-//                        return false; // Allow Glide to handle the error
-//                    }
-//
-//                    @Override
-//                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, com.bumptech.glide.load.DataSource dataSource, boolean isFirstResource) {
-//                        // Handle the success
-//                        Toast.makeText(ViewPropertyActivity.this, "Image loaded successfully", Toast.LENGTH_SHORT).show();
-//                        return false; // Allow Glide to handle the resource
-//                    }
-//                })
                 .into(photosView);
         propertyViewHeader.setText(propertyInfo.getBhkType() + " in " + propertyInfo.getApartmentName());
         localityView.setText(propertyInfo.getLocality());
@@ -217,9 +234,9 @@ public class ViewPropertyActivity extends AppCompatActivity {
         }
         tenantPreferenceView.setText("Tenant Preference\n" + propertyInfo.getTenantPreference());
         propertyAgeView.setText("Property Age\n" + propertyInfo.getPropertyAge());
-        expectedDepositView.setText("Expected Deposit\n₹ "+propertyInfo.getExpectedDeposit());
-        possessionView.setText("Possession Date\n"+propertyInfo.getPossession());
-        lastUpdatedView.setText("Last Updated\n"+propertyInfo.getLastUpdated());
+        expectedDepositView.setText("Expected Deposit\n₹ " + propertyInfo.getExpectedDeposit());
+        possessionView.setText("Possession Date\n" + propertyInfo.getPossession());
+        lastUpdatedView.setText("Last Updated\n" + propertyInfo.getLastUpdated());
     }
 
     @Override

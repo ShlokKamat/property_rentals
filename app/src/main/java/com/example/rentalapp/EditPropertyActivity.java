@@ -93,6 +93,7 @@ public class EditPropertyActivity extends AppCompatActivity implements View.OnCl
     TextInputEditText apartmentNameInput, propertySizeInput, bathroomCountInput, floorInput, totalFloorsInput, possessionInput, expectedRentInput, expectedDepositInput;
     TextView rentPredictionValue;
     GoogleMap gMap;
+    AutocompleteSupportFragment placesAutocompleteInput;
     ImageView rentPredictionInfo, photosInput;
     String locality;
     Double latitude, longitude;
@@ -181,7 +182,9 @@ public class EditPropertyActivity extends AppCompatActivity implements View.OnCl
         chip5to10 = findViewById(R.id.chip_5to10);
         chipGt10 = findViewById(R.id.chip_gt10);
 
-        locality = "Bengaluru";
+        placesAutocompleteInput = (AutocompleteSupportFragment)
+                getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+
         bathroomCountInput = findViewById(R.id.bathroom_count_input);
 
         waterSupplierInput = findViewById(R.id.water_supplier_input);
@@ -337,19 +340,14 @@ public class EditPropertyActivity extends AppCompatActivity implements View.OnCl
             Places.initialize(getApplicationContext(), BuildConfig.GOOGLE_MAPS_PLACES_API_KEY);
         }
 
-// Create a new Places client instance.
-        PlacesClient placesClient = Places.createClient(this);
-        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
-                getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
-
-        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID,
+        placesAutocompleteInput.setPlaceFields(Arrays.asList(Place.Field.ID,
                 Place.Field.NAME,
 //                Place.Field.ADDRESS,
                 Place.Field.LAT_LNG
 //                Place.Field.ADDRESS_COMPONENTS
         ));
 
-        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+        placesAutocompleteInput.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
                 Log.i(TAG, "Place: " + place);
@@ -412,6 +410,8 @@ public class EditPropertyActivity extends AppCompatActivity implements View.OnCl
                 chipGt10.setChecked(true);
                 break;
         }
+        locality = newPropertyInfo.getLocality();
+        placesAutocompleteInput.setText(newPropertyInfo.getLocality());
         bathroomCountInput.setText(String.valueOf(newPropertyInfo.getNumberOfBathrooms()));
         switch (newPropertyInfo.getWaterSupplier()) {
             case "Borewell":
@@ -806,7 +806,7 @@ public class EditPropertyActivity extends AppCompatActivity implements View.OnCl
 
     private void updateData(AlertDialog dialog) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = db.collection("properties").document(newPropertyInfo.getDocumentId());
+        DocumentReference documentReference = db.collection("properties").document(oldPropertyInfo.getDocumentId());
         documentReference.set(newPropertyInfo, SetOptions.merge())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -818,7 +818,7 @@ public class EditPropertyActivity extends AppCompatActivity implements View.OnCl
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(EditPropertyActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditPropertyActivity.this, "Failed to update property: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
                         finish();
                     }
@@ -831,10 +831,10 @@ public class EditPropertyActivity extends AppCompatActivity implements View.OnCl
         gMap.setOnCameraIdleListener(this);
         LatLng defaultLocation = new LatLng(newPropertyInfo.getLatitude(), newPropertyInfo.getLongitude());
 
+        //Set Default Location
         MarkerOptions markerOptions = new MarkerOptions()
                 .position(defaultLocation)
                 .title(newPropertyInfo.getApartmentName());
-//        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
         gMap.addMarker(markerOptions);
 
         gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 16));
