@@ -311,7 +311,7 @@ public class EditPropertyActivity extends AppCompatActivity implements View.OnCl
                                 Uri compressedImageUri = insertImageIntoMediaStore(selectedImage);
                                 if (compressedImageUri != null) {
                                     // Set the compressed image to the ImageView
-                                    newPropertyInfo.setPhotos("");
+                                    newPropertyInfo.setPhotos("Changed");
                                     imageUri = compressedImageUri;
                                     photosInput.setImageURI(compressedImageUri);
                                 }
@@ -368,10 +368,14 @@ public class EditPropertyActivity extends AppCompatActivity implements View.OnCl
     }
 
     private void setValuesForFields() {
-        Glide.with(this)
-                .load(newPropertyInfo.getPhotos())
-                .placeholder(R.drawable.animated_loading_spinner)
-                .into(photosInput);
+        if (!newPropertyInfo.getPhotos().isEmpty()) {
+            Glide.with(this)
+                    .load(newPropertyInfo.getPhotos())
+                    .placeholder(R.drawable.animated_loading_spinner)
+                    .into(photosInput);
+        } else {
+            photosInput.setImageResource(R.drawable.baseline_image_24);
+        }
         apartmentNameInput.setText(newPropertyInfo.getApartmentName());
         switch (newPropertyInfo.getBhkType()) {
             case "1 RK":
@@ -472,8 +476,8 @@ public class EditPropertyActivity extends AppCompatActivity implements View.OnCl
                 break;
         }
         possessionInput.setText(newPropertyInfo.getPossession());
-        expectedRentInput.setText(String.valueOf((int)newPropertyInfo.getExpectedRent()));
-        expectedDepositInput.setText(String.valueOf((int)newPropertyInfo.getExpectedDeposit()));
+        expectedRentInput.setText(String.valueOf((int) newPropertyInfo.getExpectedRent()));
+        expectedDepositInput.setText(String.valueOf((int) newPropertyInfo.getExpectedDeposit()));
     }
 
     private Uri insertImageIntoMediaStore(Bitmap bitmap) {
@@ -753,7 +757,7 @@ public class EditPropertyActivity extends AppCompatActivity implements View.OnCl
 
             // Releases model resources if no longer used.
             model.close();
-            Toast.makeText(this, "Prediction Success", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Prediction Success", Toast.LENGTH_SHORT).show();
 
         } catch (IOException e) {
             Toast.makeText(this, "Prediction Error", Toast.LENGTH_SHORT).show();
@@ -842,7 +846,6 @@ public class EditPropertyActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onCameraIdle() {
-        Toast.makeText(this, gMap.getCameraPosition().toString(), Toast.LENGTH_SHORT).show();
         latitude = gMap.getCameraPosition().target.latitude;
         longitude = gMap.getCameraPosition().target.longitude;
     }

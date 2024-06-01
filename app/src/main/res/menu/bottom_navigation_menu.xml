@@ -8,20 +8,10 @@
     <item
         android:id="@+id/bot_nav_browse_properties"
         android:icon="@drawable/baseline_properties_24"
-        android:title="@string/properties" />
+        android:title="@string/browse_properties" />
 
     <item
-        android:id="@+id/bot_nav_dummy_item"
-        android:enabled="false"
-        android:title="" />
-
-<!--    <item-->
-<!--        android:id="@+id/add_property_option"-->
-<!--        android:icon="@drawable/baseline_home_24"-->
-<!--        android:title="Add Property" />-->
-
-    <item
-        android:id="@+id/bot_nav_pay_rent"
-        android:icon="@drawable/baseline_currency_rupee_24"
-        android:title="@string/pay_rent" />
+        android:id="@+id/bot_nav_my_properties"
+        android:icon="@drawable/baseline_real_estate_agent_24"
+        android:title="@string/my_properties" />
 </menu>

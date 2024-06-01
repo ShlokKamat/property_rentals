@@ -27,6 +27,7 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.example.rentalapp.ml.RentPredictionModel;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -54,7 +55,7 @@ public class ViewPropertyActivity extends AppCompatActivity {
     ArcSeekBar arcSeekBar;
     LinearLayout ownerActions, tenantActions;
     Button editProperty, deleteProperty, contactOwner;
-    ImageView locationMapView;
+    FloatingActionButton locationMapView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -225,12 +226,16 @@ public class ViewPropertyActivity extends AppCompatActivity {
     }
 
     private void setValueInFields() {
-        Glide.with(this)
-                .load(propertyInfo.getPhotos())
-                .placeholder(R.drawable.animated_loading_spinner)
-                .thumbnail(0.05f)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(photosView);
+        if (!propertyInfo.getPhotos().isEmpty()) {
+            Glide.with(this)
+                    .load(propertyInfo.getPhotos())
+                    .placeholder(R.drawable.animated_loading_spinner)
+                    .thumbnail(0.05f)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into(photosView);
+        } else {
+            photosView.setImageResource(R.drawable.no_house_photo);
+        }
         propertyViewHeader.setText(propertyInfo.getBhkType() + " in " + propertyInfo.getApartmentName());
         localityView.setText(propertyInfo.getLocality());
         propertySizeView.setText(propertyInfo.getPropertySize() + " sq ft");

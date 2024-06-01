@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setTitle("My Profile");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Login");
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,7 +123,7 @@ public class LoginActivity extends AppCompatActivity {
                                         public void onSuccess(QuerySnapshot querySnapshot) {
                                             if (!querySnapshot.isEmpty()) {
                                                 // User with the given email already exists
-                                                Toast.makeText(LoginActivity.this, "User already exists in the database", Toast.LENGTH_SHORT).show();
+//                                                Toast.makeText(LoginActivity.this, "User already exists in the database", Toast.LENGTH_SHORT).show();
                                             } else {
                                                 DocumentReference documentReference = database.collection("users").document();
                                                 HashMap<String, Object> userData = new HashMap<>();
@@ -134,12 +134,12 @@ public class LoginActivity extends AppCompatActivity {
                                                 documentReference.set(userData).addOnSuccessListener(new OnSuccessListener<Void>() {
                                                     @Override
                                                     public void onSuccess(Void unused) {
-                                                        Toast.makeText(LoginActivity.this, "User Added to DB", Toast.LENGTH_SHORT).show();
+//                                                        Toast.makeText(LoginActivity.this, "User Added to DB", Toast.LENGTH_SHORT).show();
                                                     }
                                                 }).addOnFailureListener(new OnFailureListener() {
                                                     @Override
                                                     public void onFailure(@NonNull Exception e) {
-                                                        Toast.makeText(LoginActivity.this, "User Not Added to DB: "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(LoginActivity.this, "User was not added to DB: "+e.getMessage(), Toast.LENGTH_SHORT).show();
                                                     }
                                                 });
                                             }

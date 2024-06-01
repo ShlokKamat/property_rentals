@@ -65,7 +65,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="@string/browse_properties" />
+                android:text="@string/browse_properties"
+                android:textAllCaps="false" />
         </LinearLayout>
 
 

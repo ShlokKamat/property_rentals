@@ -48,11 +48,13 @@ import com.google.android.gms.maps.GoogleMap.OnCameraIdleListener;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.api.model.RectangularBounds;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
@@ -302,6 +304,13 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
                 Place.Field.LAT_LNG
 //                Place.Field.ADDRESS_COMPONENTS
         ));
+
+        // Optionally, set a filter to only return results within a specific area
+        LatLngBounds bengaluruBounds = new LatLngBounds(
+                new LatLng(12.7343, 77.3792), // SW bounds
+                new LatLng(13.1737, 77.8826)  // NE bounds
+        );
+        autocompleteFragment.setLocationBias(RectangularBounds.newInstance(bengaluruBounds));
 
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
@@ -614,7 +623,7 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
 
             // Releases model resources if no longer used.
             model.close();
-            Toast.makeText(this, "Prediction Success", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "Prediction Success", Toast.LENGTH_SHORT).show();
 
         } catch (IOException e) {
             Toast.makeText(this, "Prediction Error", Toast.LENGTH_SHORT).show();
@@ -623,35 +632,40 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
 
 
     public void saveData() {
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Property Images")
-                .child(Objects.requireNonNull(imageUri.getLastPathSegment()));
-
         AlertDialog.Builder builder = new AlertDialog.Builder(AddPropertyActivity.this);
         builder.setCancelable(false);
         builder.setView(R.layout.save_progress_layout);
         AlertDialog dialog = builder.create();
         dialog.show();
 
-        storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                while (!uriTask.isComplete()) ;
-                Uri urlImage = uriTask.getResult();
-                propertyData.setPhotos(urlImage.toString());
-                uploadData();
-                dialog.dismiss();
+        if (imageUri != null) {
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Property Images")
+                    .child(Objects.requireNonNull(imageUri.getLastPathSegment()));
 
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                dialog.dismiss();
-            }
-        });
+            storageReference.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
+                    while (!uriTask.isComplete()) ;
+                    Uri urlImage = uriTask.getResult();
+                    propertyData.setPhotos(urlImage.toString());
+                    uploadData(dialog);
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    dialog.dismiss();
+                    finish();
+                }
+            });
+        } else {
+            propertyData.setPhotos("");
+            uploadData(dialog);
+        }
     }
 
-    public void uploadData() {
+    public void uploadData(AlertDialog dialog) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference documentReference = db.collection("properties").document();
         auth = FirebaseAuth.getInstance();
@@ -668,11 +682,15 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void onSuccess(Void unused) {
                 Toast.makeText(AddPropertyActivity.this, "Property Posted", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+                finish();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(AddPropertyActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddPropertyActivity.this, "Failed to post property: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+                finish();
             }
         });
     }
@@ -687,22 +705,12 @@ public class AddPropertyActivity extends AppCompatActivity implements View.OnCli
 //        West Longitude Negative
         LatLng defaultLocation = new LatLng(12.9716, 77.5946);
 
-
-//        MarkerOptions markerOptions = new MarkerOptions()
-//                .position(defaultLocation)
-//                .title("Bengaluru");
-//        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
-//        gMap.addMarker(markerOptions);
-
         gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 11));
     }
 
     @Override
     public void onCameraIdle() {
-        Toast.makeText(this, gMap.getCameraPosition().toString(), Toast.LENGTH_SHORT).show();
         latitude = gMap.getCameraPosition().target.latitude;
         longitude = gMap.getCameraPosition().target.longitude;
-
-        //You will get LAT LONG here, upon click, get the location info
     }
 }

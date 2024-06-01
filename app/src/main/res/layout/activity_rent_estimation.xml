@@ -140,7 +140,7 @@
                             android:layout_marginEnd="5dp"
                             android:layout_weight="1"
                             android:hint="Floor"
-                            app:startIconDrawable="@drawable/baseline_stairs_24">
+                            app:startIconDrawable="@drawable/floor_outlined_24">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/floor_input"
@@ -159,7 +159,7 @@
                             android:layout_marginEnd="10dp"
                             android:layout_weight="1"
                             android:hint="Total Floor"
-                            app:startIconDrawable="@drawable/baseline_stairs_24">
+                            app:startIconDrawable="@drawable/floor_outlined_24">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/total_floors_input"
@@ -237,7 +237,7 @@
                         android:layout_marginEnd="10dp"
                         android:layout_marginBottom="10dp"
                         android:hint="Number of Bathrooms"
-                        app:startIconDrawable="@drawable/baseline_bathtub_24">
+                        app:startIconDrawable="@drawable/bathroom_outlined_24">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/bathroom_count_input"

@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             Intent data = o.getData();
 
                             if (result == RESULT_OK) {
-                                Toast.makeText(MainActivity.this, "BACK FROM LOGIN ACT", Toast.LENGTH_SHORT).show();
                                 setLoginLogoutMenuOption();
                             }
                         }
@@ -102,21 +101,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (bottom_nav_id == bottomNavigationView.getSelectedItemId()) {
                     return false;
                 }
-//                if (bottom_nav_id == R.id.home_option) {
-//                    openFragment(new HomeFragment());
-//                    return true;
-//                } else
                 if (bottom_nav_id == R.id.bot_nav_browse_properties) {
                     openFragment(homeFragment);
                     return true;
                 }
-//                    else if (bottom_nav_id == R.id.add_property_option) {
-//                    openFragment(new AddPropertyFragment());
-//                    return true;
-//                }
-                else if (bottom_nav_id == R.id.bot_nav_pay_rent) {
-                    openFragment(new PaymentFragment());
-                    return true;
+                else if (bottom_nav_id == R.id.bot_nav_my_properties) {
+                    if (Utils.isUserLoggedIn()) {
+                        Intent browseMyPropertyIntent = new Intent(getApplicationContext(), BrowseMyProperty.class);
+                        startActivity(browseMyPropertyIntent);
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Please Login to View your Property", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 return false;
             }
@@ -140,42 +135,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-//    private void setLoginMenuOption() {
-//        Menu menu = sideNavigationView.getMenu();
-//        MenuItem loginMenuItem = menu.findItem(R.id.side_nav_login_logout);
-////        MenuItem logoutMenuItem = menu.findItem(R.id.side_nav_logout);
-//        auth = FirebaseAuth.getInstance();
-//        if (auth.getCurrentUser() != null) {
-////            logoutMenuItem.setVisible(true);
-//            loginMenuItem.setVisible(false);
-//        } else {
-//            loginMenuItem.setVisible(true);
-////            logoutMenuItem.setVisible(false);
-//        }
-//    }
-
     private void setLoginLogoutMenuOption() {
         Menu menu = sideNavigationView.getMenu();
         MenuItem loginLogoutMenuItem = menu.findItem(R.id.side_nav_login_logout);
         if (Utils.isUserLoggedIn()) {
-            Toast.makeText(this, "Logout Option Set", Toast.LENGTH_SHORT).show();
             loginLogoutMenuItem.setTitle(getResources().getString(R.string.logout));
             loginLogoutMenuItem.setIcon(R.drawable.baseline_logout_24);
         } else {
-            Toast.makeText(this, "Login Option Set", Toast.LENGTH_SHORT).show();
             loginLogoutMenuItem.setTitle(getResources().getString(R.string.login));
             loginLogoutMenuItem.setIcon(R.drawable.baseline_login_24);
             // Refresh Home Fragment Here
         }
     }
-
-
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        Toast.makeText(this, "RESUMEDDDDDDDDD", Toast.LENGTH_SHORT).show();
-//        setLoginMenuOption();
-//    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -185,14 +156,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         MenuItem loginMenuItem = menu.findItem(R.id.side_nav_login_logout);
 //        MenuItem logoutMenuItem = menu.findItem(R.id.side_nav_logout);
 
-        if (sideNavOption == R.id.side_nav_my_properties) {
-            if (Utils.isUserLoggedIn()) {
-                Intent browseMyPropertyIntent = new Intent(this, BrowseMyProperty.class);
-                startActivity(browseMyPropertyIntent);
-            } else {
-                Toast.makeText(this, "Please Login to View your Property", Toast.LENGTH_SHORT).show();
-            }
-        } else if (sideNavOption == R.id.side_nav_post_property) {
+        if (sideNavOption == R.id.side_nav_post_property) {
             if (Utils.isUserLoggedIn()) {
                 Intent addPropertyIntent = new Intent(this, AddPropertyActivity.class);
                 startActivity(addPropertyIntent);
@@ -217,6 +181,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Utils.logoutCurrentUser();
                 setLoginLogoutMenuOption();
             }
+        } else if (sideNavOption == R.id.side_nav_pay_rent) {
+            Toast.makeText(this, "Rent Payment is future scope", Toast.LENGTH_SHORT).show();
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         //Selection highlight disabled

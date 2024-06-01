@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -34,6 +36,8 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public class BrowseAllPropertyActivity extends AppCompatActivity implements PropertyListInterface {
@@ -50,6 +54,7 @@ public class BrowseAllPropertyActivity extends AppCompatActivity implements Prop
     AlertDialog dialog;
     TextInputEditText propertySearchInput;
     ImageButton searchButton, filterAndSortButton;
+    TextView noDataText;
     boolean isFilter1rk = false, isFilter1bhk = false, isFilter2bhk = false, isFilter3bhk = false, isFilter4bhk = false, isFilterUnfurnished = false, isFilterSemifurnished = false, isFilterFullyfurnished = false;
     boolean isSortRentAsc = false, isSortRentDesc = false, isSortSizeAsc = false, isSortSizeDesc = false;
 
@@ -73,6 +78,7 @@ public class BrowseAllPropertyActivity extends AppCompatActivity implements Prop
         propertySearchInput = findViewById(R.id.property_search_input);
         searchButton = findViewById(R.id.search_button);
         filterAndSortButton = findViewById(R.id.filter_and_sort_button);
+        noDataText = findViewById(R.id.no_data_text);
 
         // Inflate the layout for this fragment
         propertyListRecyclerView = findViewById(R.id.property_list_recycler_view);
@@ -113,6 +119,7 @@ public class BrowseAllPropertyActivity extends AppCompatActivity implements Prop
     }
 
     private void loadInitialRowData() {
+        noDataText.setVisibility(View.GONE);
         Query initialQuery = db.collection("properties");
 
         dialog.show();
@@ -153,6 +160,10 @@ public class BrowseAllPropertyActivity extends AppCompatActivity implements Prop
                     lastVisible = querySnapshot.getDocuments().get(querySnapshot.size() - 1);
                 } else {
                     noMoreData = true; // No more data to load
+                    noDataText.setVisibility(View.VISIBLE);
+                    propertyListAdapter.notifyDataSetChanged();
+                    dialog.dismiss();
+                    Toast.makeText(BrowseAllPropertyActivity.this, "No Data Found", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -368,23 +379,31 @@ public class BrowseAllPropertyActivity extends AppCompatActivity implements Prop
     }
 
     private Query addFilterAndSortQueries(Query initialQuery) {
+        List<String> bhkList = new ArrayList<>();
         if (isFilter1rk)
-            initialQuery = initialQuery.whereEqualTo("bhkType", "1 RK");
+            bhkList.add("1 RK");
         if (isFilter1bhk)
-            initialQuery = initialQuery.whereEqualTo("bhkType", "1 BHK");
+            bhkList.add("1 BHK");
         if (isFilter2bhk)
-            initialQuery = initialQuery.whereEqualTo("bhkType", "2 BHK");
+            bhkList.add("2 BHK");
         if (isFilter3bhk)
-            initialQuery = initialQuery.whereEqualTo("bhkType", "3 BHK");
+            bhkList.add("3 BHK");
         if (isFilter4bhk)
-            initialQuery = initialQuery.whereEqualTo("bhkType", "4 BHK");
+            bhkList.add("4 BHK");
+        if(bhkList.size() > 0){
+            initialQuery = initialQuery.whereIn("bhkType", bhkList);
+        }
 
+        List<String> furnishingList = new ArrayList<>();
         if (isFilterUnfurnished)
-            initialQuery = initialQuery.whereEqualTo("furnishingType", "Unfurnished");
+            furnishingList.add("Unfurnished");
         if (isFilterSemifurnished)
-            initialQuery = initialQuery.whereEqualTo("furnishingType", "Semi Furnished");
+            furnishingList.add("Semi Furnished");
         if (isFilterFullyfurnished)
-            initialQuery = initialQuery.whereEqualTo("furnishingType", "Fully Furnished");
+            furnishingList.add("Fully Furnished");
+        if(furnishingList.size() > 0){
+            initialQuery = initialQuery.whereIn("furnishingType", furnishingList);
+        }
 
         if (isSortRentAsc)
             initialQuery = initialQuery.orderBy("expectedRent", Query.Direction.ASCENDING);

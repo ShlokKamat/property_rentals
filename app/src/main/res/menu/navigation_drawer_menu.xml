@@ -6,11 +6,6 @@
     <group android:checkableBehavior="single">
 
         <item
-            android:id="@+id/side_nav_my_properties"
-            android:icon="@drawable/baseline_real_estate_agent_24"
-            android:title="@string/my_properties" />
-
-        <item
             android:id="@+id/side_nav_post_property"
             android:icon="@drawable/baseline_domain_add_24"
             android:title="@string/post_your_property" />
@@ -19,6 +14,11 @@
             android:id="@+id/side_nav_rent_estimate"
             android:icon="@drawable/baseline_auto_graph_24"
             android:title="@string/rent_estimate" />
+
+        <item
+            android:id="@+id/side_nav_pay_rent"
+            android:icon="@drawable/baseline_currency_rupee_24"
+            android:title="@string/pay_rent" />
 
         <item
             android:id="@+id/side_nav_login_logout"

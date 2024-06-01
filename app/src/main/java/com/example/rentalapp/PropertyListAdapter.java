@@ -49,12 +49,16 @@ public class PropertyListAdapter extends RecyclerView.Adapter<PropertyListAdapte
         holder.furnishingType.setText(property.getFurnishingType());
         String rentString = "₹" + Utils.formatToIndianCurrency(property.getExpectedRent());
         holder.expectedRent.setText(rentString);
-        Glide.with(context)
-                .load(property.getPhotos())
-                .placeholder(R.drawable.animated_loading_spinner)
-                .thumbnail(0.05f)
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .into(holder.propertyPhoto);
+        if (!property.getPhotos().isEmpty()) {
+            Glide.with(context)
+                    .load(property.getPhotos())
+                    .placeholder(R.drawable.animated_loading_spinner)
+                    .thumbnail(0.05f)
+                    .transition(DrawableTransitionOptions.withCrossFade())
+                    .into(holder.propertyPhoto);
+        } else {
+            holder.propertyPhoto.setImageResource(R.drawable.no_house_photo);
+        }
     }
 
     @Override

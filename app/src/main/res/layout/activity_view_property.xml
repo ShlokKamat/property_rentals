@@ -143,7 +143,7 @@
                             android:drawablePadding="10dp"
                             android:padding="10dp"
                             android:text="2\nBedroom"
-                            app:drawableStartCompat="@drawable/baseline_bed_24" />
+                            app:drawableStartCompat="@drawable/bedroom_outlined_24" />
 
                         <TextView
                             android:id="@+id/bathroom_view"
@@ -154,7 +154,7 @@
                             android:drawablePadding="10dp"
                             android:padding="10dp"
                             android:text="2\nBathroom"
-                            app:drawableStartCompat="@drawable/baseline_bathtub_24" />
+                            app:drawableStartCompat="@drawable/bathroom_outlined_24" />
 
                     </LinearLayout>
 
@@ -173,7 +173,7 @@
                             android:drawablePadding="10dp"
                             android:padding="10dp"
                             android:text="1 out of 4\nFloor"
-                            app:drawableStartCompat="@drawable/baseline_stairs_24" />
+                            app:drawableStartCompat="@drawable/floor_outlined_24" />
 
                         <TextView
                             android:id="@+id/furnishing_view"
@@ -184,7 +184,7 @@
                             android:drawablePadding="10dp"
                             android:padding="10dp"
                             android:text="Semi Furnished\nFurnishing"
-                            app:drawableStartCompat="@drawable/baseline_chair_24" />
+                            app:drawableStartCompat="@drawable/furnishing_outlined_24" />
 
                     </LinearLayout>
 
@@ -317,35 +317,6 @@
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginRight="8dp"
-                app:cardCornerRadius="8dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="10dp"
-                    android:weightSum="4">
-
-                    <ImageView
-                        android:id="@+id/location_map_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="220dp"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="8dp"
-                        android:background="#ccc"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/baseline_location_pin_24" />
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="8dp"
                 app:cardCornerRadius="8dp">
@@ -367,46 +338,47 @@
 
                     <!--                    app:progress="100"-->
                     <com.marcinmoskala.arcseekbar.ArcSeekBar
-                        android:layout_marginStart="20dp"
-                        android:layout_marginEnd="20dp"
                         android:id="@+id/seekArc"
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
-                        app:thumb="@drawable/baseline_currency_rupee_50"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
                         app:progressBackgroundColor="@color/off_white"
-                        app:progressColor="@color/transparent"
                         app:progressBackgroundWidth="20dp"
+                        app:progressColor="@color/transparent"
                         app:progressWidth="20dp"
-                        app:roundEdges="true" />
+                        app:roundEdges="true"
+                        app:thumb="@drawable/baseline_currency_rupee_50" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp">
+
                         <TextView
                             android:id="@+id/rent_lower_limit"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentLeft="true"
-                            android:text="₹10,000"/>
+                            android:text="₹10,000" />
 
                         <TextView
                             android:id="@+id/rent_upper_limit"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:text="₹12,000"/>
+                            android:text="₹12,000" />
 
                     </RelativeLayout>
 
                     <TextView
+                        android:id="@+id/rent_estimation_info"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
-                        android:id="@+id/rent_estimation_info"
+                        android:layout_marginBottom="10dp"
                         android:gravity="center_horizontal"
                         android:padding="5dp"
                         android:text="You are paying ₹10,000. Fantastic! You are paying much less rent than estimated rent range. You\'ve found an excellent deal!"
@@ -422,14 +394,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
+                android:weightSum="1"
                 android:layout_marginTop="8dp"
                 android:layout_marginRight="8dp">
 
                 <Button
                     android:id="@+id/contact_property_owner"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Contact Property Owner" />
+                    android:layout_weight=".85"
+                    android:text="Contact Property Owner"
+                    android:textAllCaps="false" />
 
             </LinearLayout>
 
@@ -448,19 +423,34 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="5dp"
-                    android:layout_weight="1"
-                    android:text="Edit Property" />
+                    android:layout_weight=".85"
+                    android:text="Edit Property"
+                    android:textAllCaps="false" />
 
                 <Button
                     android:id="@+id/delete_property"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
-                    android:layout_weight="1"
-                    android:text="Delete Property" />
+                    android:layout_weight=".85"
+                    android:text="Delete Property"
+                    android:textAllCaps="false" />
 
             </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/location_map_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="8dp"
+        android:elevation="10dp"
+        android:src="@drawable/google_maps_icon_50"
+        app:backgroundTint="@color/off_white"
+        app:borderWidth="0dp"
+        app:tint="@null" />
 </RelativeLayout>
