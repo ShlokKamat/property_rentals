@@ -81,7 +81,6 @@ public class LoginActivity extends AppCompatActivity {
         googleSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(LoginActivity.this, "CLICKED", Toast.LENGTH_SHORT).show();
                 googleSignIn();
             }
         });
@@ -154,7 +153,7 @@ public class LoginActivity extends AppCompatActivity {
                             Intent returnIntent = new Intent();
 //                            returnIntent.putExtra("LOGIN_SUCCESS", true);
                             setResult(RESULT_OK, returnIntent);
-                            Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Hey " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
                             finish();
                         } else {
                             Toast.makeText(LoginActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();

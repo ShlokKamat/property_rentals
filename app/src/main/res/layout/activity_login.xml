@@ -23,23 +23,6 @@
         android:layout_below="@id/toolbar">
 
         <LinearLayout
-            android:id="@+id/profile_header_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal"
-            android:padding="40dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:text="@string/app_name"
-                android:textSize="32sp" />
-
-        </LinearLayout>
-
-        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/profile_header_text"
@@ -50,34 +33,43 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp">
 
-                <RelativeLayout
+                <LinearLayout
+                    android:id="@+id/profile_header_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp">
-
-                    <ImageView
-                        android:id="@+id/waving_hand_img"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        android:layout_marginEnd="10dp"
-                        android:src="@drawable/waving_hand" />
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/login_greeting_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_toEndOf="@id/waving_hand_img"
-                        android:text="Hey there!"
-                        android:textSize="24sp" />
+                        android:fontFamily="sans-serif-medium"
+                        android:text="Welcome to"
+                        android:textColor="@color/grey"
+                        android:layout_marginTop="10dp"
+                        android:textSize="32sp" />
+
+                    <ImageView
+                        android:layout_marginTop="-40dp"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:src="@drawable/brokar_rent_image"/>
+
+                    <ImageView
+                        android:layout_marginTop="-40dp"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:src="@drawable/man_saying_hi"/>
 
                     <TextView
                         android:id="@+id/login_hint"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/login_greeting_text"
-                        android:layout_toEndOf="@id/waving_hand_img"
-                        android:text="Login with your Google Account to access all the features like:\n- Post your Property\n- Predict Rent using Machine Learning"
-                        android:textSize="16sp" />
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:justificationMode="inter_word"
+                        android:text="Login with your Google Account to access all the features like posting your property and Rent Estimation using Machine Learning"
+                        android:textSize="14sp" />
 
                     <Button
                         android:id="@+id/google_signin_button"
@@ -85,8 +77,9 @@
                         android:layout_height="60dp"
                         android:layout_below="@id/login_hint"
                         android:layout_marginLeft="15dp"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginTop="10dp"
                         android:layout_marginRight="15dp"
+                        android:layout_marginBottom="15dp"
                         android:backgroundTint="@color/white"
                         android:fontFamily="sans-serif-black"
                         android:text="Sign in with Google"
@@ -97,7 +90,9 @@
                         app:iconTint="@null"
                         app:rippleColor="@color/c2" />
 
-                </RelativeLayout>
+                </LinearLayout>
+
+
 
 
             </androidx.cardview.widget.CardView>
@@ -112,7 +107,7 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
             android:text="Developed by:"
-            android:textSize="16sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/two"
@@ -122,8 +117,8 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="5dp"
-            android:text="BOOM Shankar"
-            android:textSize="18sp"
+            android:text="Shlok Kamat"
+            android:textSize="16sp"
             android:textStyle="bold" />
     </RelativeLayout>
 
